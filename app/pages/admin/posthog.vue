@@ -65,50 +65,51 @@ const dateRangeOptions = [
 const insightParams = computed(() => ({ startDate: `-${dateRange.value}d` }))
 const dayParams = computed(() => ({ days: dateRange.value }))
 
-// Trends data (pageviews + DAU over time)
-const { data: posthogData, status } = await useFetch<PHInsights>('/api/admin/posthog/insights', {
+// All fetches are lazy — page renders immediately with skeletons
+const { data: posthogData, status: insightsStatus } = useFetch<PHInsights>('/api/admin/posthog/insights', {
   query: insightParams,
   watch: [insightParams],
+  lazy: true,
 })
 
-// Top pages
-const { data: pagesData } = await useFetch<{ rows: PHPageRow[] }>('/api/admin/posthog/pages', {
+const { data: pagesData, status: pagesStatus } = useFetch<{ rows: PHPageRow[] }>('/api/admin/posthog/pages', {
   query: dayParams,
   watch: [dayParams],
+  lazy: true,
 })
 
-// Top referrers
-const { data: referrersData } = await useFetch<{ rows: PHReferrerRow[] }>(
+const { data: referrersData, status: referrersStatus } = useFetch<{ rows: PHReferrerRow[] }>(
   '/api/admin/posthog/referrers',
   {
     query: dayParams,
     watch: [dayParams],
+    lazy: true,
   },
 )
 
-// Device breakdown
-const { data: devicesData } = await useFetch<{ rows: PHDeviceRow[] }>(
+const { data: devicesData, status: devicesStatus } = useFetch<{ rows: PHDeviceRow[] }>(
   '/api/admin/posthog/devices',
   {
     query: dayParams,
     watch: [dayParams],
+    lazy: true,
   },
 )
 
-// Entry/exit pages
-const { data: entryExitData } = await useFetch<{
+const { data: entryExitData, status: entryExitStatus } = useFetch<{
   entryPages: PHEntryExitRow[]
   exitPages: PHEntryExitRow[]
 }>('/api/admin/posthog/entry-exit', {
   query: dayParams,
   watch: [dayParams],
+  lazy: true,
 })
 
-// Recent recordings
-const { data: recordingsData } = await useFetch<{ recordings: PHRecording[] }>(
+const { data: recordingsData, status: recordingsStatus } = useFetch<{ recordings: PHRecording[] }>(
   '/api/admin/posthog/recordings',
   {
     query: { limit: '10' },
+    lazy: true,
   },
 )
 
@@ -236,23 +237,25 @@ const posthogRecordingUrl = (id: string) =>
       </div>
     </div>
 
-    <!-- Loading / Empty states -->
-    <div v-if="status === 'pending'" class="h-96 flex items-center justify-center">
-      <UIcon name="i-lucide-loader-2" class="size-10 animate-spin text-dimmed" />
-    </div>
-
-    <div
-      v-else-if="results.length === 0"
-      class="h-96 flex flex-col items-center justify-center text-dimmed"
-    >
-      <UIcon name="i-lucide-zap-off" class="size-16 mb-4 opacity-20" />
-      <p>No PostHog data found</p>
-      <p class="text-xs mt-1">Ensure the PostHog API key is configured</p>
-    </div>
-
-    <template v-else>
-      <!-- Summary Stat Cards -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <!-- ═══════════════════════ Summary Stat Cards ═══════════════════════ -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <template v-if="insightsStatus === 'pending'">
+        <UCard v-for="i in 4" :key="i">
+          <div class="flex items-center gap-2 mb-3">
+            <USkeleton class="size-4 rounded" />
+            <USkeleton class="h-3 w-20" />
+          </div>
+          <USkeleton class="h-8 w-24" />
+        </UCard>
+      </template>
+      <template v-else-if="results.length === 0">
+        <div class="col-span-full h-32 flex flex-col items-center justify-center text-dimmed">
+          <UIcon name="i-lucide-zap-off" class="size-12 mb-3 opacity-20" />
+          <p class="text-sm">No PostHog data found</p>
+          <p class="text-xs mt-1">Ensure the PostHog API key is configured</p>
+        </div>
+      </template>
+      <template v-else>
         <UCard>
           <div class="flex items-center gap-2 mb-2">
             <UIcon name="i-lucide-eye" class="size-4 text-primary" />
@@ -288,142 +291,208 @@ const posthogRecordingUrl = (id: string) =>
           </div>
           <p class="text-3xl font-bold tabular-nums">{{ pagesPerVisitor }}</p>
         </UCard>
+      </template>
+    </div>
+
+    <!-- ═══════════════════════ Pageview Trend Chart ═══════════════════════ -->
+    <UCard v-if="insightsStatus === 'pending'">
+      <template #header>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <USkeleton class="w-3 h-3 rounded-full" />
+            <USkeleton class="h-4 w-24" />
+            <USkeleton class="w-3 h-3 rounded-full ml-4" />
+            <USkeleton class="h-3 w-28" />
+          </div>
+          <USkeleton class="h-3 w-20" />
+        </div>
+      </template>
+      <div class="h-44 flex items-end gap-[2px]">
+        <USkeleton
+          v-for="i in 30"
+          :key="i"
+          class="flex-1 rounded-t"
+          :style="{ height: `${20 + Math.random() * 60}%` }"
+        />
       </div>
-
-      <!-- Pageview Trend Chart -->
-      <UCard v-if="pageviewSeries">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <div class="flex items-center gap-2">
-                <div class="w-3 h-3 rounded-full bg-primary" />
-                <span class="font-semibold">Pageviews</span>
-              </div>
-              <div v-if="dauSeries" class="flex items-center gap-2 ml-4">
-                <div class="w-3 h-3 rounded-full bg-emerald-500" />
-                <span class="text-sm text-dimmed">Unique Visitors</span>
-              </div>
+      <div class="flex justify-between mt-2">
+        <USkeleton class="h-3 w-12" />
+        <USkeleton class="h-3 w-12" />
+        <USkeleton class="h-3 w-12" />
+      </div>
+    </UCard>
+    <UCard v-else-if="pageviewSeries">
+      <template #header>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-primary" />
+              <span class="font-semibold">Pageviews</span>
             </div>
-            <span class="text-sm text-dimmed tabular-nums"
-              >{{ totalPageviews.toLocaleString() }} total</span
-            >
+            <div v-if="dauSeries" class="flex items-center gap-2 ml-4">
+              <div class="w-3 h-3 rounded-full bg-emerald-500" />
+              <span class="text-sm text-dimmed">Unique Visitors</span>
+            </div>
           </div>
-        </template>
-
-        <div class="h-44 flex items-end gap-[2px] relative">
-          <div
-            v-for="(val, idx) in pageviewSeries.data || []"
-            :key="idx"
-            class="flex-1 relative group"
-            :style="{ height: '100%' }"
+          <span class="text-sm text-dimmed tabular-nums"
+            >{{ totalPageviews.toLocaleString() }} total</span
           >
-            <!-- Pageview bar -->
-            <div
-              class="absolute bottom-0 left-0 right-0 bg-primary/25 hover:bg-primary/50 transition-all duration-150 rounded-t"
-              :style="{
-                height: `${Math.max((val / Math.max(...(pageviewSeries.data || []), 1)) * 100, val > 0 ? 2 : 0)}%`,
-              }"
-            />
-            <!-- DAU overlay bar -->
-            <div
-              v-if="dauSeries?.data?.[idx]"
-              class="absolute bottom-0 left-[15%] right-[15%] bg-emerald-500/40 rounded-t pointer-events-none"
-              :style="{
-                height: `${Math.max((dauSeries.data[idx] / Math.max(...(pageviewSeries.data || []), 1)) * 100, dauSeries.data[idx] > 0 ? 2 : 0)}%`,
-              }"
-            />
-            <!-- Tooltip -->
-            <div
-              class="absolute -top-10 left-1/2 -translate-x-1/2 bg-inverted text-inverted text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10"
+        </div>
+      </template>
+
+      <div class="h-44 flex items-end gap-[2px] relative">
+        <div
+          v-for="(val, idx) in pageviewSeries.data || []"
+          :key="idx"
+          class="flex-1 relative group"
+          :style="{ height: '100%' }"
+        >
+          <!-- Pageview bar -->
+          <div
+            class="absolute bottom-0 left-0 right-0 bg-primary/25 hover:bg-primary/50 transition-all duration-150 rounded-t"
+            :style="{
+              height: `${Math.max((val / Math.max(...(pageviewSeries.data || []), 1)) * 100, val > 0 ? 2 : 0)}%`,
+            }"
+          />
+          <!-- DAU overlay bar -->
+          <div
+            v-if="dauSeries?.data?.[idx]"
+            class="absolute bottom-0 left-[15%] right-[15%] bg-emerald-500/40 rounded-t pointer-events-none"
+            :style="{
+              height: `${Math.max((dauSeries.data[idx] / Math.max(...(pageviewSeries.data || []), 1)) * 100, dauSeries.data[idx] > 0 ? 2 : 0)}%`,
+            }"
+          />
+          <!-- Tooltip -->
+          <div
+            class="absolute -top-10 left-1/2 -translate-x-1/2 bg-inverted text-inverted text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10"
+          >
+            {{ formatLabel(pageviewSeries.labels?.[idx] || '') }}: {{ val }}
+            <span v-if="dauSeries?.data?.[idx]" class="text-emerald-300">
+              · {{ dauSeries.data[idx] }} uv</span
             >
-              {{ formatLabel(pageviewSeries.labels?.[idx] || '') }}: {{ val }}
-              <span v-if="dauSeries?.data?.[idx]" class="text-emerald-300">
-                · {{ dauSeries.data[idx] }} uv</span
-              >
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between text-xs text-dimmed px-1 mt-2">
+        <span>{{ formatLabel(pageviewSeries.labels?.[0] || '') }}</span>
+        <span>{{
+          formatLabel(
+            pageviewSeries.labels?.[Math.floor((pageviewSeries.labels?.length || 0) / 2)] || '',
+          )
+        }}</span>
+        <span>{{
+          formatLabel(pageviewSeries.labels?.[(pageviewSeries.labels?.length || 1) - 1] || '')
+        }}</span>
+      </div>
+    </UCard>
+
+    <!-- ═══════════════════════ Device Breakdown ═══════════════════════ -->
+    <UCard v-if="devicesStatus === 'pending'">
+      <template #header>
+        <div class="flex items-center gap-2">
+          <USkeleton class="size-5 rounded" />
+          <USkeleton class="h-4 w-36" />
+        </div>
+      </template>
+      <div class="flex flex-col gap-4">
+        <USkeleton class="h-8 w-full rounded-xl" />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div v-for="i in 3" :key="i" class="flex items-center gap-3 p-3 rounded-xl border border-default">
+            <USkeleton class="size-3 rounded-full shrink-0" />
+            <div class="flex-1 space-y-1.5">
+              <USkeleton class="h-3.5 w-16" />
+              <USkeleton class="h-3 w-24" />
+            </div>
+            <div class="space-y-1.5 text-right">
+              <USkeleton class="h-3.5 w-10 ml-auto" />
+              <USkeleton class="h-3 w-8 ml-auto" />
             </div>
           </div>
         </div>
-        <div class="flex justify-between text-xs text-dimmed px-1 mt-2">
-          <span>{{ formatLabel(pageviewSeries.labels?.[0] || '') }}</span>
-          <span>{{
-            formatLabel(
-              pageviewSeries.labels?.[Math.floor((pageviewSeries.labels?.length || 0) / 2)] || '',
-            )
-          }}</span>
-          <span>{{
-            formatLabel(pageviewSeries.labels?.[(pageviewSeries.labels?.length || 1) - 1] || '')
-          }}</span>
+      </div>
+    </UCard>
+    <UCard v-else-if="devices.length > 0">
+      <template #header>
+        <div class="flex items-center gap-2">
+          <UIcon name="i-lucide-monitor-smartphone" class="size-5 text-primary" />
+          <span class="font-semibold">Device Breakdown</span>
         </div>
-      </UCard>
+      </template>
 
-      <!-- Device Breakdown -->
-      <UCard v-if="devices.length > 0">
+      <div class="flex flex-col gap-4">
+        <!-- Device distribution bar -->
+        <div class="h-8 flex rounded-xl overflow-hidden">
+          <div
+            v-for="device in devices"
+            :key="device.device"
+            class="transition-all duration-300 relative group"
+            :class="deviceColors[device.device] || 'bg-neutral-400'"
+            :style="{ width: `${(device.pageviews / totalDevicePageviews) * 100}%` }"
+          >
+            <div
+              v-if="(device.pageviews / totalDevicePageviews) * 100 > 8"
+              class="absolute inset-0 flex items-center justify-center text-xs font-medium text-white"
+            >
+              {{ Math.round((device.pageviews / totalDevicePageviews) * 100) }}%
+            </div>
+          </div>
+        </div>
+
+        <!-- Device details -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div
+            v-for="device in devices"
+            :key="device.device"
+            class="flex items-center gap-3 p-3 rounded-xl border border-default"
+          >
+            <div
+              class="size-3 rounded-full shrink-0"
+              :class="deviceColors[device.device] || 'bg-neutral-400'"
+            />
+            <div class="flex-1">
+              <p class="text-sm font-medium">{{ device.device || 'Unknown' }}</p>
+              <p class="text-xs text-dimmed">
+                {{ device.uniqueVisitors.toLocaleString() }} unique visitors
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-bold tabular-nums">
+                {{ device.pageviews.toLocaleString() }}
+              </p>
+              <p class="text-xs text-dimmed tabular-nums">
+                {{ Math.round((device.pageviews / totalDevicePageviews) * 100) }}%
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </UCard>
+
+    <!-- ═══════════════════════ Top Pages + Top Referrers ═══════════════════════ -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Top Pages -->
+      <UCard>
         <template #header>
           <div class="flex items-center gap-2">
-            <UIcon name="i-lucide-monitor-smartphone" class="size-5 text-primary" />
-            <span class="font-semibold">Device Breakdown</span>
+            <UIcon name="i-lucide-file-text" class="size-4 text-primary" />
+            <span class="font-semibold">Top Pages</span>
           </div>
         </template>
-
-        <div class="flex flex-col gap-4">
-          <!-- Device distribution bar -->
-          <div class="h-8 flex rounded-xl overflow-hidden">
-            <div
-              v-for="device in devices"
-              :key="device.device"
-              class="transition-all duration-300 relative group"
-              :class="deviceColors[device.device] || 'bg-neutral-400'"
-              :style="{ width: `${(device.pageviews / totalDevicePageviews) * 100}%` }"
-            >
-              <div
-                v-if="(device.pageviews / totalDevicePageviews) * 100 > 8"
-                class="absolute inset-0 flex items-center justify-center text-xs font-medium text-white"
-              >
-                {{ Math.round((device.pageviews / totalDevicePageviews) * 100) }}%
+        <template v-if="pagesStatus === 'pending'">
+          <div class="flex flex-col gap-3">
+            <div v-for="i in 6" :key="i">
+              <div class="flex items-center justify-between mb-1.5">
+                <USkeleton class="h-3.5" :style="{ width: `${100 + Math.random() * 120}px` }" />
+                <div class="flex items-center gap-3">
+                  <USkeleton class="h-3.5 w-8" />
+                  <USkeleton class="h-3 w-10" />
+                </div>
               </div>
+              <USkeleton class="h-1.5 rounded-full" :style="{ width: `${30 + Math.random() * 70}%` }" />
             </div>
           </div>
-
-          <!-- Device details -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div
-              v-for="device in devices"
-              :key="device.device"
-              class="flex items-center gap-3 p-3 rounded-xl border border-default"
-            >
-              <div
-                class="size-3 rounded-full shrink-0"
-                :class="deviceColors[device.device] || 'bg-neutral-400'"
-              />
-              <div class="flex-1">
-                <p class="text-sm font-medium">{{ device.device || 'Unknown' }}</p>
-                <p class="text-xs text-dimmed">
-                  {{ device.uniqueVisitors.toLocaleString() }} unique visitors
-                </p>
-              </div>
-              <div class="text-right">
-                <p class="text-sm font-bold tabular-nums">
-                  {{ device.pageviews.toLocaleString() }}
-                </p>
-                <p class="text-xs text-dimmed tabular-nums">
-                  {{ Math.round((device.pageviews / totalDevicePageviews) * 100) }}%
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </UCard>
-
-      <!-- Top Pages + Top Referrers side-by-side -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Top Pages -->
-        <UCard>
-          <template #header>
-            <div class="flex items-center gap-2">
-              <UIcon name="i-lucide-file-text" class="size-4 text-primary" />
-              <span class="font-semibold">Top Pages</span>
-            </div>
-          </template>
+        </template>
+        <template v-else>
           <div v-if="pages.length === 0" class="text-sm text-dimmed italic py-4 text-center">
             No page data available
           </div>
@@ -448,16 +517,32 @@ const posthogRecordingUrl = (id: string) =>
               </div>
             </div>
           </div>
-        </UCard>
+        </template>
+      </UCard>
 
-        <!-- Top Referrers -->
-        <UCard>
-          <template #header>
-            <div class="flex items-center gap-2">
-              <UIcon name="i-lucide-link" class="size-4 text-emerald-500" />
-              <span class="font-semibold">Top Referrers</span>
+      <!-- Top Referrers -->
+      <UCard>
+        <template #header>
+          <div class="flex items-center gap-2">
+            <UIcon name="i-lucide-link" class="size-4 text-emerald-500" />
+            <span class="font-semibold">Top Referrers</span>
+          </div>
+        </template>
+        <template v-if="referrersStatus === 'pending'">
+          <div class="flex flex-col gap-3">
+            <div v-for="i in 6" :key="i">
+              <div class="flex items-center justify-between mb-1.5">
+                <USkeleton class="h-3.5" :style="{ width: `${80 + Math.random() * 140}px` }" />
+                <div class="flex items-center gap-3">
+                  <USkeleton class="h-3.5 w-8" />
+                  <USkeleton class="h-3 w-10" />
+                </div>
+              </div>
+              <USkeleton class="h-1.5 rounded-full" :style="{ width: `${25 + Math.random() * 75}%` }" />
             </div>
-          </template>
+          </div>
+        </template>
+        <template v-else>
           <div v-if="referrers.length === 0" class="text-sm text-dimmed italic py-4 text-center">
             No referrer data available
           </div>
@@ -482,19 +567,32 @@ const posthogRecordingUrl = (id: string) =>
               </div>
             </div>
           </div>
-        </UCard>
-      </div>
+        </template>
+      </UCard>
+    </div>
 
-      <!-- Entry & Exit Pages side-by-side -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Entry Pages -->
-        <UCard>
-          <template #header>
-            <div class="flex items-center gap-2">
-              <UIcon name="i-lucide-log-in" class="size-4 text-blue-500" />
-              <span class="font-semibold">Entry Pages</span>
+    <!-- ═══════════════════════ Entry & Exit Pages ═══════════════════════ -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Entry Pages -->
+      <UCard>
+        <template #header>
+          <div class="flex items-center gap-2">
+            <UIcon name="i-lucide-log-in" class="size-4 text-blue-500" />
+            <span class="font-semibold">Entry Pages</span>
+          </div>
+        </template>
+        <template v-if="entryExitStatus === 'pending'">
+          <div class="flex flex-col gap-3">
+            <div v-for="i in 5" :key="i">
+              <div class="flex items-center justify-between mb-1.5">
+                <USkeleton class="h-3.5" :style="{ width: `${90 + Math.random() * 100}px` }" />
+                <USkeleton class="h-3.5 w-10" />
+              </div>
+              <USkeleton class="h-1.5 rounded-full" :style="{ width: `${20 + Math.random() * 80}%` }" />
             </div>
-          </template>
+          </div>
+        </template>
+        <template v-else>
           <div v-if="entryPages.length === 0" class="text-sm text-dimmed italic py-4 text-center">
             No entry page data
           </div>
@@ -516,16 +614,29 @@ const posthogRecordingUrl = (id: string) =>
               </div>
             </div>
           </div>
-        </UCard>
+        </template>
+      </UCard>
 
-        <!-- Exit Pages -->
-        <UCard>
-          <template #header>
-            <div class="flex items-center gap-2">
-              <UIcon name="i-lucide-log-out" class="size-4 text-rose-500" />
-              <span class="font-semibold">Exit Pages</span>
+      <!-- Exit Pages -->
+      <UCard>
+        <template #header>
+          <div class="flex items-center gap-2">
+            <UIcon name="i-lucide-log-out" class="size-4 text-rose-500" />
+            <span class="font-semibold">Exit Pages</span>
+          </div>
+        </template>
+        <template v-if="entryExitStatus === 'pending'">
+          <div class="flex flex-col gap-3">
+            <div v-for="i in 5" :key="i">
+              <div class="flex items-center justify-between mb-1.5">
+                <USkeleton class="h-3.5" :style="{ width: `${90 + Math.random() * 100}px` }" />
+                <USkeleton class="h-3.5 w-10" />
+              </div>
+              <USkeleton class="h-1.5 rounded-full" :style="{ width: `${20 + Math.random() * 80}%` }" />
             </div>
-          </template>
+          </div>
+        </template>
+        <template v-else>
           <div v-if="exitPages.length === 0" class="text-sm text-dimmed italic py-4 text-center">
             No exit page data
           </div>
@@ -547,27 +658,46 @@ const posthogRecordingUrl = (id: string) =>
               </div>
             </div>
           </div>
-        </UCard>
-      </div>
-
-      <!-- Recent Recordings -->
-      <UCard>
-        <template #header>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <UIcon name="i-lucide-play-circle" class="size-4 text-rose-500" />
-              <span class="font-semibold">Recent Recordings</span>
-            </div>
-            <a
-              :href="`https://us.posthog.com/project/${POSTHOG_PROJECT_ID}/replay`"
-              target="_blank"
-              class="text-xs text-primary hover:underline"
-            >
-              View all →
-            </a>
-          </div>
         </template>
+      </UCard>
+    </div>
 
+    <!-- ═══════════════════════ Recent Recordings ═══════════════════════ -->
+    <UCard>
+      <template #header>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <UIcon name="i-lucide-play-circle" class="size-4 text-rose-500" />
+            <span class="font-semibold">Recent Recordings</span>
+          </div>
+          <a
+            :href="`https://us.posthog.com/project/${POSTHOG_PROJECT_ID}/replay`"
+            target="_blank"
+            class="text-xs text-primary hover:underline"
+          >
+            View all →
+          </a>
+        </div>
+      </template>
+
+      <template v-if="recordingsStatus === 'pending'">
+        <div class="flex flex-col divide-y divide-default">
+          <div v-for="i in 5" :key="i" class="flex items-center justify-between py-3 first:pt-0 last:pb-0">
+            <div class="flex items-center gap-3">
+              <USkeleton class="size-4 rounded shrink-0" />
+              <div class="space-y-1.5">
+                <USkeleton class="h-3.5" :style="{ width: `${150 + Math.random() * 100}px` }" />
+                <USkeleton class="h-3 w-40" />
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <USkeleton class="h-3 w-6" />
+              <USkeleton class="h-3.5 w-12" />
+            </div>
+          </div>
+        </div>
+      </template>
+      <template v-else>
         <div v-if="recordings.length === 0" class="text-sm text-dimmed italic py-4 text-center">
           No recordings available
         </div>
@@ -604,7 +734,7 @@ const posthogRecordingUrl = (id: string) =>
             </div>
           </a>
         </div>
-      </UCard>
-    </template>
+      </template>
+    </UCard>
   </div>
 </template>

@@ -20,7 +20,7 @@ const querySchema = z.object({
   limit: z.string().optional().default('15'),
 })
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
   await requireAdminUser(event)
 
   const config = useRuntimeConfig()
@@ -66,4 +66,4 @@ export default defineEventHandler(async (event) => {
       statusMessage: `PostHog Error: ${err.message}`,
     })
   }
-})
+}, { maxAge: 600 })
