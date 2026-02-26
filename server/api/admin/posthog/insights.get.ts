@@ -9,7 +9,7 @@ const querySchema = z.object({
   endDate: z.string().optional(),
 })
 
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   await requireAdminUser(event)
 
   const config = useRuntimeConfig()
@@ -70,4 +70,4 @@ export default defineCachedEventHandler(async (event) => {
       statusMessage: `PostHog Error: ${err.message}`,
     })
   }
-}, { maxAge: 600 })
+})
