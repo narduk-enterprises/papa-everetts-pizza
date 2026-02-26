@@ -1,4 +1,3 @@
-export type { MenuPrices } from '#shared/types/menu'
 import type { MenuPrices } from '#shared/types/menu'
 
 export interface MenuItem {

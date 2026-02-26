@@ -44,8 +44,6 @@ export const siteImages = {
   logoIcon: '/images/authentic/logo-icon.png',
 }
 
-export { menuCategoryOrder } from '#shared/types/menu'
-
 export const menuSizeOrder = ['le_petit', 'small', 'medium', 'large', 'xl', 'single'] as const
 
 export const menuSizeLabels: Record<string, string> = {

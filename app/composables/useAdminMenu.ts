@@ -1,4 +1,5 @@
-import type { MenuItem, MenuPrices } from './useMenu'
+import type { MenuItem } from './useMenu'
+import type { MenuPrices } from '#shared/types/menu'
 
 interface NewItemPayload {
   category: string

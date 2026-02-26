@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { MenuItem, MenuPrices } from '~/composables/useMenu'
+import type { MenuItem } from '~/composables/useMenu'
+import type { MenuPrices } from '#shared/types/menu'
 import { callForCurrentPriceLabel, formatPrice, menuSizeLabels, menuSizeOrder, siteImages } from '~/composables/useRestaurantInfo'
 
 const { appUrl } = useRuntimeConfig().public

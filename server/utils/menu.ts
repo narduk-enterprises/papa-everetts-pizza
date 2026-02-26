@@ -2,7 +2,6 @@ import type { MenuItem } from '../database/schema'
 import { categories } from '../database/schema'
 import type { MenuPrices } from '#shared/types/menu'
 import { asc, eq } from 'drizzle-orm'
-export type { MenuPrices }
 
 /** Fetch ordered category names from the DB. */
 export async function getCategoryNames(): Promise<string[]> {

@@ -68,5 +68,4 @@ export type NewMenuItem = typeof menuItems.$inferInsert
 export type Category = typeof categories.$inferSelect
 export type NewCategory = typeof categories.$inferInsert
 
-export type { MenuPrices } from '#shared/types/menu'
 export type ContactSubmission = typeof contactSubmissions.$inferSelect

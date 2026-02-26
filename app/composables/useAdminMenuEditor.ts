@@ -1,4 +1,5 @@
-import type { MenuItem, MenuPrices } from '~/composables/useMenu'
+import type { MenuItem } from '~/composables/useMenu'
+import type { MenuPrices } from '#shared/types/menu'
 
 // ── Price Key Configuration ──────────────────────────────────────────
 const categoryPriceTemplates: Record<string, string[]> = {
