@@ -9,27 +9,21 @@ const querySchema = z.object({
     .default('query'),
 })
 
+const SITE_URL = 'https://papaeverettspizza.com/'
+
 export default defineEventHandler(async (event) => {
-  await requireAdmin(event)
+  await requireAdminUser(event)
 
-  const config = useRuntimeConfig()
-  const siteUrl = config.public.appUrl || ''
-
-  if (!siteUrl) {
-    throw createError({ statusCode: 500, statusMessage: 'SITE_URL not configured' })
-  }
-
-  const gscSiteUrl = `sc-domain:${new URL(siteUrl).hostname}`
   const query = await getValidatedQuery(event, querySchema.parse)
 
-  const endDate = query.endDate ? String(query.endDate) : new Date().toISOString().split('T')[0]
-  const start = new Date(endDate as string)
+  const endDate = query.endDate || new Date().toISOString().split('T')[0]
+  const start = new Date(endDate || new Date().toISOString())
   start.setDate(start.getDate() - 30)
-  const startDate = query.startDate ? String(query.startDate) : start.toISOString().split('T')[0]
+  const startDate = query.startDate || start.toISOString().split('T')[0]
 
   try {
     const data = await googleApiFetch(
-      `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(gscSiteUrl)}/searchAnalytics/query`,
+      `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(SITE_URL)}/searchAnalytics/query`,
       GSC_SCOPES,
       {
         method: 'POST',

@@ -1,11 +1,9 @@
 /**
  * CSRF protection middleware.
  *
- * Blocks state-changing requests (POST, PUT, PATCH, DELETE) that don't
- * include an `X-Requested-With` header. Since browsers prevent cross-origin
- * sites from setting custom headers, this blocks form-based CSRF attacks
- * while allowing XHR/fetch calls from our own frontend (which always send
- * custom headers).
+ * Allows state-changing requests when either:
+ * 1) an `X-Requested-With` header is present, or
+ * 2) the request is same-origin by `Origin` / `Referer`.
  *
  * Skipped for non-mutating methods and preflight (OPTIONS) requests.
  */
@@ -16,11 +14,27 @@ export default defineEventHandler((event) => {
   if (['GET', 'HEAD', 'OPTIONS'].includes(method)) return
 
   const xRequestedWith = getHeader(event, 'x-requested-with')
+  if (xRequestedWith) return
 
-  if (!xRequestedWith) {
-    throw createError({
-      statusCode: 403,
-      message: 'Forbidden: missing required header',
-    })
-  }
+  const origin = getHeader(event, 'origin')
+  const referer = getHeader(event, 'referer')
+  const requestHost = getRequestHost(event, { xForwardedHost: true })
+  const requestProtocol = getRequestProtocol(event, { xForwardedProto: true })
+  const expectedOrigin = `${requestProtocol}://${requestHost}`
+
+  if (origin && isSameOrigin(origin, expectedOrigin)) return
+  if (!origin && referer && isSameOrigin(referer, expectedOrigin)) return
+
+  throw createError({
+    statusCode: 403,
+    message: 'Forbidden: cross-origin mutation request blocked',
+  })
 })
+
+function isSameOrigin(value: string, expectedOrigin: string): boolean {
+  try {
+    return new URL(value).origin === expectedOrigin
+  } catch {
+    return false
+  }
+}

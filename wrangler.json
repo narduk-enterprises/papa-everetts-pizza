@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/schemas/config/wrangler.json",
-  "name": "nuxt-v4-template",
+  "name": "papa-everetts-pizza",
   "main": ".output/server/index.mjs",
   "assets": {
     "directory": ".output/public"
@@ -10,11 +10,23 @@
   "observability": {
     "enabled": true
   },
+  "routes": [
+    {
+      "pattern": "papaeverettspizza.com",
+      "custom_domain": true
+    }
+  ],
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "nuxt-v4-template-db",
-      "database_id": "83b9f319-c34e-4625-9c08-1eb384d9d36d"
+      "database_name": "papa-everetts-pizza-db",
+      "database_id": "a490076a-345a-43c4-9dd3-18eacfe93e5d"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "IMAGES",
+      "bucket_name": "papa-everetts-pizza-images"
     }
   ]
 }

@@ -4,9 +4,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/fonts',
     '@nuxt/image',
-    '@nuxt/content',
     '@nuxtjs/seo',
-    '@nuxt/eslint',
   ],
   css: ['~/assets/css/main.css'],
 
@@ -23,25 +21,26 @@ export default defineNuxtConfig({
   },
 
   colorMode: {
-    preference: 'dark'
+    preference: 'light'
   },
 
   runtimeConfig: {
-    // Server-only (admin API routes)
-    googleServiceAccountKey: process.env.GSC_SERVICE_ACCOUNT_JSON || '',
-    posthogApiKey: process.env.POSTHOG_PERSONAL_API_KEY || '',
-    gaPropertyId: process.env.GA_PROPERTY_ID || '',
-    posthogProjectId: process.env.POSTHOG_PROJECT_ID || '',
+    // Private keys are only available on the server
+    googlePlacesApiKey: process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_PLATFORM_API_KEY,
+    yelpApiKey: process.env.YELP_API_KEY,
+    googleServiceAccountKey: process.env.GSC_SERVICE_ACCOUNT_JSON,
+    posthogApiKey: process.env.POSTHOG_PERSONAL_API_KEY,
+    posthogProjectId: process.env.POSTHOG_PROJECT_ID,
     public: {
-      appUrl: process.env.SITE_URL || 'https://nuxt-v4-template.workers.dev',
-      appName: process.env.APP_NAME || 'Nuxt 4 Demo',
+      appUrl: process.env.SITE_URL || 'https://papaeverettspizza.com',
+      appName: "Papa Everett's Pizza Co.",
       // Analytics
-      posthogPublicKey: process.env.POSTHOG_PUBLIC_KEY || '',
+      posthogPublicKey: process.env.POSTHOG_PROJECT_TOKEN || process.env.POSTHOG_PUBLIC_KEY || '',
       posthogHost: process.env.POSTHOG_HOST || 'https://us.i.posthog.com',
-      gaMeasurementId: process.env.GA_MEASUREMENT_ID || '',
-      posthogProjectId: process.env.POSTHOG_PROJECT_ID || '',
-      // IndexNow
-      indexNowKey: process.env.INDEXNOW_KEY || '',
+      gaMeasurementId: process.env.GA_MEASUREMENT_ID || 'G-8WZ93XNKHX',
+      // Public keys that are exposed to the client
+      googlePlaceId: process.env.GOOGLE_PLACE_ID || 'ChIJdZ_W5w3b8YcRc8eW0Ew5iB8', // Placeholder Papa Everett's Place ID
+      yelpBusinessId: process.env.YELP_BUSINESS_ID || 'papa-everetts-pizza-clear-lake',
     }
   },
 
@@ -51,9 +50,9 @@ export default defineNuxtConfig({
   // these via the `useSeo()` composable.
 
   site: {
-    url: process.env.SITE_URL || 'https://nuxt-v4-template.workers.dev',
-    name: 'Nuxt 4 Demo',
-    description: 'A production-ready demo template showcasing Nuxt 4, Nuxt UI 4, Tailwind CSS 4, and Cloudflare Workers with D1 database.',
+    url: 'https://papaeverettspizza.com',
+    name: "Papa Everett's Pizza Co.",
+    description: 'Handcrafted pizza, pasta, and more. Proudly serving Clear Lake, Iowa since 1988. Dine-in, carryout, delivery, and catering.',
     defaultLocale: 'en',
   },
 
@@ -66,38 +65,30 @@ export default defineNuxtConfig({
   schemaOrg: {
     identity: {
       type: 'Organization',
-      name: 'Nuxt 4 Demo',
-      url: process.env.SITE_URL || 'https://nuxt-v4-template.workers.dev',
-      logo: '/favicon.svg',
+      name: "Papa Everett's Pizza Co.",
+      url: 'https://papaeverettspizza.com',
+      logo: '/favicon.png',
     },
+    // Full Restaurant schema injected via app.vue useSchemaOrg
   },
 
   image: {
     provider: 'cloudflare',
     cloudflare: {
-      baseURL: process.env.SITE_URL || 'https://nuxt-v4-template.workers.dev',
+      baseURL: process.env.SITE_URL || 'https://papaeverettspizza.com',
     },
   },
 
-  content: {
-    // @nuxt/content v3 — edge-compatible, SQL-based storage
-    build: {
-      markdown: {
-        toc: { depth: 3 },
-        highlight: {
-          langs: ['typescript', 'vue', 'bash', 'json', 'css', 'html'],
-        },
-      },
-    },
+  sitemap: {
+    exclude: ['/admin', '/admin/**', '/pizza-builder'],
   },
-
-  sitemap: {},
 
   robots: {
     groups: [
       {
         userAgent: '*',
         allow: '/',
+        disallow: ['/admin', '/admin/'],
       },
     ],
   },
@@ -132,14 +123,16 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: { lang: 'en' },
       meta: [
-        { name: 'theme-color', content: '#0a0f1a' },
+        { name: 'theme-color', content: '#ffffff' },
+        { property: 'og:image', content: 'https://papaeverettspizza.com/images/og-logo.jpg' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { name: 'twitter:image', content: 'https://papaeverettspizza.com/images/og-logo.jpg' },
+        { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
-        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
-        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-        { rel: 'manifest', href: '/site.webmanifest' },
+        { rel: 'icon', type: 'image/png', href: '/favicon.png' },
+        { rel: 'apple-touch-icon', href: '/favicon.png' },
       ],
     },
     pageTransition: { name: 'page', mode: 'out-in' }

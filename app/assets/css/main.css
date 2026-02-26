@@ -1,16 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+/* Fonts loaded via @nuxt/fonts module — no manual @import needed */
 
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
 @theme {
-  /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+
+  /* Brand palette — matched to original pizzaclearlake.com */
+  --color-pizza-red: #ce2029;
+  --color-pizza-red-dark: #b01b23;
+  --color-pizza-blue: #1e3a8a;
+  --color-pizza-blue-light: #2548a8;
+  --color-pizza-gold: #ffcb05;
+  --color-pizza-bg: #f0f4f8;
+  --color-pizza-bg-soft: #e8edf3;
+  --color-pizza-surface: #ffffff;
+  --color-pizza-border: #d1d9e6;
+  --color-pizza-text: #1e293b;
+  --color-pizza-muted: #64748b;
+  --color-pizza-highlight: #ce2029;
+}
+
+:root {
+  color-scheme: light;
 }
 
 body {
   font-family: var(--font-sans);
+  background: var(--color-pizza-bg);
+  color: var(--color-pizza-text);
 }
 
 h1,
@@ -21,87 +40,137 @@ h4,
   font-family: var(--font-display);
 }
 
-/* Animated gradient background */
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+/* ─── Utility classes ─────────────────────────────────── */
 
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease infinite;
-}
-
-/* Count-up animation */
-@keyframes count-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-count-in {
-  animation: count-in 0.6s ease-out forwards;
-}
-
-/* Glassmorphism — theme-aware */
-.glass {
-  background: var(--color-surface);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border);
-}
-
-.glass-card {
-  background: var(--color-surface);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
+.warm-card {
+  border: 1px solid var(--color-pizza-border);
+  background: var(--color-pizza-surface);
   border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-/* Pulse glow for live indicator */
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 1;
-    box-shadow: 0 0 8px currentColor;
-  }
-  50% {
-    opacity: 0.5;
-    box-shadow: 0 0 16px currentColor;
-  }
+.warm-muted {
+  color: var(--color-pizza-muted);
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+.warm-surface {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--color-pizza-border);
+  backdrop-filter: blur(10px);
 }
 
-/* Page transitions */
+/* ─── Hero section for sub-pages ──────────────────────── */
+
+.hero-section {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(30, 58, 138, 0.75) 0%, rgba(30, 58, 138, 0.85) 100%);
+  z-index: 1;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-section img.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* ─── Footer ──────────────────────────────────────────── */
+
+.site-footer {
+  background: var(--color-pizza-blue);
+  color: #e2e8f0;
+}
+
+.site-footer a {
+  color: #e2e8f0;
+  transition: color 0.15s ease;
+}
+
+.site-footer a:hover {
+  color: var(--color-pizza-gold);
+}
+
+.site-footer h3 {
+  color: var(--color-pizza-gold);
+  font-family: var(--font-display);
+}
+
+/* ─── Logo container matching original ────────────────── */
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 3px solid var(--color-pizza-blue);
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── CTA pill button ─────────────────────────────────── */
+
+.cta-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-pizza-red);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: background 0.15s ease;
+  text-decoration: none;
+}
+
+.cta-phone:hover {
+  background: var(--color-pizza-red-dark);
+}
+
+/* ─── Page transitions ────────────────────────────────── */
+
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.3s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
-.page-enter-from {
-  opacity: 0;
-  transform: translateY(8px);
-}
-
+.page-enter-from,
 .page-leave-to {
   opacity: 0;
-  transform: translateY(-8px);
+  transform: translateY(6px);
+}
+
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: all 0.2s ease;
+}
+
+.slide-down-enter-from,
+.slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 
 /* ─── Form Layout Standards ─── */
@@ -173,3 +242,38 @@ h4,
 .form-actions-full > * {
   width: 100%;
 }
+
+/* ─── Nuxt UI component overrides — force light theme ─── */
+
+/* Force light backgrounds on all Nuxt UI input/textarea/select components */
+:root {
+  --ui-bg: #ffffff;
+  --ui-bg-elevated: #f8fafc;
+  --ui-bg-accented: #f1f5f9;
+  --ui-bg-inverted: #0f172a;
+  --ui-border: #d1d9e6;
+  --ui-border-accented: #cbd5e1;
+  --ui-border-inverted: #0f172a;
+  --ui-text: #1e293b;
+  --ui-text-dimmed: #64748b;
+  --ui-text-muted: #94a3b8;
+  --ui-text-toned: #475569;
+  --ui-text-highlighted: #0f172a;
+  --ui-text-inverted: #ffffff;
+}
+
+/* Ensure .dark class never applies (force light mode globally) */
+.dark {
+  --ui-bg: #ffffff !important;
+  --ui-bg-elevated: #f8fafc !important;
+  --ui-bg-accented: #f1f5f9 !important;
+  --ui-border: #d1d9e6 !important;
+  --ui-border-accented: #cbd5e1 !important;
+  --ui-text: #1e293b !important;
+  --ui-text-dimmed: #64748b !important;
+  --ui-text-muted: #94a3b8 !important;
+  --ui-text-toned: #475569 !important;
+  --ui-text-highlighted: #0f172a !important;
+  color-scheme: light !important;
+}
+

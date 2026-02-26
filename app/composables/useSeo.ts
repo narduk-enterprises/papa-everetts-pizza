@@ -128,7 +128,7 @@ export function useSeo(options: SeoOptions) {
     defineOgImageComponent('OgImageDefault', {
       title: ogImage.title || title,
       description: ogImage.description || description,
-      icon: ogImage.icon || 'i-lucide-sparkles',
+      icon: ogImage.icon || '🍕',
     })
   }
 }

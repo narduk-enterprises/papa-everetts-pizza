@@ -1,30 +1,24 @@
 import { z } from 'zod'
 
 const querySchema = z.object({
+  propertyId: z.string().optional().default(process.env.GA_PROPERTY_ID || '526158939'),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
 })
 
 export default defineEventHandler(async (event) => {
-  await requireAdmin(event)
-
-  const config = useRuntimeConfig()
-  const propertyId = config.gaPropertyId || ''
-
-  if (!propertyId) {
-    throw createError({ statusCode: 500, statusMessage: 'GA_PROPERTY_ID not configured' })
-  }
+  await requireAdminUser(event)
 
   const query = await getValidatedQuery(event, querySchema.parse)
 
-  const endDate = query.endDate ? String(query.endDate) : new Date().toISOString().split('T')[0]
-  const start = new Date(endDate as string)
+  const endDate = query.endDate || new Date().toISOString().split('T')[0]
+  const start = new Date(endDate || new Date().toISOString())
   start.setDate(start.getDate() - 30)
-  const startDate = query.startDate ? String(query.startDate) : start.toISOString().split('T')[0]
+  const startDate = query.startDate || start.toISOString().split('T')[0]
 
   try {
     const data = await googleApiFetch(
-      `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
+      `https://analyticsdata.googleapis.com/v1beta/properties/${query.propertyId}:runReport`,
       GA_SCOPES,
       {
         method: 'POST',

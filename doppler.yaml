@@ -1,0 +1,3 @@
+setup:
+  project: papa-everetts-pizza
+  config: dev

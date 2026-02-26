@@ -20,12 +20,40 @@ export const sessions = sqliteTable('sessions', {
   createdAt: text('created_at').notNull().$defaultFn(() => new Date().toISOString()),
 })
 
-// ─── Todos (Demo) ───────────────────────────────────────────
-export const todos = sqliteTable('todos', {
+// ─── Categories ─────────────────────────────────────────────
+export const categories = sqliteTable('categories', {
   id: integer('id').primaryKey({ autoIncrement: true }),
-  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-  title: text('title').notNull(),
-  completed: integer('completed', { mode: 'boolean' }).default(false),
+  name: text('name').notNull().unique(),
+  sortOrder: integer('sort_order').notNull().default(0),
+  isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  createdAt: text('created_at').notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text('updated_at').notNull().$defaultFn(() => new Date().toISOString()),
+})
+
+// ─── Menu Items ─────────────────────────────────────────────
+// prices stores JSON such as:
+// {"le_petit": 6.99, "small": 8.99, "medium": 10.99, "large": 13.49, "xl": 17.79}
+// Use null for "Call for price" values.
+export const menuItems = sqliteTable('menu_items', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  category: text('category').notNull(),
+  name: text('name').notNull(),
+  description: text('description'),
+  imageUrl: text('image_url'),
+  prices: text('prices').notNull(), // JSON string
+  sortOrder: integer('sort_order').notNull().default(0),
+  isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  updatedAt: text('updated_at').notNull().$defaultFn(() => new Date().toISOString()),
+})
+
+// ─── Contact Submissions ────────────────────────────────────
+export const contactSubmissions = sqliteTable('contact_submissions', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  phone: text('phone'),
+  message: text('message').notNull(),
+  topic: text('topic').notNull().default('contact'),
   createdAt: text('created_at').notNull().$defaultFn(() => new Date().toISOString()),
 })
 
@@ -33,5 +61,12 @@ export const todos = sqliteTable('todos', {
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
 export type Session = typeof sessions.$inferSelect
-export type Todo = typeof todos.$inferSelect
-export type NewTodo = typeof todos.$inferInsert
+
+export type MenuItem = typeof menuItems.$inferSelect
+export type NewMenuItem = typeof menuItems.$inferInsert
+
+export type Category = typeof categories.$inferSelect
+export type NewCategory = typeof categories.$inferInsert
+
+export type { MenuPrices } from '#shared/types/menu'
+export type ContactSubmission = typeof contactSubmissions.$inferSelect

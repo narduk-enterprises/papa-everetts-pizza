@@ -1,4 +1,4 @@
--- Initial schema: users, sessions, and todos tables
+-- Initial schema: users, sessions, and menu_items tables
 -- Generated from server/database/schema.ts
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -22,10 +22,16 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   `created_at` text NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `todos` (
+CREATE TABLE IF NOT EXISTS `menu_items` (
   `id` integer PRIMARY KEY AUTOINCREMENT,
-  `user_id` text NOT NULL REFERENCES `users`(`id`) ON DELETE CASCADE,
-  `title` text NOT NULL,
-  `completed` integer DEFAULT false,
-  `created_at` text NOT NULL
+  `category` text NOT NULL,
+  `name` text NOT NULL,
+  `description` text,
+  `prices` text NOT NULL,
+  `sort_order` integer NOT NULL DEFAULT 0,
+  `is_active` integer NOT NULL DEFAULT true,
+  `updated_at` text NOT NULL
 );
+
+CREATE INDEX IF NOT EXISTS `menu_items_category_idx` ON `menu_items` (`category`);
+CREATE INDEX IF NOT EXISTS `menu_items_active_idx` ON `menu_items` (`is_active`);
