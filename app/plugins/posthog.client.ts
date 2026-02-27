@@ -9,6 +9,7 @@ export default defineNuxtPlugin(() => {
 
   const posthogClient = posthog.init(posthogApiKey as string, {
     api_host: (posthogHost as string) || 'https://us.i.posthog.com',
+    person_profiles: 'always',
     capture_pageview: false, // We'll handle this manually for Nuxt SPA navigation
     capture_pageleave: true,
     loaded: (ph) => {

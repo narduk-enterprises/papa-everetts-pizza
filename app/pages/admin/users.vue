@@ -9,7 +9,7 @@ useSeoMeta({
 });
 
 const toast = useToast();
-const { users, pending, fetchUsers, addUser } = useAdminUsers();
+const { users, pending, fetchUsers, addUser, resetUserPassword } = useAdminUsers();
 const { user, loggedIn } = useAuth();
 
 onMounted(async () => {
@@ -60,6 +60,57 @@ async function onSubmitUser(_event: FormSubmitEvent<any>) {
     });
   } finally {
     isAddingUser.value = false;
+  }
+}
+
+// Password Reset Form State
+const isResetModalOpen = ref(false);
+const resetTargetUser = ref<any>(null);
+const isResettingPassword = ref(false);
+const resetState = reactive({
+  password: '',
+});
+
+const resetSchema = computed(() =>
+  z.object({
+    password: z.string({ message: 'Password is required' }).min(6, 'Password must be at least 6 characters'),
+  })
+);
+
+const resetModalDescription = computed(() => {
+  if (!resetTargetUser.value) return '';
+  return `Resetting password for ${resetTargetUser.value.email}`;
+});
+
+function formatDate(dateStr: string) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toISOString().split('T')[0];
+}
+
+function openResetModal(u: any) {
+  resetTargetUser.value = u;
+  resetState.password = '';
+  isResetModalOpen.value = true;
+}
+
+async function onSubmitReset(_event: FormSubmitEvent<any>) {
+  if (!resetTargetUser.value) return;
+  isResettingPassword.value = true;
+  try {
+    await resetUserPassword(resetTargetUser.value.id, {
+      password: resetState.password,
+    });
+    toast.add({ title: 'Password Reset', description: `Password for ${resetTargetUser.value.email} has been updated.`, color: 'success', icon: 'i-lucide-check' });
+    isResetModalOpen.value = false;
+  } catch (error: any) {
+    toast.add({
+      title: 'Password Reset Failed',
+      description: error?.data?.message || 'Could not reset password.',
+      color: 'error',
+      icon: 'i-lucide-alert-circle',
+    });
+  } finally {
+    isResettingPassword.value = false;
   }
 }
 </script>
@@ -125,10 +176,13 @@ async function onSubmitUser(_event: FormSubmitEvent<any>) {
                 </p>
                 <p class="text-sm text-pizza-muted mt-0.5">{{ u.email }}</p>
               </div>
-              <div class="text-right flex flex-col items-end">
-                <span class="text-xs text-pizza-muted mb-1 block"
-                  >Since {{ new Date(u.createdAt).toISOString().split('T')[0] }}</span
+              <div class="text-right flex flex-col items-end gap-2">
+                <span class="text-xs text-pizza-muted block"
+                  >Since {{ formatDate(u.createdAt) }}</span
                 >
+                <UButton size="xs" color="neutral" variant="ghost" icon="i-lucide-key" @click="openResetModal(u)">
+                  Reset Password
+                </UButton>
               </div>
             </li>
           </ul>
@@ -183,6 +237,33 @@ async function onSubmitUser(_event: FormSubmitEvent<any>) {
           </UForm>
         </div>
       </div>
+
+      <!-- Password Reset Modal -->
+      <UModal v-model:open="isResetModalOpen" title="Reset Password" :description="resetModalDescription">
+        <template #body>
+          <UForm :state="resetState" :schema="resetSchema" @submit="onSubmitReset" class="space-y-4">
+            <UFormField label="New Password" name="password">
+              <UInput
+                v-model="resetState.password"
+                type="password"
+                placeholder="••••••••"
+                class="w-full"
+              />
+            </UFormField>
+
+            <div class="pt-4 flex justify-end gap-3">
+              <UButton variant="ghost" color="neutral" @click="isResetModalOpen = false">Cancel</UButton>
+              <UButton
+                type="submit"
+                color="primary"
+                :loading="isResettingPassword"
+              >
+                Update Password
+              </UButton>
+            </div>
+          </UForm>
+        </template>
+      </UModal>
     </div>
   </section>
 </template>

@@ -55,9 +55,13 @@ export default defineEventHandler(async (event) => {
       keypressCount: r.keypress_count || 0,
       startUrl: r.start_url || '',
       personId: r.person?.distinct_ids?.[0] || r.distinct_id || 'Anonymous',
+      replayUrl: `https://us.posthog.com/project/${POSTHOG_PROJECT_ID}/replay/${r.id}`
     }))
 
-    return { recordings }
+    return { 
+      recordings,
+      projectReplayUrl: `https://us.posthog.com/project/${POSTHOG_PROJECT_ID}/replay`
+    }
   } catch (error: unknown) {
     const err = error as { status?: number; statusCode?: number; message?: string }
     throw createError({

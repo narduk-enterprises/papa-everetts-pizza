@@ -44,6 +44,7 @@ interface PHRecording {
   keypressCount: number
   startUrl: string
   personId: string
+  replayUrl: string
 }
 
 // Authentication is handled by the 'auth' middleware
@@ -53,17 +54,19 @@ if (!loggedIn.value) {
 }
 
 // Date range selector
-const dateRange = ref('30')
+const dateRange = ref('30d')
 const dateRangeOptions = [
-  { label: '7 days', value: '7' },
-  { label: '14 days', value: '14' },
-  { label: '30 days', value: '30' },
-  { label: '60 days', value: '60' },
-  { label: '90 days', value: '90' },
+  { label: '1 hour', value: '1h' },
+  { label: '1 day', value: '1d' },
+  { label: '7 days', value: '7d' },
+  { label: '14 days', value: '14d' },
+  { label: '30 days', value: '30d' },
+  { label: '60 days', value: '60d' },
+  { label: '90 days', value: '90d' },
 ]
 
-const insightParams = computed(() => ({ startDate: `-${dateRange.value}d` }))
-const dayParams = computed(() => ({ days: dateRange.value }))
+const insightParams = computed(() => ({ startDate: `-${dateRange.value}` }))
+const dayParams = computed(() => ({ period: dateRange.value }))
 
 // All fetches are lazy — page renders immediately with skeletons
 const { data: posthogData, status: insightsStatus } = useFetch<PHInsights>('/api/admin/posthog/insights', {
@@ -105,13 +108,13 @@ const { data: entryExitData, status: entryExitStatus } = useFetch<{
   lazy: true,
 })
 
-const { data: recordingsData, status: recordingsStatus } = useFetch<{ recordings: PHRecording[] }>(
-  '/api/admin/posthog/recordings',
-  {
-    query: { limit: '10' },
-    lazy: true,
-  },
-)
+const { data: recordingsData, status: recordingsStatus } = useFetch<{
+  recordings: PHRecording[]
+  projectReplayUrl: string
+}>('/api/admin/posthog/recordings', {
+  query: { limit: '10' },
+  lazy: true,
+})
 
 const results = computed(() => posthogData.value?.results || [])
 const pages = computed(() => pagesData.value?.rows || [])
@@ -198,9 +201,6 @@ const formatRecordingTime = (iso: string) => {
   )
 }
 
-const POSTHOG_PROJECT_ID = '325202'
-const posthogRecordingUrl = (id: string) =>
-  `https://us.posthog.com/project/${POSTHOG_PROJECT_ID}/replay/${id}`
 </script>
 
 <template>
@@ -365,7 +365,6 @@ const posthogRecordingUrl = (id: string) =>
             {{ formatLabel(pageviewSeries.labels?.[idx] || '') }}: {{ val }}
             <span v-if="dauSeries?.data?.[idx]" class="text-success-300">
               · {{ dauSeries.data[idx] }} uv</span>
-            >
           </div>
         </div>
       </div>
@@ -667,7 +666,8 @@ const posthogRecordingUrl = (id: string) =>
             <span class="font-semibold">Recent Recordings</span>
           </div>
           <ULink
-            :to="`https://us.posthog.com/project/${POSTHOG_PROJECT_ID}/replay`"
+            v-if="recordingsData?.projectReplayUrl"
+            :to="recordingsData.projectReplayUrl"
             target="_blank"
             class="text-xs text-primary hover:underline"
           >
@@ -701,7 +701,7 @@ const posthogRecordingUrl = (id: string) =>
           <ULink
             v-for="rec in recordings"
             :key="rec.id"
-            :to="posthogRecordingUrl(rec.id)"
+            :to="rec.replayUrl"
             target="_blank"
             class="flex items-center justify-between py-3 hover:bg-elevated -mx-2 px-2 rounded-lg transition-colors group first:pt-0 last:pb-0"
           >

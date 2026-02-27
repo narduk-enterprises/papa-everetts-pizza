@@ -140,6 +140,31 @@ export async function verifyCredentials(email: string, password: string): Promis
   return valid ? user : null
 }
 
+export async function updateUserPassword(userId: string, password: string): Promise<User> {
+  const passwordHash = await hashPassword(password)
+  const now = new Date().toISOString()
+
+  try {
+    const db = useDatabase()
+
+    await db.update(users)
+      .set({ passwordHash, updatedAt: now })
+      .where(eq(users.id, userId))
+
+    const user = await db.select().from(users).where(eq(users.id, userId)).get()
+    if (!user) throw new Error('Failed to update user password')
+    return user
+  } catch (err) {
+    console.error('[auth] updateUserPassword DB failed, using in-memory fallback:', err)
+    const user = fallbackUsers.get(userId)
+    if (!user) throw new Error('User not found in fallback')
+    
+    user.passwordHash = passwordHash
+    user.updatedAt = now
+    return user
+  }
+}
+
 // ─── Session management ─────────────────────────────────────
 
 const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000 // 30 days

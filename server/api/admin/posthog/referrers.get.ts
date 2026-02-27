@@ -5,7 +5,7 @@ const POSTHOG_PROJECT_ID = config.posthogProjectId
 const DOMAIN = 'papaeverettspizza.com'
 
 const querySchema = z.object({
-  days: z.string().optional().default('30'),
+  period: z.string().optional().default('30d'),
 })
 
 export default defineEventHandler(async (event) => {
@@ -19,7 +19,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: 'PostHog API key not configured' })
   }
 
-  const days = parseInt(query.days) || 30
+  const period = query.period
+  const isHours = period.endsWith('h')
+  const value = parseInt(period) || (isHours ? 1 : 30)
+  const intervalExp = isHours ? `toIntervalHour(${value})` : `toIntervalDay(${value})`
 
   try {
     const res = await $fetch<{ results?: (string | number)[][] }>(
@@ -40,7 +43,7 @@ export default defineEventHandler(async (event) => {
               count(DISTINCT person_id) AS unique_visitors
             FROM events
             WHERE event = '$pageview'
-              AND timestamp >= now() - toIntervalDay(${days})
+              AND timestamp >= now() - ${intervalExp}
               AND properties.$current_url LIKE '%${DOMAIN}%'
             GROUP BY referrer
             ORDER BY visits DESC

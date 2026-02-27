@@ -60,7 +60,7 @@ const presetOptions = computed(() => {
 
     <div class="mt-8 flex flex-col xl:flex-row xl:items-end gap-6 p-5 rounded-xl border border-dashed border-pizza-border warm-surface">
       <div class="flex items-end gap-3 flex-1">
-        <UFormField label="Standard Field" class="flex-1">
+        <UFormField label="Standard Field" :name="`${keyPrefix}-standard`" class="flex-1">
           <USelect
             v-model="draft.addPresetKey"
             :items="presetOptions"
@@ -82,7 +82,7 @@ const presetOptions = computed(() => {
       </div>
 
       <div class="flex items-end gap-3 flex-1">
-        <UFormField label="Custom Field" class="flex-1">
+        <UFormField label="Custom Field" :name="`${keyPrefix}-custom`" class="flex-1">
           <UInput v-model="draft.newCustomKey" placeholder="e.g. party_size" size="lg" class="w-full" />
         </UFormField>
         <UButton color="neutral" variant="soft" size="lg" @click="emit('addCustom')">Add Custom</UButton>

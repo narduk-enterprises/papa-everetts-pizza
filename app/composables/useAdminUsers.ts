@@ -32,5 +32,18 @@ export function useAdminUsers() {
     }
   }
 
-  return { users, pending, fetchUsers, addUser }
+  async function resetUserPassword(userId: string, payload: any) {
+    try {
+      const response = await $fetch(`/api/admin/users/${userId}/password`, {
+        method: 'PUT',
+        body: payload
+      })
+      return response
+    } catch (err: any) {
+      console.error('Failed to reset user password:', err)
+      throw err
+    }
+  }
+
+  return { users, pending, fetchUsers, addUser, resetUserPassword }
 }
