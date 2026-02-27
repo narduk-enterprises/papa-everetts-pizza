@@ -75,7 +75,7 @@ useSchemaOrg([
   <UApp>
     <div class="min-h-screen flex flex-col text-pizza-text">
       <!-- Header: white bg, real logo, nav, red CTA -->
-      <UHeader class="sticky top-0 z-50 warm-surface">
+      <header class="sticky top-0 z-50 warm-surface">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
           <!-- Logo using real logo-main.jpg from original site -->
           <NuxtLink to="/" class="flex items-center gap-3">
@@ -133,7 +133,7 @@ useSchemaOrg([
             </ULink>
           </div>
         </Transition>
-      </UHeader>
+      </header>
 
       <UMain class="flex-1">
         <NuxtLayout>
@@ -142,7 +142,7 @@ useSchemaOrg([
       </UMain>
 
       <!-- Footer: dark navy blue 4-column layout -->
-      <UFooter class="site-footer mt-16">
+      <footer class="site-footer mt-16">
         <div class="h-1 bg-pizza-red" />
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -223,7 +223,7 @@ useSchemaOrg([
         <div class="border-t border-white/10 py-5 text-center text-sm opacity-70">
           <p>&copy; {{ currentYear }} Papa Everett's Pizza. All rights reserved.</p>
         </div>
-      </UFooter>
+      </footer>
     </div>
   </UApp>
 </template>
