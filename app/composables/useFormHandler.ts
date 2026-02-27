@@ -78,7 +78,10 @@ export function useFormHandler<T extends Record<string, any>>(options: FormHandl
 
   /** Clear all field errors */
   function clearErrors() {
-    Object.keys(errors).forEach(key => delete errors[key])
+    Object.keys(errors).forEach(key => {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete errors[key]
+    })
   }
 
   /** Validate the form against the Zod schema */

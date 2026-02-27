@@ -1,4 +1,4 @@
-import { getQuery, setHeader, setResponseStatus } from 'h3'
+import { setHeader } from 'h3'
 
 export default defineEventHandler(async (event) => {
   const { IMAGES } = event.context.cloudflare?.env || {}

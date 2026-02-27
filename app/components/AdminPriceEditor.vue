@@ -4,11 +4,12 @@ import type { PriceDraftState } from '~/composables/useAdminMenuEditor'
 import { labelForPriceKey } from '~/composables/useAdminMenuEditor'
 
 const props = defineProps<{
-  draft: PriceDraftState & { category: string }
   /** Prefix for :key to avoid collisions between existing item editors and the new item form */
   keyPrefix: string
   availablePresetKeys: string[]
 }>()
+
+const draft = defineModel<PriceDraftState & { category: string }>('draft', { required: true })
 
 const emit = defineEmits<{
   addPreset: []
@@ -30,10 +31,10 @@ const presetOptions = computed(() => {
       <div
         v-for="priceKey in draft.enabledPriceKeys"
         :key="`${keyPrefix}-${priceKey}`"
-        class="rounded-xl border border-gray-200 p-5 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative group"
+        class="rounded-xl border border-pizza-border p-5 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative group"
       >
         <div class="flex items-start justify-between gap-2 mb-4">
-          <p class="text-[15px] font-bold text-gray-800">{{ labelForPriceKey(priceKey) }}</p>
+          <p class="text-[15px] font-bold text-pizza-text">{{ labelForPriceKey(priceKey) }}</p>
           <UButton
             color="neutral"
             variant="soft"
@@ -50,14 +51,14 @@ const presetOptions = computed(() => {
           class="w-full font-medium"
         >
           <template #leading>
-            <span class="text-gray-400 sm:text-sm">$</span>
+            <span class="text-pizza-muted sm:text-sm">$</span>
           </template>
         </UInput>
-        <p class="text-[10px] text-gray-400 mt-4 font-mono uppercase tracking-widest">{{ priceKey }}</p>
+        <p class="text-[10px] text-pizza-muted mt-4 font-mono uppercase tracking-widest">{{ priceKey }}</p>
       </div>
     </div>
 
-    <div class="mt-8 flex flex-col xl:flex-row xl:items-end gap-6 p-5 rounded-xl border border-dashed border-gray-200 bg-gray-50/50">
+    <div class="mt-8 flex flex-col xl:flex-row xl:items-end gap-6 p-5 rounded-xl border border-dashed border-pizza-border warm-surface">
       <div class="flex items-end gap-3 flex-1">
         <UFormField label="Standard Field" class="flex-1">
           <USelect

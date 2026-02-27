@@ -26,6 +26,9 @@ const props = withDefaults(defineProps<{
    */
   size?: 'narrow' | 'default' | 'wide' | 'full'
 }>(), {
+  title: undefined,
+  description: undefined,
+  icon: undefined,
   size: 'default',
 })
 

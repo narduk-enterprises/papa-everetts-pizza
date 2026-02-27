@@ -73,9 +73,9 @@ useSchemaOrg([
 
 <template>
   <UApp>
-    <div class="min-h-screen flex flex-col text-[var(--color-pizza-text)]">
+    <div class="min-h-screen flex flex-col text-pizza-text">
       <!-- Header: white bg, real logo, nav, red CTA -->
-      <header class="sticky top-0 z-50 warm-surface">
+      <UHeader class="sticky top-0 z-50 warm-surface">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
           <!-- Logo using real logo-main.jpg from original site -->
           <NuxtLink to="/" class="flex items-center gap-3">
@@ -85,65 +85,65 @@ useSchemaOrg([
           </NuxtLink>
 
           <!-- Desktop nav -->
-          <nav class="hidden lg:flex items-center gap-1">
+          <div class="hidden lg:flex items-center gap-1">
             <NuxtLink
               v-for="item in navItems"
               :key="item.to"
               :to="item.to"
               class="px-3 py-2 text-sm font-medium rounded-lg transition-colors"
               :class="route.path === item.to
-                ? 'text-[var(--color-pizza-red)]'
-                : 'text-[var(--color-pizza-muted)] hover:text-[var(--color-pizza-red)]'"
+                ? 'text-pizza-red'
+                : 'text-pizza-muted hover:text-pizza-red'"
             >
               {{ item.label }}
             </NuxtLink>
-          </nav>
+          </div>
 
           <!-- CTA phone button -->
           <div class="hidden lg:block">
-            <a :href="restaurantInfo.phoneHref" class="cta-phone">
+            <ULink :to="restaurantInfo.phoneHref" class="cta-phone">
               <UIcon name="i-lucide-phone" class="size-4" />
               641-357-4040
-            </a>
+            </ULink>
           </div>
 
           <!-- Mobile menu toggle -->
-          <button class="lg:hidden p-2 rounded-lg border border-[var(--color-pizza-border)]" aria-label="Toggle menu" @click="mobileMenuOpen = !mobileMenuOpen">
+          <UButton variant="ghost" color="neutral" class="lg:hidden p-2 rounded-lg border border-pizza-border" aria-label="Toggle menu" @click="mobileMenuOpen = !mobileMenuOpen">
             <UIcon :name="mobileMenuOpen ? 'i-lucide-x' : 'i-lucide-menu'" class="size-5" />
-          </button>
+          </UButton>
         </div>
 
         <!-- Mobile nav dropdown -->
         <Transition name="slide-down">
-          <nav v-if="mobileMenuOpen" class="lg:hidden px-4 pb-4 grid grid-cols-2 gap-2">
+          <div v-if="mobileMenuOpen" class="lg:hidden px-4 pb-4 grid grid-cols-2 gap-2">
             <NuxtLink
               v-for="item in navItems"
               :key="item.to"
               :to="item.to"
-              class="px-3 py-2 text-sm rounded-lg border border-[var(--color-pizza-border)]"
+              class="px-3 py-2 text-sm rounded-lg border border-pizza-border"
               :class="route.path === item.to
-                ? 'bg-red-50 text-[var(--color-pizza-red)] border-red-200'
-                : 'text-[var(--color-pizza-muted)]'"
+                ? 'bg-primary/5 text-pizza-red border-primary/20'
+                : 'text-pizza-muted'"
             >
               {{ item.label }}
             </NuxtLink>
-            <a :href="restaurantInfo.phoneHref" class="cta-phone col-span-2 justify-center mt-1">
+            <ULink :to="restaurantInfo.phoneHref" class="cta-phone col-span-2 justify-center mt-1">
               <UIcon name="i-lucide-phone" class="size-4" />
               641-357-4040
-            </a>
-          </nav>
+            </ULink>
+          </div>
         </Transition>
-      </header>
+      </UHeader>
 
-      <main class="flex-1">
+      <UMain class="flex-1">
         <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>
-      </main>
+      </UMain>
 
       <!-- Footer: dark navy blue 4-column layout -->
-      <footer class="site-footer mt-16">
-        <div class="h-1 bg-[var(--color-pizza-red)]" />
+      <UFooter class="site-footer mt-16">
+        <div class="h-1 bg-pizza-red" />
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -182,12 +182,12 @@ useSchemaOrg([
                 </div>
                 <div class="flex items-center gap-2">
                   <UIcon name="i-lucide-phone" class="size-4 shrink-0" />
-                  <a :href="restaurantInfo.phoneHref">(641) 357-4040</a>
+                  <ULink :to="restaurantInfo.phoneHref">(641) 357-4040</ULink>
                 </div>
-                <a :href="restaurantInfo.phoneHref" class="cta-phone mt-3 inline-flex">
+                <ULink :to="restaurantInfo.phoneHref" class="cta-phone mt-3 inline-flex">
                   <UIcon name="i-lucide-phone" class="size-4" />
                   Call to Order
-                </a>
+                </ULink>
               </div>
             </div>
 
@@ -205,10 +205,15 @@ useSchemaOrg([
                   <span>Fri - Sat</span><span>11:00 AM - 10:00 PM</span>
                 </div>
                 <!-- Social links -->
-                <div class="flex items-center gap-3 mt-4 pt-3 border-t border-white/10">
-                  <a href="https://www.facebook.com/PapaEverettsPizza" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-pizza-gold)] transition-colors" aria-label="Facebook">
-                    <UIcon name="i-lucide-facebook" class="size-5" />
-                  </a>
+                <div class="flex flex-col gap-1 mt-4 pt-3 border-t border-white/10">
+                  <ULink to="/privacy" class="text-pizza-muted hover:text-pizza-gold transition-colors block py-1">Privacy Policy</ULink>
+                  <ULink to="/terms" class="text-pizza-muted hover:text-pizza-gold transition-colors block py-1">Terms of Service</ULink>
+                  <ULink href="https://www.facebook.com/PapaEverettsPizza" target="_blank" rel="noopener noreferrer" class="text-pizza-muted hover:text-pizza-gold transition-colors block py-1" aria-label="Facebook">
+                    <div class="flex items-center gap-2">
+                      <UIcon name="i-lucide-facebook" class="size-5" />
+                      <span>Facebook</span>
+                    </div>
+                  </ULink>
                 </div>
               </div>
             </div>
@@ -218,7 +223,7 @@ useSchemaOrg([
         <div class="border-t border-white/10 py-5 text-center text-sm opacity-70">
           <p>&copy; {{ currentYear }} Papa Everett's Pizza. All rights reserved.</p>
         </div>
-      </footer>
+      </UFooter>
     </div>
   </UApp>
 </template>

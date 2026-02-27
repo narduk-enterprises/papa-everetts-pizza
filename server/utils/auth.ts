@@ -1,7 +1,6 @@
-import { eq } from 'drizzle-orm'
+import { eq, count } from 'drizzle-orm'
 import { users, sessions } from '../database/schema'
 import type { User } from '../database/schema'
-import { count } from 'drizzle-orm'
 
 // ─── Crypto helpers (Web Crypto API — Workers-compatible) ───
 

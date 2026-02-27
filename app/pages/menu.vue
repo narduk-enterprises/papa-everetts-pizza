@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MenuItem } from '~/composables/useMenu'
 import type { MenuPrices } from '#shared/types/menu'
-import { callForCurrentPriceLabel, formatPrice, menuSizeLabels, menuSizeOrder, siteImages } from '~/composables/useRestaurantInfo'
+import { callForCurrentPriceLabel, formatPrice, menuSizeLabels, menuSizeOrder } from '~/composables/useRestaurantInfo'
 
 const { appUrl } = useRuntimeConfig().public
 
@@ -44,8 +44,7 @@ useSchemaOrg([
 ])
 
 const { items, categories, pending, error } = useMenu()
-const { data: photosData, status: photosStatus } = await useAsyncData('location-photos', () => $fetch('/api/photos'))
-const photos = computed(() => photosData.value?.data || [])
+// photosData fetch removed as it was unused
 
 // displayPrice is an alias for formatPrice for backwards compatibility in this template
 const displayPrice = formatPrice
@@ -123,10 +122,10 @@ if (import.meta.client) {
 
 <template>
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <header class="mb-8">
+    <div class="mb-8">
       <h1 class="font-display text-5xl">Menu</h1>
       <p class="warm-muted mt-3 max-w-3xl">All prices reflect our current menu data. Tap any menu scan image to view full-size.</p>
-    </header>
+    </div>
 
     <!-- Link to Paper Menu -->
     <div class="mb-10 p-6 sm:p-8 rounded-2xl bg-linear-to-br from-pizza-red/5 to-transparent border border-pizza-red/10 flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -139,7 +138,6 @@ if (import.meta.client) {
         color="primary"
         size="lg"
         icon="i-lucide-file-text"
-        trailing
         class="shrink-0 shadow-sm"
       >
         View Paper Menu
@@ -147,15 +145,15 @@ if (import.meta.client) {
     </div>
 
     <div v-if="pending" class="warm-muted">Loading menu...</div>
-    <div v-else-if="error" class="text-red-600">Unable to load menu right now.</div>
+    <div v-else-if="error" class="text-pizza-red">Unable to load menu right now.</div>
 
     <div v-else class="space-y-10">
       <!-- ═══════════════════════════════════ Pizza Builder (integrated) ═══════════════════════════════════ -->
-      <section id="pizza-builder" class="warm-card p-0 overflow-hidden border-2 border-[var(--color-pizza-red)]/20">
-        <div class="bg-gradient-to-r from-[var(--color-pizza-red)]/5 to-transparent p-6 sm:p-8 border-b border-[var(--color-pizza-border)]">
+      <section id="pizza-builder" class="warm-card p-0 overflow-hidden border-2 border-pizza-red/20">
+        <div class="bg-linear-to-r from-pizza-red/5 to-transparent p-6 sm:p-8 border-b border-pizza-border">
           <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-chef-hat" class="size-6 text-[var(--color-pizza-red)]" />
+            <div class="w-12 h-12 rounded-full bg-pizza-red/10 flex items-center justify-center shrink-0">
+              <UIcon name="i-lucide-chef-hat" class="size-6 text-pizza-red" />
             </div>
             <div>
               <h2 class="font-display text-3xl">Build Your Own Masterpiece</h2>
@@ -172,7 +170,7 @@ if (import.meta.client) {
       <!-- ═══════════════════════════════════ Other Menu Categories ══════════════════════════════════ -->
       <section v-for="section in visibleCategories" :key="section.category" class="space-y-4">
         <!-- Category header -->
-        <div class="border-b-2 border-[var(--color-pizza-red)]/15 pb-3">
+        <div class="border-b-2 border-pizza-red/15 pb-3">
           <h2 class="font-display text-3xl">{{ section.category }}</h2>
           <p v-if="secondPizzaCategories.includes(section.category)" class="warm-muted text-sm mt-1">
             2nd pizza of equal or lesser value discounted.
@@ -187,7 +185,7 @@ if (import.meta.client) {
             class="warm-card p-4 hover:shadow-md transition-all duration-300 group flex flex-col sm:flex-row gap-4 sm:items-start"
           >
             <!-- Premium Item Imagery -->
-            <div v-if="item.imageUrl" class="shrink-0 w-full sm:w-28 sm:h-28 aspect-video sm:aspect-square overflow-hidden rounded-lg shadow-sm border border-[var(--color-pizza-border)]/50 group-hover:border-[var(--color-pizza-red)]/30 transition-colors cursor-zoom-in" @click="openLightbox(item.imageUrl!, item.name)">
+            <div v-if="item.imageUrl" class="shrink-0 w-full sm:w-28 sm:h-28 aspect-video sm:aspect-square overflow-hidden rounded-lg shadow-sm border border-pizza-border/50 group-hover:border-pizza-red/30 transition-colors cursor-zoom-in" @click="openLightbox(item.imageUrl!, item.name)">
               <img :src="item.imageUrl" :alt="item.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out">
             </div>
 
@@ -206,16 +204,16 @@ if (import.meta.client) {
               <span
                 v-for="entry in priceEntries(item)"
                 :key="`${item.id}-${entry.key}`"
-                class="text-sm rounded-lg border border-[var(--color-pizza-border)] px-3 py-1.5 bg-white font-medium"
+                class="text-sm rounded-lg border border-pizza-border px-3 py-1.5 bg-white font-medium"
               >
                 <span class="warm-muted font-normal">{{ entry.label }}:</span>
-                <span class="text-[var(--color-pizza-text)]"> {{ displayPrice(entry.value) }}</span>
+                <span class="text-pizza-text"> {{ displayPrice(entry.value) }}</span>
               </span>
             </div>
             <div v-else-if="!hasVisiblePrices(item)" class="mt-3 text-sm font-medium">
-              <a :href="restaurantInfo.phoneHref" class="text-pizza-red hover:text-pizza-red/80 transition-colors underline decoration-pizza-red/40 underline-offset-4">
+              <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red hover:text-pizza-red/80 transition-colors underline decoration-pizza-red/40 underline-offset-4">
                 {{ callForCurrentPriceLabel }}
-              </a>
+              </ULink>
             </div>
             </div> <!-- End flex-1 container -->
           </article>
@@ -238,9 +236,9 @@ if (import.meta.client) {
               class="max-w-full max-h-[90vh] rounded-xl shadow-2xl object-contain"
               @click.stop
             />
-            <button class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors" @click="closeLightbox">
+            <UButton square variant="ghost" color="neutral" class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors" @click="closeLightbox">
               <UIcon name="i-lucide-x" class="size-8" />
-            </button>
+            </UButton>
             <p class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-4 py-1.5 rounded-full">{{ lightboxAlt }}</p>
           </div>
         </Transition>

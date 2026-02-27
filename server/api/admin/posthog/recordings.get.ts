@@ -15,7 +15,6 @@ interface PHRawRecording {
 
 const config = useRuntimeConfig()
 const POSTHOG_PROJECT_ID = config.posthogProjectId
-const DOMAIN = 'papaeverettspizza.com'
 const querySchema = z.object({
   limit: z.string().optional().default('15'),
 })

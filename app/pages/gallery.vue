@@ -63,15 +63,17 @@ const filteredPhotos = computed(() => {
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <!-- Filter buttons -->
       <div class="flex flex-wrap gap-2 mb-8">
-        <button
+        <UButton
           v-for="filter in filters"
           :key="filter.key"
-          class="gallery-filter-btn"
-          :class="activeFilter === filter.key ? 'gallery-filter-active' : 'gallery-filter-inactive'"
+          :color="activeFilter === filter.key ? 'primary' : 'neutral'"
+          :variant="activeFilter === filter.key ? 'solid' : 'outline'"
+          size="sm"
+          class="rounded-full"
           @click="activeFilter = filter.key"
         >
           {{ filter.label }}
-        </button>
+        </UButton>
       </div>
 
       <!-- Photo count -->
@@ -85,31 +87,4 @@ const filteredPhotos = computed(() => {
   </div>
 </template>
 
-<style scoped>
-.gallery-filter-btn {
-  padding: 0.5rem 1.25rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
 
-.gallery-filter-active {
-  background: var(--color-pizza-red);
-  color: white;
-  border-color: var(--color-pizza-red);
-}
-
-.gallery-filter-inactive {
-  background: var(--color-pizza-surface);
-  color: var(--color-pizza-muted);
-  border-color: var(--color-pizza-border);
-}
-
-.gallery-filter-inactive:hover {
-  color: var(--color-pizza-text);
-  border-color: var(--color-pizza-red);
-}
-</style>

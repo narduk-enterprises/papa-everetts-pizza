@@ -6,7 +6,9 @@
     "directory": ".output/public"
   },
   "compatibility_date": "2025-07-15",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "observability": {
     "enabled": true
   },

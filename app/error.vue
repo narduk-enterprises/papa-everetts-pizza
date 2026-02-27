@@ -1,44 +1,3 @@
-<template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-    <div class="text-center max-w-md">
-      <!-- Error code -->
-      <p class="text-7xl font-bold font-display text-primary mb-2">
-        {{ error?.statusCode || 500 }}
-      </p>
-
-      <!-- Title -->
-      <h1 class="text-2xl font-semibold text-gray-900 mb-3">
-        {{ title }}
-      </h1>
-
-      <!-- Description -->
-      <p class="text-gray-500 mb-8">
-        {{ description }}
-      </p>
-
-      <!-- Actions -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-        <UButton
-          size="lg"
-          icon="i-lucide-home"
-          @click="handleError"
-        >
-          Go Home
-        </UButton>
-        <UButton
-          size="lg"
-          variant="ghost"
-          color="neutral"
-          icon="i-lucide-refresh-cw"
-          @click="refreshPage"
-        >
-          Try Again
-        </UButton>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 
@@ -78,3 +37,45 @@ useSeoMeta({
   robots: 'noindex, nofollow',
 })
 </script>
+
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-pizza-surface px-4">
+    <div class="text-center max-w-md">
+      <!-- Error code -->
+      <p class="text-7xl font-bold font-display text-pizza-red mb-2">
+        {{ error?.statusCode || 500 }}
+      </p>
+
+      <!-- Title -->
+      <h1 class="text-2xl font-semibold text-pizza-text mb-3">
+        {{ title }}
+      </h1>
+
+      <!-- Description -->
+      <p class="warm-muted mb-8">
+        {{ description }}
+      </p>
+
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <UButton
+          size="lg"
+          icon="i-lucide-home"
+          @click="handleError"
+        >
+          Go Home
+        </UButton>
+        <UButton
+          size="lg"
+          variant="ghost"
+          color="neutral"
+          icon="i-lucide-refresh-cw"
+          @click="refreshPage"
+        >
+          Try Again
+        </UButton>
+      </div>
+    </div>
+  </div>
+</template>
+

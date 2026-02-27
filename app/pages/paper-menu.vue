@@ -19,7 +19,7 @@ function openMenuScan(src: string) {
 
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <header class="mb-8 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="mb-8 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
         <h1 class="font-display text-4xl sm:text-5xl">Original Paper Menu</h1>
         <p class="warm-muted mt-3 max-w-xl">
@@ -35,24 +35,24 @@ function openMenuScan(src: string) {
       >
         Back to Digital Menu
       </UButton>
-    </header>
+    </div>
 
     <div class="grid md:grid-cols-2 gap-8 lg:gap-12 mb-10">
-      <button class="warm-card overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 group rounded-xl border border-pizza-border bg-white" @click="openMenuScan(siteImages.menuScan1)">
+      <UButton variant="outline" color="neutral" class="warm-card overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 group rounded-xl border border-pizza-border bg-white" @click="openMenuScan(siteImages.menuScan1)">
         <img :src="siteImages.menuScan1" alt="Papa Everett's menu front" class="w-full h-auto group-hover:scale-[1.02] transition-transform duration-500 ease-out">
-        <div class="p-4 bg-gray-50 border-t border-pizza-border/50 text-pizza-text font-medium flex items-center justify-center gap-2">
+        <div class="p-4 bg-pizza-surface border-t border-pizza-border/50 text-pizza-text font-medium flex items-center justify-center gap-2">
           <UIcon name="i-lucide-zoom-in" class="size-4" />
           Click to zoom — Front Side
         </div>
-      </button>
+      </UButton>
       
-      <button class="warm-card overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 group rounded-xl border border-pizza-border bg-white" @click="openMenuScan(siteImages.menuScan2)">
+      <UButton variant="outline" color="neutral" class="warm-card overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 group rounded-xl border border-pizza-border bg-white" @click="openMenuScan(siteImages.menuScan2)">
         <img :src="siteImages.menuScan2" alt="Papa Everett's menu back" class="w-full h-auto group-hover:scale-[1.02] transition-transform duration-500 ease-out">
-        <div class="p-4 bg-gray-50 border-t border-pizza-border/50 text-pizza-text font-medium flex items-center justify-center gap-2">
+        <div class="p-4 bg-pizza-surface border-t border-pizza-border/50 text-pizza-text font-medium flex items-center justify-center gap-2">
           <UIcon name="i-lucide-zoom-in" class="size-4" />
           Click to zoom — Back Side
         </div>
-      </button>
+      </UButton>
     </div>
 
     <!-- Menu scan lightbox -->
@@ -61,13 +61,13 @@ function openMenuScan(src: string) {
         <Transition name="page">
           <div v-if="lightboxOpen" class="fixed inset-0 z-100 bg-black/95 overflow-y-auto" @click="lightboxOpen = false">
             <div class="sticky top-0 z-101 flex justify-end gap-2 p-3 sm:p-4 bg-linear-to-b from-black/80 to-transparent">
-              <a :href="lightboxImage" target="_blank" class="text-white bg-white/10 hover:bg-white/20 rounded-full px-4 py-2 sm:py-2.5 text-sm font-medium backdrop-blur-md transition-colors flex items-center gap-2" @click.stop title="Open full resolution">
+              <ULink :to="lightboxImage" target="_blank" class="text-white bg-white/10 hover:bg-white/20 rounded-full px-4 py-2 sm:py-2.5 text-sm font-medium backdrop-blur-md transition-colors flex items-center gap-2" @click.stop title="Open full resolution">
                 <UIcon name="i-lucide-external-link" class="size-4 sm:size-5" />
                 <span>Open Full Image</span>
-              </a>
-              <button class="text-white bg-white/10 hover:bg-white/20 rounded-full p-2 sm:p-2.5 backdrop-blur-md transition-colors flex items-center justify-center" @click.stop="lightboxOpen = false">
+              </ULink>
+              <UButton square variant="ghost" color="neutral" class="text-white bg-white/10 hover:bg-white/20 rounded-full p-2 sm:p-2.5 backdrop-blur-md transition-colors flex items-center justify-center" @click.stop="lightboxOpen = false">
                 <UIcon name="i-lucide-x" class="size-5 sm:size-6" />
-              </button>
+              </UButton>
             </div>
             
             <div class="min-h-full flex flex-col p-2 sm:p-4 pt-0 justify-center">

@@ -54,10 +54,10 @@ function startingPrice(prices: Record<string, number | null>) {
     <!-- Hero section -->
     <section class="relative min-h-[74vh]">
       <img :src="siteImages.heroMain" alt="Papa Everett's featured pizza" class="absolute inset-0 h-full w-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-r from-[var(--color-pizza-blue)]/85 via-[var(--color-pizza-blue)]/65 to-[var(--color-pizza-blue)]/40" />
+      <div class="absolute inset-0 bg-linear-to-r from-pizza-blue/85 via-pizza-blue/65 to-pizza-blue/40" />
 
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-        <p class="uppercase tracking-[0.2em] text-[var(--color-pizza-gold)] text-sm mb-4 font-semibold">Clear Lake, Iowa</p>
+        <p class="uppercase tracking-[0.2em] text-pizza-gold text-sm mb-4 font-semibold">Clear Lake, Iowa</p>
         <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl max-w-3xl leading-tight text-white">
           Handcrafted Pizza. Proudly Serving Clear Lake Since 1988.
         </h1>
@@ -66,10 +66,10 @@ function startingPrice(prices: Record<string, number | null>) {
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <UButton to="/menu" size="lg">View Full Menu</UButton>
-          <a :href="info.phoneHref" class="cta-phone text-base px-6 py-3">
+          <ULink :to="info.phoneHref" class="cta-phone text-base px-6 py-3">
             <UIcon name="i-lucide-phone" class="size-5" />
             Order Now - (641) 357-4040
-          </a>
+          </ULink>
         </div>
       </div>
     </section>
@@ -83,8 +83,8 @@ function startingPrice(prices: Record<string, number | null>) {
         </ul>
       </div>
       <div class="warm-card p-6">
-        <a :href="restaurantInfo.phoneHref" class="block uppercase text-xs tracking-[0.2em] text-[var(--color-pizza-red)] hover:text-[var(--color-pizza-red)]/80 transition-colors font-semibold">Call Us</a>
-        <a :href="info.phoneHref" class="block text-3xl font-display mt-2 text-[var(--color-pizza-text)]">{{ info.phone }}</a>
+        <ULink :to="restaurantInfo.phoneHref" class="block uppercase text-xs tracking-[0.2em] text-pizza-red hover:text-pizza-red/80 transition-colors font-semibold">Call Us</ULink>
+        <ULink :to="info.phoneHref" class="block text-3xl font-display mt-2 text-pizza-text">{{ info.phone }}</ULink>
         <p class="warm-muted mt-3">Dine-in, carryout, delivery, and catering.</p>
       </div>
     </section>
@@ -95,7 +95,7 @@ function startingPrice(prices: Record<string, number | null>) {
       <div v-if="pending" class="warm-muted">Loading menu highlights...</div>
       <div v-else class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         <article v-for="item in featuredItems" :key="item.id" class="warm-card p-5 hover:shadow-md transition-shadow">
-          <p class="text-xs uppercase tracking-[0.2em] text-[var(--color-pizza-red)] font-semibold">{{ item.category }}</p>
+          <p class="text-xs uppercase tracking-[0.2em] text-pizza-red font-semibold">{{ item.category }}</p>
           <h3 class="font-semibold text-lg mt-2">{{ item.name }}</h3>
           <p v-show="item.description" class="warm-muted text-sm mt-1 line-clamp-2">{{ item.description || '' }}</p>
           <p class="warm-muted text-sm mt-2">Starting at {{ formatPrice(startingPrice(item.prices)) }}</p>
@@ -107,9 +107,9 @@ function startingPrice(prices: Record<string, number | null>) {
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex items-center justify-between mb-4">
         <h2 class="font-display text-3xl">Straight from Our Kitchen</h2>
-        <NuxtLink to="/gallery" class="text-sm text-[var(--color-pizza-red)] hover:text-[var(--color-pizza-red-dark)] font-medium transition-colors">
+        <ULink to="/gallery" class="text-sm text-pizza-red hover:text-pizza-red font-medium transition-colors">
           View All Photos →
-        </NuxtLink>
+        </ULink>
       </div>
       <PhotoStrip :photos="homepagePhotos" />
     </section>
@@ -117,9 +117,9 @@ function startingPrice(prices: Record<string, number | null>) {
     <!-- Build Your Own highlight -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid lg:grid-cols-2 gap-8 items-center">
-        <img :src="siteImages.buildYourOwnHero" alt="Build Your Own Masterpiece pizza" class="rounded-2xl border border-[var(--color-pizza-border)] shadow-sm">
+        <img :src="siteImages.buildYourOwnHero" alt="Build Your Own Masterpiece pizza" class="rounded-2xl border border-pizza-border shadow-sm">
         <div>
-          <p class="uppercase text-xs tracking-[0.2em] text-[var(--color-pizza-red)] font-semibold mb-3">Build Your Own</p>
+          <p class="uppercase text-xs tracking-[0.2em] text-pizza-red font-semibold mb-3">Build Your Own</p>
           <h2 class="font-display text-3xl">Build Your Own Masterpiece</h2>
           <p class="warm-muted mt-4 leading-relaxed">
             Start with cheese included on our exclusive French bread dough pizza. Add your choice of toppings — each topping is an additional charge. Choose from five sizes: Le Petit, Small, Medium, Large, or XL.
@@ -134,7 +134,7 @@ function startingPrice(prices: Record<string, number | null>) {
 
     <!-- Our Story teaser -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid lg:grid-cols-2 gap-8 items-center">
-      <img :src="siteImages.heroDining" alt="Papa Everett family photo" class="rounded-2xl border border-[var(--color-pizza-border)] shadow-sm">
+      <img :src="siteImages.heroDining" alt="Papa Everett family photo" class="rounded-2xl border border-pizza-border shadow-sm">
       <div>
         <h2 class="font-display text-3xl">Our Story</h2>
         <p class="warm-muted mt-4 leading-relaxed">

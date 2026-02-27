@@ -96,6 +96,15 @@ export function useAdminMenu() {
     await Promise.all([refresh(), refreshCategories()])
   }
 
+  async function uploadImage(file: File) {
+    const formData = new FormData()
+    formData.append('file', file)
+    return $fetch<{ url: string }>('/api/admin/images', {
+      method: 'POST',
+      body: formData,
+    })
+  }
+
   return {
     items,
     categories,
@@ -110,5 +119,6 @@ export function useAdminMenu() {
     addCategory,
     updateCategory,
     deleteCategory,
+    uploadImage,
   }
 }

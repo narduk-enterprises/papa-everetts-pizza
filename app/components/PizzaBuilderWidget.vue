@@ -53,22 +53,23 @@ onMounted(() => {
         <div>
           <component :is="inline ? 'h3' : 'h2'" :class="inline ? 'font-semibold text-lg mb-3' : 'font-display text-2xl'">
             <span class="inline-flex items-center gap-2">
-              <span class="inline-flex items-center justify-center size-7 rounded-full bg-[var(--color-pizza-red)]/10 text-[var(--color-pizza-red)] text-xs font-bold shrink-0">1</span>
+              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-red)/10 text-(--color-pizza-red) text-xs font-bold shrink-0">1</span>
               Choose Size
             </span>
           </component>
           <div class="grid grid-cols-3 sm:grid-cols-5 gap-2" :class="inline ? '' : 'mt-4'">
-            <button
+            <UButton
               v-for="size in availableSizes"
               :key="size.key"
-              class="px-3 sm:px-5 py-3 rounded-xl border text-sm font-medium transition-all text-center"
-              :class="selectedSize === size.key
-                ? 'border-[var(--color-pizza-red)] bg-red-50 text-[var(--color-pizza-red)] shadow-sm ring-1 ring-[var(--color-pizza-red)]/30'
-                : 'border-[var(--color-pizza-border)] warm-muted hover:bg-slate-50 active:scale-95'"
+              variant="outline"
+              size="lg"
+              :color="selectedSize === size.key ? 'primary' : 'neutral'"
+              class="justify-center font-medium transition-all"
+              :class="{ 'ring-2 ring-pizza-red/30': selectedSize === size.key }"
               @click="selectedSize = size.key"
             >
               {{ size.label }}
-            </button>
+            </UButton>
           </div>
           <p class="warm-muted text-sm mt-2">Base price: <strong>{{ formatPrice(basePrice) }}</strong></p>
         </div>
@@ -77,32 +78,31 @@ onMounted(() => {
         <div>
           <component :is="inline ? 'h3' : 'h2'" :class="inline ? 'font-semibold text-lg mb-3' : 'font-display text-2xl'">
             <span class="inline-flex items-center gap-2">
-              <span class="inline-flex items-center justify-center size-7 rounded-full bg-[var(--color-pizza-red)]/10 text-[var(--color-pizza-red)] text-xs font-bold shrink-0">2</span>
+              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-red)/10 text-(--color-pizza-red) text-xs font-bold shrink-0">2</span>
               Crust Option
             </span>
           </component>
-          <label
-            class="flex items-center gap-3 text-sm cursor-pointer rounded-xl border p-3 transition-all"
+          <div
+            class="flex items-center gap-3 p-4 rounded-xl border transition-all"
             :class="[
               isDeepDish
-                ? 'border-[var(--color-pizza-red)] bg-red-50 text-[var(--color-pizza-red)]'
-                : 'border-[var(--color-pizza-border)] warm-muted hover:bg-slate-50',
+                ? 'border-pizza-red bg-pizza-red/5 text-pizza-red'
+                : 'border-pizza-border bg-pizza-surface warm-muted hover:bg-elevated',
               inline ? '' : 'mt-4',
             ]"
           >
-            <input v-model="isDeepDish" type="checkbox" class="size-5 rounded border-[var(--color-pizza-border)] accent-[var(--color-pizza-red)]">
-            <span class="font-medium">Deep Dish</span>
-            <span class="ml-auto text-xs opacity-75">+{{ formatPrice(deepDishUpcharge) }}</span>
-          </label>
+            <UCheckbox v-model="isDeepDish" color="error" label="Deep Dish" class="flex-1 font-medium" />
+            <span class="text-xs opacity-75">+{{ formatPrice(deepDishUpcharge) }}</span>
+          </div>
         </div>
 
         <!-- Toppings -->
         <div>
           <component :is="inline ? 'h3' : 'h2'" :class="inline ? 'font-semibold text-lg mb-2' : 'font-display text-2xl'">
             <span class="inline-flex items-center gap-2">
-              <span class="inline-flex items-center justify-center size-7 rounded-full bg-[var(--color-pizza-red)]/10 text-[var(--color-pizza-red)] text-xs font-bold shrink-0">3</span>
+              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-red)/10 text-(--color-pizza-red) text-xs font-bold shrink-0">3</span>
               Add Toppings
-              <span v-if="selectedToppings.length" class="ml-1 inline-flex items-center justify-center size-6 rounded-full bg-[var(--color-pizza-red)] text-white text-xs font-bold">
+              <span v-if="selectedToppings.length" class="ml-1 inline-flex items-center justify-center size-6 rounded-full bg-(--color-pizza-red) text-white text-xs font-bold">
                 {{ selectedToppings.length }}
               </span>
             </span>
@@ -111,29 +111,25 @@ onMounted(() => {
             Each topping for {{ selectedSizeLabel }}: <strong>{{ formatPrice(toppingUnitPrice) }}</strong>
           </p>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" :class="inline ? '' : 'mt-4'">
-            <button
+            <UButton
               v-for="topping in toppingOptions"
               :key="topping"
-              class="px-3 py-2.5 rounded-xl border text-sm text-left transition-all active:scale-95"
-              :class="selectedToppings.includes(topping)
-                ? 'border-[var(--color-pizza-red)] bg-red-50 text-[var(--color-pizza-red)] font-medium ring-1 ring-[var(--color-pizza-red)]/30'
-                : 'border-[var(--color-pizza-border)] warm-muted hover:bg-slate-50'"
+              variant="outline"
+              size="md"
+              :color="selectedToppings.includes(topping) ? 'primary' : 'neutral'"
+              class="justify-start transition-all"
+              :class="{ 'ring-2 ring-pizza-red/30 bg-pizza-red/5': selectedToppings.includes(topping) }"
+              :icon="selectedToppings.includes(topping) ? 'i-lucide-check-circle' : 'i-lucide-circle'"
               @click="toggleTopping(topping)"
             >
-              <span class="flex items-center gap-2">
-                <UIcon
-                  :name="selectedToppings.includes(topping) ? 'i-lucide-check-circle' : 'i-lucide-circle'"
-                  class="size-4 shrink-0"
-                />
-                {{ topping }}
-              </span>
-            </button>
+              {{ topping }}
+            </UButton>
           </div>
         </div>
       </div>
 
       <!-- Price estimate sidebar / card -->
-      <aside ref="priceCardRef" class="warm-card p-5 h-fit lg:sticky lg:top-24 border-2 border-[var(--color-pizza-border)]">
+      <aside ref="priceCardRef" class="warm-card p-5 h-fit lg:sticky lg:top-24 border-2 border-pizza-border">
         <component :is="inline ? 'h3' : 'h2'" class="font-display text-2xl mb-4">
           Price Estimate
         </component>
@@ -159,9 +155,9 @@ onMounted(() => {
             <span>{{ formatPrice(tax) }}</span>
           </div>
         </div>
-        <div class="pt-4 mt-4 border-t-2 border-[var(--color-pizza-red)]/20 flex items-center justify-between">
+        <div class="pt-4 mt-4 border-t-2 border-(--color-pizza-red)/20 flex items-center justify-between">
           <span class="font-bold text-lg">Estimated Total</span>
-          <span class="text-2xl font-display text-[var(--color-pizza-red)]">{{ formatPrice(total) }}</span>
+          <span class="text-2xl font-display text-(--color-pizza-red)">{{ formatPrice(total) }}</span>
         </div>
         <div class="flex gap-2 mt-4">
           <UButton color="neutral" variant="soft" @click="reset">Reset</UButton>

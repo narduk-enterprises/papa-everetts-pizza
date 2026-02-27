@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { z } from 'zod'
 import { restaurantInfo } from '~/composables/useRestaurantInfo'
+import { useContact } from '~/composables/useContact'
 
 useSeo({
   title: "Contact | Papa Everett's Pizza Co.",
@@ -38,6 +39,8 @@ const schema = z.object({
   message: z.string().min(10, 'Please include a message'),
 })
 
+const { submitContact } = useContact()
+
 const form = useFormHandler({
   schema,
   defaults: {
@@ -46,16 +49,7 @@ const form = useFormHandler({
     phone: '',
     message: '',
   },
-  endpoint: '/api/contact',
-  onSubmit: async (values) => {
-    return await $fetch('/api/contact', {
-      method: 'POST',
-      body: {
-        ...values,
-        topic: 'contact',
-      },
-    })
-  },
+  onSubmit: (values) => submitContact(values, 'contact'),
   successMessage: 'Message sent. Thank you for reaching out.',
 })
 </script>
@@ -63,10 +57,10 @@ const form = useFormHandler({
 <template>
   <div>
     <!-- Page header -->
-    <section class="bg-white border-b border-[var(--color-pizza-border)]">
+      <section class="bg-white border-b border-pizza-border">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
         <h1 class="font-display text-5xl">Contact Papa Everett's Pizza</h1>
-        <p class="warm-muted mt-3">We'd love to hear from you — <a :href="restaurantInfo.phoneHref" class="text-[var(--color-pizza-red)] hover:text-[var(--color-pizza-red)]/80 transition-colors underline decoration-[var(--color-pizza-red)]/40 underline-offset-4">call</a>, visit, or send us a message.</p>
+        <p class="warm-muted mt-3">We'd love to hear from you — <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red hover:text-pizza-red/80 transition-colors underline decoration-pizza-red/40 underline-offset-4">call</ULink>, visit, or send us a message.</p>
       </div>
     </section>
 
@@ -76,8 +70,8 @@ const form = useFormHandler({
         <!-- Visit Us card -->
         <div class="warm-card p-6">
           <div class="flex items-start gap-3 mb-4">
-            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-map-pin" class="size-5 text-blue-800" />
+            <div class="w-10 h-10 rounded-full bg-pizza-blue/10 flex items-center justify-center shrink-0">
+              <UIcon name="i-lucide-map-pin" class="size-5 text-pizza-blue" />
             </div>
             <div>
               <h2 class="font-semibold text-lg">Visit Us</h2>
@@ -85,9 +79,9 @@ const form = useFormHandler({
               <p class="warm-muted">Clear Lake, IA 50428</p>
             </div>
           </div>
-
+ 
           <!-- Map -->
-          <div class="rounded-xl overflow-hidden border border-[var(--color-pizza-border)] h-[280px]">
+          <div class="rounded-xl overflow-hidden border border-pizza-border h-[280px]">
             <iframe
               title="Papa Everett's Pizza Co. Map"
               src="https://www.google.com/maps?q=910+US-18+E,+Clear+Lake,+IA+50428&output=embed"
@@ -103,13 +97,13 @@ const form = useFormHandler({
         <!-- Call Us card -->
         <div class="warm-card p-6">
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-phone" class="size-5 text-blue-800" />
+            <div class="w-10 h-10 rounded-full bg-pizza-blue/10 flex items-center justify-center shrink-0">
+              <UIcon name="i-lucide-phone" class="size-5 text-pizza-blue" />
             </div>
             <div>
               <h2 class="font-semibold text-lg">Call Us</h2>
               <p class="warm-muted">For delivery or pickup orders:</p>
-              <a :href="restaurantInfo.phoneHref" class="text-[var(--color-pizza-red)] text-xl font-semibold">(641) 357-4040</a>
+              <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red text-xl font-semibold">(641) 357-4040</ULink>
             </div>
           </div>
         </div>
@@ -117,8 +111,8 @@ const form = useFormHandler({
         <!-- Hours card -->
         <div class="warm-card p-6">
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-clock" class="size-5 text-blue-800" />
+            <div class="w-10 h-10 rounded-full bg-pizza-blue/10 flex items-center justify-center shrink-0">
+              <UIcon name="i-lucide-clock" class="size-5 text-pizza-blue" />
             </div>
             <div>
               <h2 class="font-semibold text-lg">Hours</h2>

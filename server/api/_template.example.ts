@@ -51,7 +51,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // ── Database operation ──────────────────────────────
-  const db = useDatabase()
+  // const db = useDatabase()
 
   // Example: import your table from schema
   // const { items } = await import('../database/schema')

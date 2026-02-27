@@ -147,9 +147,9 @@ const totalDevicePageviews = computed(
   () => devices.value.reduce((sum: number, d: PHDeviceRow) => sum + d.pageviews, 0) || 1,
 )
 const deviceColors: Record<string, string> = {
-  Desktop: 'bg-blue-500',
-  Mobile: 'bg-emerald-500',
-  Tablet: 'bg-amber-500',
+  Desktop: 'bg-pizza-red',
+  Mobile: 'bg-pizza-gold',
+  Tablet: 'bg-pizza-black',
 }
 
 const formatLabel = (label: string) => {
@@ -219,22 +219,19 @@ const posthogRecordingUrl = (id: string) =>
       </div>
 
       <!-- Date range selector -->
-      <div class="flex gap-1 bg-elevated border border-default rounded-xl p-1">
-        <!-- eslint-disable-next-line atx/no-native-button -- custom segmented tab selector -->
-        <button
+      <UButtonGroup class="p-1">
+        <UButton
           v-for="opt in dateRangeOptions"
           :key="opt.value"
-          class="px-3 py-1.5 text-sm font-medium rounded-lg transition-all"
-          :class="
-            dateRange === opt.value
-              ? 'bg-primary text-white shadow-sm'
-              : 'text-dimmed hover:text-default hover:bg-default'
-          "
+          size="sm"
+          :variant="dateRange === opt.value ? 'solid' : 'ghost'"
+          :color="dateRange === opt.value ? 'primary' : 'neutral'"
+          class="font-medium"
           @click="dateRange = opt.value"
         >
           {{ opt.label }}
-        </button>
-      </div>
+        </UButton>
+      </UButtonGroup>
     </div>
 
     <!-- ═══════════════════════ Summary Stat Cards ═══════════════════════ -->
@@ -265,8 +262,7 @@ const posthogRecordingUrl = (id: string) =>
         </UCard>
         <UCard>
           <div class="flex items-center gap-2 mb-2">
-            <!-- eslint-disable-next-line atx/no-raw-tailwind-colors -- analytics KPI accent -->
-            <UIcon name="i-lucide-users" class="size-4 text-emerald-500" />
+            <UIcon name="i-lucide-users" class="size-4 text-pizza-gold" />
             <span class="text-xs text-dimmed uppercase tracking-wider font-medium"
               >Unique Visitors</span
             >
@@ -275,7 +271,7 @@ const posthogRecordingUrl = (id: string) =>
         </UCard>
         <UCard>
           <div class="flex items-center gap-2 mb-2">
-            <UIcon name="i-lucide-trending-up" class="size-4 text-amber-500" />
+            <UIcon name="i-lucide-trending-up" class="size-4 text-pizza-red" />
             <span class="text-xs text-dimmed uppercase tracking-wider font-medium"
               >Avg / Active Day</span
             >
@@ -284,7 +280,7 @@ const posthogRecordingUrl = (id: string) =>
         </UCard>
         <UCard>
           <div class="flex items-center gap-2 mb-2">
-            <UIcon name="i-lucide-ratio" class="size-4 text-violet-500" />
+            <UIcon name="i-lucide-ratio" class="size-4 text-pizza-black" />
             <span class="text-xs text-dimmed uppercase tracking-wider font-medium"
               >Pages / Visitor</span
             >
@@ -323,18 +319,18 @@ const posthogRecordingUrl = (id: string) =>
     </UCard>
     <UCard v-else-if="pageviewSeries">
       <template #header>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between font-display">
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-2">
-              <div class="w-3 h-3 rounded-full bg-primary" />
-              <span class="font-semibold">Pageviews</span>
+              <div class="w-3 h-3 rounded-full bg-pizza-red" />
+              <span class="font-bold">Pageviews</span>
             </div>
             <div v-if="dauSeries" class="flex items-center gap-2 ml-4">
-              <div class="w-3 h-3 rounded-full bg-emerald-500" />
-              <span class="text-sm text-dimmed">Unique Visitors</span>
+              <div class="w-3 h-3 rounded-full bg-pizza-gold" />
+              <span class="text-sm text-pizza-muted">Unique Visitors</span>
             </div>
           </div>
-          <span class="text-sm text-dimmed tabular-nums"
+          <span class="text-sm text-pizza-muted tabular-nums"
             >{{ totalPageviews.toLocaleString() }} total</span
           >
         </div>
@@ -349,7 +345,7 @@ const posthogRecordingUrl = (id: string) =>
         >
           <!-- Pageview bar -->
           <div
-            class="absolute bottom-0 left-0 right-0 bg-primary/25 hover:bg-primary/50 transition-all duration-150 rounded-t"
+            class="absolute bottom-0 left-0 right-0 bg-pizza-red/25 hover:bg-pizza-red/50 transition-all duration-150 rounded-t"
             :style="{
               height: `${Math.max((val / Math.max(...(pageviewSeries.data || []), 1)) * 100, val > 0 ? 2 : 0)}%`,
             }"
@@ -357,7 +353,7 @@ const posthogRecordingUrl = (id: string) =>
           <!-- DAU overlay bar -->
           <div
             v-if="dauSeries?.data?.[idx]"
-            class="absolute bottom-0 left-[15%] right-[15%] bg-emerald-500/40 rounded-t pointer-events-none"
+            class="absolute bottom-0 left-[15%] right-[15%] bg-pizza-gold/40 rounded-t pointer-events-none"
             :style="{
               height: `${Math.max((dauSeries.data[idx] / Math.max(...(pageviewSeries.data || []), 1)) * 100, dauSeries.data[idx] > 0 ? 2 : 0)}%`,
             }"
@@ -367,8 +363,8 @@ const posthogRecordingUrl = (id: string) =>
             class="absolute -top-10 left-1/2 -translate-x-1/2 bg-inverted text-inverted text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10"
           >
             {{ formatLabel(pageviewSeries.labels?.[idx] || '') }}: {{ val }}
-            <span v-if="dauSeries?.data?.[idx]" class="text-emerald-300">
-              · {{ dauSeries.data[idx] }} uv</span
+            <span v-if="dauSeries?.data?.[idx]" class="text-success-300">
+              · {{ dauSeries.data[idx] }} uv</span>
             >
           </div>
         </div>
@@ -426,7 +422,7 @@ const posthogRecordingUrl = (id: string) =>
             v-for="device in devices"
             :key="device.device"
             class="transition-all duration-300 relative group"
-            :class="deviceColors[device.device] || 'bg-neutral-400'"
+            :class="deviceColors[device.device] || 'bg-pizza-muted'"
             :style="{ width: `${(device.pageviews / totalDevicePageviews) * 100}%` }"
           >
             <div
@@ -447,7 +443,7 @@ const posthogRecordingUrl = (id: string) =>
           >
             <div
               class="size-3 rounded-full shrink-0"
-              :class="deviceColors[device.device] || 'bg-neutral-400'"
+              :class="deviceColors[device.device] || 'bg-pizza-muted'"
             />
             <div class="flex-1">
               <p class="text-sm font-medium">{{ device.device || 'Unknown' }}</p>
@@ -524,7 +520,7 @@ const posthogRecordingUrl = (id: string) =>
       <UCard>
         <template #header>
           <div class="flex items-center gap-2">
-            <UIcon name="i-lucide-link" class="size-4 text-emerald-500" />
+            <UIcon name="i-lucide-link" class="size-4 text-success" />
             <span class="font-semibold">Top Referrers</span>
           </div>
         </template>
@@ -561,7 +557,7 @@ const posthogRecordingUrl = (id: string) =>
               </div>
               <div class="h-1.5 rounded-full bg-default overflow-hidden">
                 <div
-                  class="h-full rounded-full bg-emerald-500/50 transition-all duration-300"
+                  class="h-full rounded-full bg-success/50 transition-all duration-300"
                   :style="{ width: `${(ref.visits / maxRefVisits) * 100}%` }"
                 />
               </div>
@@ -577,7 +573,7 @@ const posthogRecordingUrl = (id: string) =>
       <UCard>
         <template #header>
           <div class="flex items-center gap-2">
-            <UIcon name="i-lucide-log-in" class="size-4 text-blue-500" />
+            <UIcon name="i-lucide-log-in" class="size-4 text-primary" />
             <span class="font-semibold">Entry Pages</span>
           </div>
         </template>
@@ -608,7 +604,7 @@ const posthogRecordingUrl = (id: string) =>
               </div>
               <div class="h-1.5 rounded-full bg-default overflow-hidden">
                 <div
-                  class="h-full rounded-full bg-blue-500/50 transition-all duration-300"
+                  class="h-full rounded-full bg-primary/50 transition-all duration-300"
                   :style="{ width: `${(page.count / maxEntries) * 100}%` }"
                 />
               </div>
@@ -621,7 +617,7 @@ const posthogRecordingUrl = (id: string) =>
       <UCard>
         <template #header>
           <div class="flex items-center gap-2">
-            <UIcon name="i-lucide-log-out" class="size-4 text-rose-500" />
+            <UIcon name="i-lucide-log-out" class="size-4 text-error" />
             <span class="font-semibold">Exit Pages</span>
           </div>
         </template>
@@ -652,7 +648,7 @@ const posthogRecordingUrl = (id: string) =>
               </div>
               <div class="h-1.5 rounded-full bg-default overflow-hidden">
                 <div
-                  class="h-full rounded-full bg-rose-500/50 transition-all duration-300"
+                  class="h-full rounded-full bg-error/50 transition-all duration-300"
                   :style="{ width: `${(page.count / maxExits) * 100}%` }"
                 />
               </div>
@@ -667,16 +663,16 @@ const posthogRecordingUrl = (id: string) =>
       <template #header>
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <UIcon name="i-lucide-play-circle" class="size-4 text-rose-500" />
+            <UIcon name="i-lucide-play-circle" class="size-4 text-error" />
             <span class="font-semibold">Recent Recordings</span>
           </div>
-          <a
-            :href="`https://us.posthog.com/project/${POSTHOG_PROJECT_ID}/replay`"
+          <ULink
+            :to="`https://us.posthog.com/project/${POSTHOG_PROJECT_ID}/replay`"
             target="_blank"
             class="text-xs text-primary hover:underline"
           >
             View all →
-          </a>
+          </ULink>
         </div>
       </template>
 
@@ -702,37 +698,37 @@ const posthogRecordingUrl = (id: string) =>
           No recordings available
         </div>
         <div v-else class="flex flex-col divide-y divide-default">
-          <a
+          <ULink
             v-for="rec in recordings"
             :key="rec.id"
-            :href="posthogRecordingUrl(rec.id)"
+            :to="posthogRecordingUrl(rec.id)"
             target="_blank"
             class="flex items-center justify-between py-3 hover:bg-elevated -mx-2 px-2 rounded-lg transition-colors group first:pt-0 last:pb-0"
           >
             <div class="flex items-center gap-3 min-w-0">
               <UIcon
                 name="i-lucide-play"
-                class="size-4 text-rose-400 shrink-0 group-hover:text-rose-500 transition-colors"
+                class="size-4 text-pizza-red shrink-0 group-hover:text-pizza-red/80 transition-colors"
               />
               <div class="min-w-0">
-                <p class="text-sm font-medium truncate max-w-sm">
+                <p class="text-sm font-medium text-pizza-text truncate max-w-sm">
                   {{ rec.startUrl?.replace(/^https?:\/\//, '') || 'Unknown page' }}
                 </p>
-                <p class="text-xs text-dimmed">
+                <p class="text-xs text-pizza-muted">
                   {{ formatRecordingTime(rec.startTime) }} · {{ rec.personId }}
                 </p>
               </div>
             </div>
-            <div class="flex items-center gap-4 text-xs text-dimmed shrink-0">
+            <div class="flex items-center gap-4 text-xs text-pizza-muted shrink-0">
               <span class="flex items-center gap-1" :title="`${rec.clickCount} clicks`">
                 <UIcon name="i-lucide-mouse-pointer-click" class="size-3" />
                 {{ rec.clickCount }}
               </span>
-              <span class="font-medium text-default tabular-nums">{{
+              <span class="font-medium text-pizza-text tabular-nums">{{
                 formatDuration(rec.duration)
               }}</span>
             </div>
-          </a>
+          </ULink>
         </div>
       </template>
     </UCard>

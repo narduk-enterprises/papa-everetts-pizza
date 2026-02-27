@@ -16,11 +16,18 @@ withDefaults(defineProps<{
   icon?: string
   siteName?: string
 }>(), {
-  title: 'Nuxt 4 Template',
-  description: 'Production-ready Nuxt 4 + Cloudflare Workers',
-  icon: '✨',
-  siteName: 'Nuxt 4 Demo',
+  title: "Papa Everett's Pizza",
+  description: 'Authentic local pizza, wings, and more. Order online for delivery or pickup!',
+  icon: '🍕',
+  siteName: "Papa Everett's",
 })
+
+const colors = {
+  slate100: 'rgb(241, 245, 249)',
+  slate400: 'rgb(148, 163, 184)',
+  slate500: 'rgb(100, 116, 139)',
+  pizzaRed: 'rgb(209, 0, 0)',
+}
 </script>
 
 <template>
@@ -33,7 +40,7 @@ withDefaults(defineProps<{
       justifyContent: 'center',
       alignItems: 'flex-start',
       padding: '80px',
-      background: 'linear-gradient(135deg, #0a0f1a 0%, #0f1729 40%, #111d33 100%)',
+      background: 'linear-gradient(135deg, #000000 0%, #1a1510 40%, #2a2010 100%)',
       fontFamily: 'Inter, sans-serif',
       position: 'relative',
       overflow: 'hidden',
@@ -48,7 +55,7 @@ withDefaults(defineProps<{
         width: '500px',
         height: '500px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(209, 0, 0, 0.15) 0%, transparent 70%)',
       }"
     />
 
@@ -60,7 +67,7 @@ withDefaults(defineProps<{
         left: '0',
         right: '0',
         height: '4px',
-        background: 'linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6)',
+        background: `linear-gradient(90deg, ${colors.pizzaRed}, #ffcc00, #000000)`,
       }"
     />
 
@@ -79,7 +86,7 @@ withDefaults(defineProps<{
       :style="{
         fontSize: '56px',
         fontWeight: '700',
-        color: '#f1f5f9',
+        color: colors.slate100,
         lineHeight: '1.15',
         marginBottom: '16px',
         maxWidth: '900px',
@@ -94,7 +101,7 @@ withDefaults(defineProps<{
       :style="{
         fontSize: '24px',
         fontWeight: '400',
-        color: '#94a3b8',
+        color: colors.slate400,
         lineHeight: '1.5',
         maxWidth: '800px',
       }"
@@ -118,7 +125,7 @@ withDefaults(defineProps<{
           width: '32px',
           height: '32px',
           borderRadius: '8px',
-          background: '#10b981',
+          background: colors.pizzaRed,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -127,13 +134,13 @@ withDefaults(defineProps<{
           fontWeight: '700',
         }"
       >
-        N4
+        PEP
       </div>
       <div
         :style="{
           fontSize: '18px',
           fontWeight: '600',
-          color: '#64748b',
+          color: colors.slate500,
         }"
       >
         {{ siteName }}
