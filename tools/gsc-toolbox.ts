@@ -1,3 +1,4 @@
+// @ts-expect-error googleapis is used as an optional dev script dependency
 import { google } from 'googleapis'
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join, resolve } from 'node:path'
