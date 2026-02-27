@@ -219,7 +219,7 @@ const formatRecordingTime = (iso: string) => {
       </div>
 
       <!-- Date range selector -->
-      <UButtonGroup class="p-1">
+      <UFieldGroup class="p-1">
         <UButton
           v-for="opt in dateRangeOptions"
           :key="opt.value"
@@ -231,7 +231,7 @@ const formatRecordingTime = (iso: string) => {
         >
           {{ opt.label }}
         </UButton>
-      </UButtonGroup>
+      </UFieldGroup>
     </div>
 
     <!-- ═══════════════════════ Summary Stat Cards ═══════════════════════ -->

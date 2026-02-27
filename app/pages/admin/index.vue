@@ -10,6 +10,10 @@ useSeoMeta({
 
 const toast = useToast()
 const { user, loggedIn, login, logout, refresh: refreshAuth } = useAuth()
+
+// Fix hydration mismatch: wait for auth state so Server and Client render the same conditional branch
+await refreshAuth()
+
 const { items, categories, categoryRecords, pending, saveItem, addItem, deleteItem, addCategory, updateCategory, deleteCategory, uploadImage } = useAdminMenu()
 
 const {

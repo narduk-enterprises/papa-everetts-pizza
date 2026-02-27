@@ -10,7 +10,10 @@ useSeoMeta({
 
 const toast = useToast();
 const { users, pending, fetchUsers, addUser, resetUserPassword } = useAdminUsers();
-const { user, loggedIn } = useAuth();
+const { user, loggedIn, refresh } = useAuth();
+
+// Fix hydration mismatch: wait for auth so Server matches Client conditional render
+await refresh();
 
 onMounted(async () => {
   if (loggedIn.value && user.value?.isAdmin) {

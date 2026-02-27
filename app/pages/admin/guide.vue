@@ -4,7 +4,10 @@ useSeoMeta({
   robots: 'noindex, nofollow',
 })
 
-const { loggedIn, user } = useAuth()
+const { loggedIn, user, refresh } = useAuth()
+
+// Fix hydration mismatch: wait for auth so Server matches Client conditional render
+await refresh()
 
 const activeSection = ref('overview')
 
