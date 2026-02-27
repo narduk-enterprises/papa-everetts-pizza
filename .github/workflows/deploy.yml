@@ -54,6 +54,8 @@ jobs:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
 
       - name: Build and Deploy
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           pnpm build
           pnpm exec wrangler deploy
