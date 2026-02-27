@@ -85,10 +85,10 @@ async function main() {
   try {
     // Check if expected secrets exist
     const output = execSync(
-      `doppler secrets --project ${APP_NAME} --config prd --only-names --plain`,
+      `doppler secrets --project ${APP_NAME} --config prd --only-names --json`,
       { encoding: 'utf-8', stdio: 'pipe' }
     )
-    const existing = new Set(output.trim().split('\n').filter(Boolean))
+    const existing = new Set(Object.keys(JSON.parse(output)))
     const requiredSecrets = ['CLOUDFLARE_API_TOKEN', 'APP_NAME']
     
     const missing = requiredSecrets.filter(s => !existing.has(s))
