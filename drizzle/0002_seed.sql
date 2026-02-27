@@ -37,3 +37,15 @@ INSERT INTO menu_items (category, name, description, image_url, prices, sort_ord
 INSERT INTO menu_items (category, name, description, image_url, prices, sort_order, is_active, updated_at) VALUES ('Salads', 'Chicken Chef Salad', '', NULL, '{"single":7.49}', 30, 1, CURRENT_TIMESTAMP);
 INSERT INTO menu_items (category, name, description, image_url, prices, sort_order, is_active, updated_at) VALUES ('Salads', 'Shrimp Salad', '', NULL, '{"single":7.49}', 31, 1, CURRENT_TIMESTAMP);
 INSERT INTO menu_items (category, name, description, image_url, prices, sort_order, is_active, updated_at) VALUES ('Salads', 'Side Salad', '', NULL, '{"single":4.29}', 32, 1, CURRENT_TIMESTAMP);
+
+DELETE FROM users WHERE email = 'admin@papaeverettspizza.com';
+INSERT INTO users (id, email, password_hash, name, is_admin, created_at, updated_at) 
+VALUES (
+  'e6c6feae-0814-41f2-95b8-53e34f669e4f',
+  'admin@papaeverettspizza.com', 
+  'dd997ce173a38cb3048129cf4c02c975:29c5ad6b5cfe5e6552254a33ab45ee653270b6452b8636b81072637f155296d8',
+  'Admin User',
+  1,
+  CURRENT_TIMESTAMP,
+  CURRENT_TIMESTAMP
+);

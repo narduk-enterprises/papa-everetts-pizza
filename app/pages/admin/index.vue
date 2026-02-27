@@ -32,12 +32,12 @@ const {
 const authLoading = ref(false)
 
 const authSchema = computed(() => z.object({
-  email: z.string().email('Please enter a valid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string({ message: 'Email is required' }).email('Please enter a valid email'),
+  password: z.string({ message: 'Password is required' }).min(6, 'Password must be at least 6 characters'),
 }))
 
 type AuthState = { email?: string, password?: string }
-const authState = reactive<AuthState>({ email: undefined, password: undefined })
+const authState = reactive<AuthState>({ email: '', password: '' })
 
 async function submitAuth(_event: FormSubmitEvent<any>) {
   authLoading.value = true
@@ -170,6 +170,7 @@ async function onDeleteCategory(catId: number) {
         <p class="warm-muted mt-1">Manage your menu, prices, and categories.</p>
         
         <div v-if="loggedIn && user?.isAdmin" class="mt-4 flex items-center gap-2 flex-wrap">
+          <UButton to="/admin/users" variant="soft" color="primary" size="xs" icon="i-lucide-users">Manage Users</UButton>
           <UButton to="/admin/posthog" variant="soft" color="neutral" size="xs" icon="i-lucide-bar-chart-2">PostHog</UButton>
           <UButton to="/admin/analytics" variant="soft" color="primary" size="xs" icon="i-lucide-line-chart">Google Analytics</UButton>
           <UButton to="/admin/gsc" variant="soft" color="primary" size="xs" icon="i-lucide-search">Search Console</UButton>

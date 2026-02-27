@@ -206,7 +206,6 @@ useSchemaOrg([
                 </div>
                 <!-- Social links -->
                 <div class="flex flex-col gap-1 mt-4 pt-3 border-t border-white/10">
-                  <ULink to="/privacy" class="text-pizza-muted hover:text-pizza-gold transition-colors block py-1">Privacy Policy</ULink>
                   <ULink to="/terms" class="text-pizza-muted hover:text-pizza-gold transition-colors block py-1">Terms of Service</ULink>
                   <ULink href="https://www.facebook.com/PapaEverettsPizza" target="_blank" rel="noopener noreferrer" class="text-pizza-muted hover:text-pizza-gold transition-colors block py-1" aria-label="Facebook">
                     <div class="flex items-center gap-2">

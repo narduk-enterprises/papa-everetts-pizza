@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/seo',
     '@nuxt/eslint',
+    'nitro-cloudflare-dev'
   ],
   css: ['~/assets/css/main.css'],
 
@@ -98,6 +99,11 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'cloudflare-module',
+    cloudflare: {
+      dev: {
+        environment: 'development' // or some string representing default dev env
+      }
+    },
     esbuild: {
       options: {
         target: 'esnext'
