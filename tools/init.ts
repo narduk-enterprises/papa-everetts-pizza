@@ -296,8 +296,30 @@ Pushes to \`main\` are automatically built and deployed via the GitHub Actions C
         throw new Error('Doppler returned an empty token.')
       }
 
+      // Automatically determine the target GitHub repository (excluding nuxt-v4-template)
+      let targetRepoFlag = ''
+      try {
+        const remotesOutput = execSync('git remote -v', { encoding: 'utf-8', stdio: 'pipe' })
+        const remotes = remotesOutput.split('\n').filter(Boolean)
+        const targetRemoteLine = remotes.find(line => !line.includes('nuxt-v4-template') && line.includes('(push)'))
+        if (targetRemoteLine) {
+          let url = targetRemoteLine.split(/\s+/)[1]
+          if (url) {
+            url = url.replace(/^(https?:\/\/|git@)/, '')
+            url = url.replace(/^github\.com[:/]/, '')
+            url = url.replace(/\.git$/, '')
+            if (url) {
+              targetRepoFlag = `--repo "${url}"`
+              console.log(`  🎯 Automatically selected GitHub repository for secrets: ${url}`)
+            }
+          }
+        }
+      } catch {
+        // Fallback to default gh cli behavior if parsing fails
+      }
+
       // Upload to GitHub as a repository secret via gh CLI
-      execSync(`gh secret set DOPPLER_TOKEN --body "${dopplerToken}"`, { encoding: 'utf-8', stdio: 'pipe' })
+      execSync(`gh secret set DOPPLER_TOKEN ${targetRepoFlag} --body "${dopplerToken}"`, { encoding: 'utf-8', stdio: 'pipe' })
       console.log(`  ✅ DOPPLER_TOKEN set as GitHub Actions secret.`)
     }
   } catch (error: any) {

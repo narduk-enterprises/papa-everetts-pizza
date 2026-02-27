@@ -12,6 +12,7 @@
     "typecheck": "npx nuxt typecheck",
     "deploy": "nuxt build && wrangler deploy",
     "generate:favicons": "node scripts/generate-favicons.mjs",
+    "build:plugins": "cd eslint-plugin-nuxt-ui && pnpm run build && cd ../eslint-plugin-nuxt-guardrails && pnpm run build && cd ../tools/eslint-plugin-vue-official-best-practices && pnpm run build",
     "prelint": "(test -f .nuxt/eslint.config.mjs || nuxt prepare) && (test -f eslint-plugin-nuxt-ui/dist/index.js || pnpm run build:plugins)",
     "lint": "eslint .",
     "quality": "pnpm run lint && pnpm run typecheck",
@@ -26,7 +27,8 @@
     "setup:ga": "npx jiti tools/setup-analytics.ts ga",
     "setup:gsc": "npx jiti tools/setup-analytics.ts gsc",
     "setup:gsc:verify": "npx jiti tools/setup-analytics.ts gsc:verify",
-    "build:plugins": "cd eslint-plugin-nuxt-ui && pnpm run build && cd ../eslint-plugin-nuxt-guardrails && pnpm run build && cd ../tools/eslint-plugin-vue-official-best-practices && pnpm run build"
+    "init": "npx jiti tools/init.ts",
+    "validate": "npx jiti tools/validate.ts"
   },
   "dependencies": {
     "@iconify-json/simple-icons": "^1.2.71",
@@ -72,7 +74,6 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "better-sqlite3",
       "esbuild"
     ]
   },
