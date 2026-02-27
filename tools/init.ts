@@ -97,10 +97,10 @@ async function walkDir(dir: string): Promise<string[]> {
 function getDopplerSecretNames(project: string, config: string): Set<string> {
   try {
     const output = execSync(
-      `doppler secrets --project ${project} --config ${config} --only-names --plain`,
+      `doppler secrets --project ${project} --config ${config} --only-names --json`,
       { encoding: 'utf-8', stdio: 'pipe' }
     )
-    return new Set(output.trim().split('\n').filter(Boolean))
+    return new Set(Object.keys(JSON.parse(output)))
   } catch {
     return new Set()
   }
@@ -276,7 +276,7 @@ Pushes to \`main\` are automatically built and deployed via the GitHub Actions C
     let tokenExists = false
     try {
       const tokensOutput = execSync(
-        `doppler configs tokens --project ${APP_NAME} --config prd --plain`,
+        `doppler configs tokens --project ${APP_NAME} --config prd --json`,
         { encoding: 'utf-8', stdio: 'pipe' }
       )
       tokenExists = tokensOutput.includes('ci-deploy')
