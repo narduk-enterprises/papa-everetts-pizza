@@ -149,22 +149,27 @@ if (import.meta.client) {
 
     <div v-else class="space-y-10">
       <!-- ═══════════════════════════════════ Pizza Builder (integrated) ═══════════════════════════════════ -->
-      <section id="pizza-builder" class="warm-card p-0 overflow-hidden border-2 border-pizza-red/20">
-        <div class="bg-linear-to-r from-pizza-red/5 to-transparent p-6 sm:p-8 border-b border-pizza-border">
-          <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-pizza-red/10 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-chef-hat" class="size-6 text-pizza-red" />
+      <section id="pizza-builder" class="warm-card p-0 overflow-hidden border-2 border-(--color-pizza-red)/20">
+        <UCollapsible class="w-full">
+          <div role="button" tabindex="0" class="w-full text-left bg-linear-to-r from-(--color-pizza-red)/5 to-transparent p-6 sm:p-8 hover:bg-(--color-pizza-red)/5 transition-colors group flex items-center justify-between cursor-pointer outline-none">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-(--color-pizza-red)/10 flex items-center justify-center shrink-0">
+                <UIcon name="i-lucide-chef-hat" class="size-6 text-(--color-pizza-red)" />
+              </div>
+              <div>
+                <h2 class="font-display text-3xl font-normal text-pizza-text">Build Your Own Masterpiece</h2>
+                <p class="warm-muted mt-1 font-normal text-base text-left">Choose your size, add toppings, and see your estimated price live — including 7% local tax.</p>
+              </div>
             </div>
-            <div>
-              <h2 class="font-display text-3xl">Build Your Own Masterpiece</h2>
-              <p class="warm-muted mt-1">Choose your size, add toppings, and see your estimated price live — including 7% local tax.</p>
-            </div>
+            <UIcon name="i-lucide-chevron-down" class="size-6 text-(--color-pizza-red) transform transition-transform duration-200 group-data-[state=open]:rotate-180" />
           </div>
-        </div>
 
-        <div class="p-6 sm:p-8">
-          <PizzaBuilderWidget :items="items" inline />
-        </div>
+          <template #content>
+            <div class="p-6 sm:p-8 border-t border-pizza-border">
+              <PizzaBuilderWidget :items="items" inline />
+            </div>
+          </template>
+        </UCollapsible>
       </section>
 
       <!-- ═══════════════════════════════════ Other Menu Categories ══════════════════════════════════ -->
