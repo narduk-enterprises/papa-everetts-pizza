@@ -1,5 +1,3 @@
-import { useRuntimeConfig } from '#imports'
-
 const FALLBACK_PHOTOS = [
   'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop', // classic pizza
   'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800&auto=format&fit=crop', // flatbread
@@ -17,7 +15,7 @@ export default defineCachedEventHandler(async (event) => {
     if (config.googlePlacesApiKey && config.public.googlePlaceId) {
       // Fetch the Place Details specifically requesting the photos array
       const res = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${config.public.googlePlaceId}&fields=photos&key=${config.googlePlacesApiKey}`)
-      
+
       if (res.ok) {
         const data = await res.json()
         if (data.result && data.result.photos) {
@@ -25,7 +23,7 @@ export default defineCachedEventHandler(async (event) => {
           // We must construct the actual image URL using the reference and key.
           // Limiting to the first 8 high-quality photos provided by the business/users.
           const topPhotos = data.result.photos.slice(0, 8)
-          
+
           for (const photoObj of topPhotos) {
             if (photoObj.photo_reference) {
               // We request maxwidth 800 to ensure fast loading but good resolution

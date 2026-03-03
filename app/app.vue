@@ -3,7 +3,7 @@ import { restaurantInfo } from '~/composables/useRestaurantInfo'
 
 const route = useRoute()
 const mobileMenuOpen = ref(false)
-const currentYear = new Date().getFullYear()
+const currentYear = useState('currentYear', () => new Date().getFullYear())
 
 const navItems = [
   { label: 'Home', to: '/' },

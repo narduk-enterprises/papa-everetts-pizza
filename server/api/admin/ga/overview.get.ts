@@ -1,13 +1,16 @@
 import { z } from 'zod'
 
-const querySchema = z.object({
-  propertyId: z.string().optional().default(process.env.GA_PROPERTY_ID || '526158939'),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-})
-
 export default defineEventHandler(async (event) => {
   await requireAdminUser(event)
+
+  const config = useRuntimeConfig(event)
+  const defaultPropertyId = (config.gaPropertyId as string) || '526158939'
+
+  const querySchema = z.object({
+    propertyId: z.string().optional().default(defaultPropertyId),
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
+  })
 
   const query = await getValidatedQuery(event, querySchema.parse)
 

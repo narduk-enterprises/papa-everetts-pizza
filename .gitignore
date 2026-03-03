@@ -21,6 +21,9 @@ logs
 .env
 .env.*
 
+# Analytics secrets (managed via Doppler)
+narduk-analytics-secrets.json
+
 # Cloudflare
 .wrangler/
 

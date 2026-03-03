@@ -53,7 +53,7 @@ function startingPrice(prices: Record<string, number | null>) {
   <div>
     <!-- Hero section -->
     <section class="relative min-h-[74vh]">
-      <img :src="siteImages.heroMain" alt="Papa Everett's featured pizza" class="absolute inset-0 h-full w-full object-cover">
+      <img :src="siteImages.heroMain" alt="Papa Everett's featured pizza" class="absolute inset-0 h-full w-full object-cover" width="1920" height="1080">
       <div class="absolute inset-0 bg-linear-to-r from-[#0f172a]/85 via-[#0f172a]/65 to-[#0f172a]/50" />
 
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">

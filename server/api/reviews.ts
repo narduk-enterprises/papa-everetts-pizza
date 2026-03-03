@@ -1,5 +1,3 @@
-import { useRuntimeConfig } from '#imports'
-
 // Fallback high-quality curated reviews
 const FALLBACK_REVIEWS = [
   {
@@ -76,7 +74,7 @@ export default defineCachedEventHandler(async (event) => {
                   text: r.text,
                   url: placeUrl,
                   // We sort by time descending
-                  timestamp: r.time 
+                  timestamp: r.time
                 })
               }
             }

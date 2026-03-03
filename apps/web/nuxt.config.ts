@@ -33,6 +33,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     googlePlacesApiKey: process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_PLATFORM_API_KEY || '',
+    gaPropertyId: process.env.GA_PROPERTY_ID || '526158939',
     yelpApiKey: process.env.YELP_API_KEY || '',
     googleServiceAccountKey: process.env.GSC_SERVICE_ACCOUNT_JSON || '',
     posthogApiKey: process.env.POSTHOG_PERSONAL_API_KEY || '',
@@ -93,6 +94,14 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    '/**': {
+      headers: {
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+      },
+    },
     '/': { swr: 60 },
     '/menu': { swr: 60 },
     '/about': { swr: 300 },
@@ -106,6 +115,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      titleTemplate: '%s | Papa Everett\'s Pizza',
       htmlAttrs: { lang: 'en' },
       meta: [
         { name: 'theme-color', content: '#ffffff' },

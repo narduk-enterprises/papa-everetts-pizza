@@ -10,10 +10,6 @@
   /* Brand palette — olive/sage + blue/gold identity (zero red) */
   --color-pizza-accent: #4d7c0f;
   --color-pizza-accent-dark: #3f6212;
-  --color-pizza-red: #4d7c0f;
-  /* legacy alias → accent */
-  --color-pizza-red-dark: #3f6212;
-  /* legacy alias → accent-dark */
   --color-pizza-blue: #1e3a8a;
   --color-pizza-blue-light: #2548a8;
   --color-pizza-gold: #ca8a04;
@@ -137,7 +133,7 @@ h4,
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--color-pizza-primary);
+  background: var(--color-pizza-accent);
   color: white;
   padding: 0.5rem 1.25rem;
   border-radius: 9999px;
@@ -148,7 +144,7 @@ h4,
 }
 
 .cta-phone:hover {
-  background: var(--color-pizza-primary-dark);
+  background: var(--color-pizza-accent-dark);
 }
 
 /* ─── Page transitions ────────────────────────────────── */

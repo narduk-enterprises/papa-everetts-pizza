@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { siteImages } from '~/composables/useRestaurantInfo'
 
-useSeoMeta({
+useSeo({
   title: "Paper Menu | Papa Everett's Pizza Co.",
   description: "View the classic back-and-front physical paper menu for Papa Everett's Pizza in Clear Lake, Iowa.",
 })
