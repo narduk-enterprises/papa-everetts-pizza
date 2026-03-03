@@ -55,7 +55,7 @@ function startingPrice(prices: Record<string, number | null>) {
     <section class="relative min-h-[74vh] bg-[var(--color-pizza-bg)]">
       <img :src="siteImages.heroMain" alt="Papa Everett's featured pizza" class="absolute inset-0 h-full w-full object-cover">
       <!-- Darkened overlay — clean dark gradient for text legibility -->
-      <div class="absolute inset-0 bg-gradient-to-r from-[#0f172a]/90 via-[#0f172a]/70 to-[#0f172a]/50" />
+      <div class="absolute inset-0 bg-linear-to-r from-[#0f172a]/90 via-[#0f172a]/70 to-[#0f172a]/50" />
 
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
         <p class="uppercase tracking-[0.2em] text-[var(--color-pizza-gold)] text-sm mb-4 font-semibold">Clear Lake, Iowa</p>
@@ -99,7 +99,7 @@ function startingPrice(prices: Record<string, number | null>) {
           <NuxtLink v-for="item in featuredItems" :key="item.id" to="/menu" class="card p-6 flex flex-col bg-white">
             <p class="text-xs uppercase tracking-[0.2em] text-[var(--color-pizza-primary)] font-bold">{{ item.category }}</p>
             <h3 class="font-semibold text-xl mt-3 text-[var(--color-pizza-text)]">{{ item.name }}</h3>
-            <p v-show="item.description" class="text-[var(--color-pizza-muted)] text-sm mx-auto mt-2 mb-4 line-clamp-3 flex-grow">{{ item.description || '' }}</p>
+            <p v-show="item.description" class="text-[var(--color-pizza-muted)] text-sm mx-auto mt-2 mb-4 line-clamp-3 grow">{{ item.description || '' }}</p>
             <p class="text-[var(--color-pizza-text)] font-semibold text-base mt-auto">Starting at {{ formatPrice(startingPrice(item.prices)) }}</p>
           </NuxtLink>
         </div>

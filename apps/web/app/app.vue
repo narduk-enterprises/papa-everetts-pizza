@@ -75,12 +75,12 @@ useSchemaOrg([
   <UApp>
     <div class="min-h-screen flex flex-col bg-[var(--color-pizza-bg)] text-[var(--color-pizza-text)]">
       <!-- Skip to main content for keyboard/screen reader users (WCAG 2.4.1) -->
-      <a
-        href="#main-content"
+      <ULink
+        to="#main-content"
         class="sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:w-auto focus:h-auto focus:p-4 focus:m-0 focus:overflow-visible focus:bg-pizza-red focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-pizza-gold focus:ring-offset-2"
       >
         Skip to main content
-      </a>
+      </ULink>
 
       <!-- Header: white bg, real logo, nav, red CTA -->
       <div class="sticky top-0 z-50 warm-surface" role="banner">
