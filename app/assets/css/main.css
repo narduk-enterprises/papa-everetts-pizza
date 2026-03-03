@@ -7,19 +7,23 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
 
-  /* Brand palette — matched to original pizzaclearlake.com */
-  --color-pizza-red: #ce2029;
-  --color-pizza-red-dark: #b01b23;
+  /* Brand palette — olive/sage + blue/gold identity (zero red) */
+  --color-pizza-accent: #4d7c0f;
+  --color-pizza-accent-dark: #3f6212;
+  --color-pizza-red: #4d7c0f;
+  /* legacy alias → accent */
+  --color-pizza-red-dark: #3f6212;
+  /* legacy alias → accent-dark */
   --color-pizza-blue: #1e3a8a;
   --color-pizza-blue-light: #2548a8;
-  --color-pizza-gold: #ffcb05;
-  --color-pizza-bg: #f0f4f8;
-  --color-pizza-bg-soft: #e8edf3;
+  --color-pizza-gold: #ca8a04;
+  --color-pizza-bg: #fafaf8;
+  --color-pizza-bg-soft: #f3f3ed;
   --color-pizza-surface: #ffffff;
-  --color-pizza-border: #d1d9e6;
+  --color-pizza-border: #dde0d5;
   --color-pizza-text: #1e293b;
   --color-pizza-muted: #64748b;
-  --color-pizza-highlight: #ce2029;
+  --color-pizza-highlight: #4d7c0f;
 }
 
 :root {
@@ -75,11 +79,11 @@ h4,
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(30, 58, 138, 0.75) 0%, rgba(30, 58, 138, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.70) 0%, rgba(15, 23, 42, 0.80) 100%);
   z-index: 1;
 }
 
-.hero-section > * {
+.hero-section>* {
   position: relative;
   z-index: 2;
 }
@@ -96,7 +100,7 @@ h4,
 /* ─── Footer ──────────────────────────────────────────── */
 
 .site-footer {
-  background: var(--color-pizza-blue);
+  background: #1e293b;
   color: #e2e8f0;
 }
 
@@ -133,7 +137,7 @@ h4,
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--color-pizza-red);
+  background: var(--color-pizza-primary);
   color: white;
   padding: 0.5rem 1.25rem;
   border-radius: 9999px;
@@ -144,7 +148,7 @@ h4,
 }
 
 .cta-phone:hover {
-  background: var(--color-pizza-red-dark);
+  background: var(--color-pizza-primary-dark);
 }
 
 /* ─── Page transitions ────────────────────────────────── */
@@ -182,7 +186,8 @@ h4,
 /* Base form container — constrains width and centers the form */
 .form-container {
   width: 100%;
-  max-width: 32rem; /* 512px — ideal for single-column forms */
+  max-width: 32rem;
+  /* 512px — ideal for single-column forms */
   margin-inline: auto;
 }
 
@@ -205,7 +210,8 @@ h4,
 .form-section {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* 20px — matches Nuxt UI's space-y-5 */
+  gap: 1.25rem;
+  /* 20px — matches Nuxt UI's space-y-5 */
 }
 
 /* Two-column row for side-by-side fields (name + email, etc.) */
@@ -239,7 +245,7 @@ h4,
   flex-direction: column;
 }
 
-.form-actions-full > * {
+.form-actions-full>* {
   width: 100%;
 }
 
@@ -276,4 +282,3 @@ h4,
   --ui-text-highlighted: #0f172a !important;
   color-scheme: light !important;
 }
-

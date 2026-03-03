@@ -78,7 +78,7 @@ const form = useFormHandler({
         <h3 class="font-semibold mt-6 mb-3 text-lg">Perfect For:</h3>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
           <div v-for="item in ['School events', 'Business lunches', 'Church groups', 'Birthday parties', 'Team celebrations', 'Community gatherings']" :key="item" class="flex items-center gap-2 warm-muted">
-            <UIcon name="i-lucide-check" class="size-4 text-pizza-red shrink-0" />
+            <UIcon name="i-lucide-check" class="size-4 text-pizza-accent shrink-0" />
             <span>{{ item }}</span>
           </div>
         </div>
@@ -88,7 +88,7 @@ const form = useFormHandler({
         <h2 class="font-display text-2xl mb-4">What We Cater</h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <div v-for="item in ['Classic and specialty pizzas', 'Cheese bread & breadsticks', 'Wings', 'Quesadillas', 'Oven-baked pastas', 'Dessert pizzas']" :key="item" class="flex items-center gap-2 warm-muted">
-            <UIcon name="i-lucide-pizza" class="size-4 text-pizza-red shrink-0" />
+            <UIcon name="i-lucide-pizza" class="size-4 text-pizza-accent shrink-0" />
             <span>{{ item }}</span>
           </div>
         </div>
@@ -105,22 +105,22 @@ const form = useFormHandler({
         <h2 class="font-display text-2xl mb-3">How to Order</h2>
         <div class="grid md:grid-cols-3 gap-4">
           <div class="text-center p-4">
-            <div class="w-10 h-10 rounded-full bg-pizza-red/10 flex items-center justify-center mx-auto mb-3">
-              <UIcon name="i-lucide-phone" class="size-5 text-pizza-red" />
+            <div class="w-10 h-10 rounded-full bg-pizza-accent/10 flex items-center justify-center mx-auto mb-3">
+              <UIcon name="i-lucide-phone" class="size-5 text-pizza-accent" />
             </div>
-            <p class="font-semibold">1. <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red hover:text-pizza-red/80 transition-colors underline decoration-pizza-red/40 underline-offset-4">Call Us</ULink></p>
-            <p class="warm-muted text-sm mt-1">Reach us at <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red">(641) 357-4040</ULink></p>
+            <p class="font-semibold">1. <ULink :to="restaurantInfo.phoneHref" class="text-pizza-accent hover:text-pizza-accent/80 transition-colors underline decoration-pizza-accent/40 underline-offset-4">Call Us</ULink></p>
+            <p class="warm-muted text-sm mt-1">Reach us at <ULink :to="restaurantInfo.phoneHref" class="text-pizza-accent">(641) 357-4040</ULink></p>
           </div>
           <div class="text-center p-4">
-            <div class="w-10 h-10 rounded-full bg-pizza-red/10 flex items-center justify-center mx-auto mb-3">
-              <UIcon name="i-lucide-message-square" class="size-5 text-pizza-red" />
+            <div class="w-10 h-10 rounded-full bg-pizza-accent/10 flex items-center justify-center mx-auto mb-3">
+              <UIcon name="i-lucide-message-square" class="size-5 text-pizza-accent" />
             </div>
             <p class="font-semibold">2. Share Details</p>
             <p class="warm-muted text-sm mt-1">Event size, date, timing, and menu preferences</p>
           </div>
           <div class="text-center p-4">
-            <div class="w-10 h-10 rounded-full bg-pizza-red/10 flex items-center justify-center mx-auto mb-3">
-              <UIcon name="i-lucide-truck" class="size-5 text-pizza-red" />
+            <div class="w-10 h-10 rounded-full bg-pizza-accent/10 flex items-center justify-center mx-auto mb-3">
+              <UIcon name="i-lucide-truck" class="size-5 text-pizza-accent" />
             </div>
             <p class="font-semibold">3. We Deliver</p>
             <p class="warm-muted text-sm mt-1">Fresh, hot, and on time for your event</p>

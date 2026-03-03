@@ -42,7 +42,7 @@ useSeoMeta({
   <div class="min-h-screen flex items-center justify-center bg-pizza-surface px-4">
     <div class="text-center max-w-md">
       <!-- Error code -->
-      <p class="text-7xl font-bold font-display text-pizza-red mb-2">
+      <p class="text-7xl font-bold font-display text-pizza-accent mb-2">
         {{ error?.statusCode || 500 }}
       </p>
 

@@ -92,8 +92,8 @@ useSchemaOrg([
               :to="item.to"
               class="px-3 py-2 text-sm font-medium rounded-lg transition-colors"
               :class="route.path === item.to
-                ? 'text-pizza-red'
-                : 'text-pizza-muted hover:text-pizza-red'"
+                ? 'text-pizza-accent'
+                : 'text-pizza-muted hover:text-pizza-accent'"
             >
               {{ item.label }}
             </NuxtLink>
@@ -122,7 +122,7 @@ useSchemaOrg([
               :to="item.to"
               class="px-3 py-2 text-sm rounded-lg border border-pizza-border"
               :class="route.path === item.to
-                ? 'bg-primary/5 text-pizza-red border-primary/20'
+                ? 'bg-pizza-accent/5 text-pizza-accent border-pizza-accent/20'
                 : 'text-pizza-muted'"
             >
               {{ item.label }}
@@ -143,7 +143,7 @@ useSchemaOrg([
 
       <!-- Footer: dark navy blue 4-column layout -->
       <footer class="site-footer mt-16">
-        <div class="h-1 bg-pizza-red" />
+        <div class="h-1 bg-pizza-gold" />
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">

@@ -73,36 +73,44 @@ useSchemaOrg([
 
 <template>
   <UApp>
-    <div class="min-h-screen flex flex-col text-pizza-text">
+    <div class="min-h-screen flex flex-col bg-[var(--color-pizza-bg)] text-[var(--color-pizza-text)]">
+      <!-- Skip to main content for keyboard/screen reader users (WCAG 2.4.1) -->
+      <a
+        href="#main-content"
+        class="sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:w-auto focus:h-auto focus:p-4 focus:m-0 focus:overflow-visible focus:bg-pizza-red focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-pizza-gold focus:ring-offset-2"
+      >
+        Skip to main content
+      </a>
+
       <!-- Header: white bg, real logo, nav, red CTA -->
       <div class="sticky top-0 z-50 warm-surface" role="banner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
           <!-- Logo using real logo-main.jpg from original site -->
-          <NuxtLink to="/" class="flex items-center gap-3">
+          <ULink to="/" class="flex items-center gap-3">
             <div class="logo-container">
               <img src="/images/authentic/logo-main.jpg" alt="Papa Everett's Pizza — Handcrafted Pizza, Wings, Pasta, Salad" class="h-11 w-auto object-contain">
             </div>
-          </NuxtLink>
+          </ULink>
 
-          <!-- Desktop nav -->
-          <div class="hidden lg:flex items-center gap-1">
-            <NuxtLink
+          <!-- Desktop nav: ULink for aria-current and focus-visible -->
+          <div class="hidden lg:flex items-center gap-1" role="navigation" aria-label="Main navigation">
+            <ULink
               v-for="item in navItems"
               :key="item.to"
               :to="item.to"
-              class="px-3 py-2 text-sm font-medium rounded-lg transition-colors"
-              :class="route.path === item.to
-                ? 'text-pizza-red'
-                : 'text-pizza-muted hover:text-pizza-red'"
+              :exact="item.to === '/'"
+              active-class="text-pizza-primary"
+              inactive-class="text-[var(--color-pizza-text)]/70 hover:text-pizza-primary"
+              class="px-3 py-2 text-sm font-medium rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-primary"
             >
               {{ item.label }}
-            </NuxtLink>
+            </ULink>
           </div>
 
           <!-- CTA phone button -->
           <div class="hidden lg:block">
-            <ULink :to="restaurantInfo.phoneHref" class="cta-phone">
-              <UIcon name="i-lucide-phone" class="size-4" />
+            <ULink :to="restaurantInfo.phoneHref" class="btn-primary">
+              <UIcon name="i-lucide-phone" class="size-4 mr-2" />
               641-357-4040
             </ULink>
           </div>
@@ -115,35 +123,35 @@ useSchemaOrg([
 
         <!-- Mobile nav dropdown -->
         <Transition name="slide-down">
-          <div v-if="mobileMenuOpen" class="lg:hidden px-4 pb-4 grid grid-cols-2 gap-2">
-            <NuxtLink
+          <div v-if="mobileMenuOpen" class="lg:hidden px-4 pb-4 grid grid-cols-2 gap-2" role="navigation" aria-label="Mobile navigation">
+            <ULink
               v-for="item in navItems"
               :key="item.to"
               :to="item.to"
-              class="px-3 py-2 text-sm rounded-lg border border-pizza-border"
-              :class="route.path === item.to
-                ? 'bg-primary/5 text-pizza-red border-primary/20'
-                : 'text-pizza-muted'"
+              :exact="item.to === '/'"
+              active-class="bg-[var(--color-pizza-bg-soft)] text-pizza-primary border-primary/20"
+              inactive-class="text-[var(--color-pizza-text)]/70"
+              class="px-3 py-2 text-sm rounded-lg border border-[var(--color-pizza-border)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-primary"
             >
               {{ item.label }}
-            </NuxtLink>
-            <ULink :to="restaurantInfo.phoneHref" class="cta-phone col-span-2 justify-center mt-1">
-              <UIcon name="i-lucide-phone" class="size-4" />
+            </ULink>
+            <ULink :to="restaurantInfo.phoneHref" class="btn-primary col-span-2 mt-2 w-full">
+              <UIcon name="i-lucide-phone" class="size-4 mr-2" />
               641-357-4040
             </ULink>
           </div>
         </Transition>
       </div>
 
-      <UMain class="flex-1">
+      <UMain id="main-content" class="flex-1" tabindex="-1">
         <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>
       </UMain>
 
-      <!-- Footer: dark navy blue 4-column layout -->
-      <div class="site-footer mt-16" role="contentinfo">
-        <div class="h-1 bg-pizza-red" />
+      <!-- Footer: high contrast, deep warm red -->
+      <div class="site-footer mt-16 bg-[var(--color-pizza-text)] text-white" role="contentinfo">
+        <div class="h-1 bg-[var(--color-pizza-primary)]" />
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -159,13 +167,13 @@ useSchemaOrg([
             <div>
               <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
               <ul class="space-y-2 text-sm">
-                <li><NuxtLink to="/menu">Menu</NuxtLink></li>
-                <li><NuxtLink to="/gallery">Photo Gallery</NuxtLink></li>
-                <li><NuxtLink to="/about">About Papa Everett's</NuxtLink></li>
-                <li><NuxtLink to="/catering">Catering</NuxtLink></li>
-                <li><NuxtLink to="/fundraisers">Fundraiser Nights</NuxtLink></li>
-                <li><NuxtLink to="/schools">Schools &amp; Teams</NuxtLink></li>
-                <li><NuxtLink to="/contact">Contact Us</NuxtLink></li>
+                <li><ULink to="/menu" class="hover:text-pizza-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-gold rounded">Menu</ULink></li>
+                <li><ULink to="/gallery" class="hover:text-pizza-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-gold rounded">Photo Gallery</ULink></li>
+                <li><ULink to="/about" class="hover:text-pizza-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-gold rounded">About Papa Everett's</ULink></li>
+                <li><ULink to="/catering" class="hover:text-pizza-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-gold rounded">Catering</ULink></li>
+                <li><ULink to="/fundraisers" class="hover:text-pizza-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-gold rounded">Fundraiser Nights</ULink></li>
+                <li><ULink to="/schools" class="hover:text-pizza-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-gold rounded">Schools &amp; Teams</ULink></li>
+                <li><ULink to="/contact" class="hover:text-pizza-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pizza-gold rounded">Contact Us</ULink></li>
               </ul>
             </div>
 
@@ -182,10 +190,10 @@ useSchemaOrg([
                 </div>
                 <div class="flex items-center gap-2">
                   <UIcon name="i-lucide-phone" class="size-4 shrink-0" />
-                  <ULink :to="restaurantInfo.phoneHref">(641) 357-4040</ULink>
+                  <ULink :to="restaurantInfo.phoneHref" class="hover:text-[var(--color-pizza-gold)] transition-colors">(641) 357-4040</ULink>
                 </div>
-                <ULink :to="restaurantInfo.phoneHref" class="cta-phone mt-3 inline-flex">
-                  <UIcon name="i-lucide-phone" class="size-4" />
+                <ULink :to="restaurantInfo.phoneHref" class="btn-primary mt-3 inline-flex !text-white !bg-[var(--color-pizza-primary)] hover:!bg-[var(--color-pizza-primary-dark)]">
+                  <UIcon name="i-lucide-phone" class="size-4 mr-2" />
                   Call to Order
                 </ULink>
               </div>

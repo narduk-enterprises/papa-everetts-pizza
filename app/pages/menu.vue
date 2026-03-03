@@ -128,9 +128,9 @@ if (import.meta.client) {
     </div>
 
     <!-- Link to Paper Menu -->
-    <div class="mb-10 p-6 sm:p-8 rounded-2xl bg-linear-to-br from-pizza-red/5 to-transparent border border-pizza-red/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <div class="mb-10 p-6 sm:p-8 rounded-2xl bg-linear-to-br from-pizza-accent/5 to-transparent border border-pizza-accent/10 flex flex-col sm:flex-row items-center justify-between gap-6">
       <div>
-        <h2 class="font-display text-2xl text-pizza-red mb-1">Looking for the Original Paper Menu?</h2>
+        <h2 class="font-display text-2xl text-pizza-accent mb-1">Looking for the Original Paper Menu?</h2>
         <p class="warm-muted text-sm max-w-lg">View high-resolution scans of the physical menu we hand out in the restaurant, complete with pinch-to-zoom support.</p>
       </div>
       <UButton
@@ -145,23 +145,23 @@ if (import.meta.client) {
     </div>
 
     <div v-if="pending" class="warm-muted">Loading menu...</div>
-    <div v-else-if="error" class="text-pizza-red">Unable to load menu right now.</div>
+    <div v-else-if="error" class="text-pizza-accent">Unable to load menu right now.</div>
 
     <div v-else class="space-y-10">
       <!-- ═══════════════════════════════════ Pizza Builder (integrated) ═══════════════════════════════════ -->
-      <section id="pizza-builder" class="warm-card p-0 overflow-hidden border-2 border-(--color-pizza-red)/20">
+      <section id="pizza-builder" class="warm-card p-0 overflow-hidden border-2 border-(--color-pizza-accent)/20">
         <UCollapsible class="w-full">
-          <div role="button" tabindex="0" class="w-full text-left bg-linear-to-r from-(--color-pizza-red)/5 to-transparent p-6 sm:p-8 hover:bg-(--color-pizza-red)/5 transition-colors group flex items-center justify-between cursor-pointer outline-none">
+          <div role="button" tabindex="0" class="w-full text-left bg-linear-to-r from-(--color-pizza-accent)/5 to-transparent p-6 sm:p-8 hover:bg-(--color-pizza-accent)/5 transition-colors group flex items-center justify-between cursor-pointer outline-none">
             <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-              <div class="w-12 h-12 rounded-full bg-(--color-pizza-red)/10 flex items-center justify-center shrink-0">
-                <UIcon name="i-lucide-chef-hat" class="size-6 text-(--color-pizza-red)" />
+              <div class="w-12 h-12 rounded-full bg-(--color-pizza-accent)/10 flex items-center justify-center shrink-0">
+                <UIcon name="i-lucide-chef-hat" class="size-6 text-(--color-pizza-accent)" />
               </div>
               <div>
                 <h2 class="font-display text-3xl font-normal text-pizza-text">Build Your Own Masterpiece</h2>
                 <p class="warm-muted mt-1 font-normal text-base text-left">Choose your size, add toppings, and see your estimated price live — including 7% local tax.</p>
               </div>
             </div>
-            <UIcon name="i-lucide-chevron-down" class="size-6 text-(--color-pizza-red) transform transition-transform duration-200 group-data-[state=open]:rotate-180" />
+            <UIcon name="i-lucide-chevron-down" class="size-6 text-(--color-pizza-accent) transform transition-transform duration-200 group-data-[state=open]:rotate-180" />
           </div>
 
           <template #content>
@@ -175,7 +175,7 @@ if (import.meta.client) {
       <!-- ═══════════════════════════════════ Other Menu Categories ══════════════════════════════════ -->
       <section v-for="section in visibleCategories" :key="section.category" class="space-y-4">
         <!-- Category header -->
-        <div class="border-b-2 border-pizza-red/15 pb-3">
+        <div class="border-b-2 border-pizza-accent/15 pb-3">
           <h2 class="font-display text-3xl">{{ section.category }}</h2>
           <p v-if="secondPizzaCategories.includes(section.category)" class="warm-muted text-sm mt-1">
             2nd pizza of equal or lesser value discounted.
@@ -190,14 +190,14 @@ if (import.meta.client) {
             class="warm-card p-4 hover:shadow-md transition-all duration-300 group flex flex-col sm:flex-row gap-4 sm:items-start"
           >
             <!-- Premium Item Imagery -->
-            <div v-if="item.imageUrl" class="shrink-0 w-full sm:w-28 sm:h-28 aspect-video sm:aspect-square overflow-hidden rounded-lg shadow-sm border border-pizza-border/50 group-hover:border-pizza-red/30 transition-colors cursor-zoom-in" @click="openLightbox(item.imageUrl!, item.name)">
+            <div v-if="item.imageUrl" class="shrink-0 w-full sm:w-28 sm:h-28 aspect-video sm:aspect-square overflow-hidden rounded-lg shadow-sm border border-pizza-border/50 group-hover:border-pizza-accent/30 transition-colors cursor-zoom-in" @click="openLightbox(item.imageUrl!, item.name)">
               <img :src="item.imageUrl" :alt="item.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out">
             </div>
 
             <div class="flex-1 min-w-0 flex flex-col w-full">
               <div class="flex items-start justify-between gap-3">
                 <div class="flex-1 min-w-0">
-                  <p class="font-semibold text-lg transition-colors group-hover:text-pizza-red">{{ item.name }}</p>
+                  <p class="font-semibold text-lg transition-colors group-hover:text-pizza-accent">{{ item.name }}</p>
                   <p v-show="item.description" class="warm-muted mt-1 text-sm leading-relaxed">{{ item.description || '' }}</p>
                 </div>
                 <div v-if="hasVisiblePrices(item) && priceEntries(item).length === 1" class="text-lg font-medium whitespace-nowrap text-pizza-text mt-0.5">
@@ -216,7 +216,7 @@ if (import.meta.client) {
               </span>
             </div>
             <div v-else-if="!hasVisiblePrices(item)" class="mt-3 text-sm font-medium">
-              <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red hover:text-pizza-red/80 transition-colors underline decoration-pizza-red/40 underline-offset-4">
+              <ULink :to="restaurantInfo.phoneHref" class="text-pizza-accent hover:text-pizza-accent/80 transition-colors underline decoration-pizza-accent/40 underline-offset-4">
                 {{ callForCurrentPriceLabel }}
               </ULink>
             </div>

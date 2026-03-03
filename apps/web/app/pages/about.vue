@@ -46,7 +46,7 @@ useBreadcrumbSchema([
     </section>
 
     <!-- Content -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div class="grid lg:grid-cols-2 gap-10 items-start">
         <div class="warm-card overflow-hidden">
           <img
@@ -57,7 +57,7 @@ useBreadcrumbSchema([
         </div>
 
         <div class="space-y-5">
-          <div class="warm-card p-6 space-y-4 warm-muted leading-relaxed">
+          <div class="warm-card p-6 space-y-4 text-[var(--color-pizza-muted)] leading-relaxed">
             <p>
               Papa Everett's Pizza has been part of the Clear Lake community since 1988. What started as a
               simple dream to serve handcrafted pizza to families has grown into a beloved local landmark on US-18.
@@ -78,21 +78,21 @@ useBreadcrumbSchema([
 
           <div class="warm-card p-6">
             <h2 class="font-display text-2xl mb-3">Community First</h2>
-            <ul class="space-y-2 warm-muted">
+            <ul class="space-y-2 text-[var(--color-pizza-muted)]">
               <li class="flex items-start gap-2">
-                <UIcon name="i-lucide-heart" class="size-5 text-[var(--color-pizza-red)] shrink-0 mt-0.5" />
+                <UIcon name="i-lucide-heart" class="size-5 text-[var(--color-pizza-primary)] shrink-0 mt-0.5" />
                 <span>Supporting local schools through lunch programs and event partnerships</span>
               </li>
               <li class="flex items-start gap-2">
-                <UIcon name="i-lucide-users" class="size-5 text-[var(--color-pizza-red)] shrink-0 mt-0.5" />
+                <UIcon name="i-lucide-users" class="size-5 text-[var(--color-pizza-primary)] shrink-0 mt-0.5" />
                 <span>Hosting fundraiser nights for schools, teams, and nonprofits</span>
               </li>
               <li class="flex items-start gap-2">
-                <UIcon name="i-lucide-utensils" class="size-5 text-[var(--color-pizza-red)] shrink-0 mt-0.5" />
+                <UIcon name="i-lucide-utensils" class="size-5 text-[var(--color-pizza-primary)] shrink-0 mt-0.5" />
                 <span>Catering for events, parties, and group gatherings across Clear Lake</span>
               </li>
               <li class="flex items-start gap-2">
-                <UIcon name="i-lucide-trophy" class="size-5 text-[var(--color-pizza-red)] shrink-0 mt-0.5" />
+                <UIcon name="i-lucide-trophy" class="size-5 text-[var(--color-pizza-primary)] shrink-0 mt-0.5" />
                 <span>Proudly supporting Clear Lake Lions athletics</span>
               </li>
             </ul>
@@ -102,7 +102,7 @@ useBreadcrumbSchema([
     </section>
 
     <!-- Inside Papa Everett's photo section -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <h2 class="font-display text-3xl mb-6">Inside Papa Everett's</h2>
       <PhotoGallery :photos="aboutPhotos" :columns="3" />
     </section>

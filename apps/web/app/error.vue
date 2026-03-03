@@ -39,20 +39,20 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-pizza-surface px-4">
+  <div class="min-h-screen flex items-center justify-center bg-[var(--color-pizza-surface)] px-4">
     <div class="text-center max-w-md">
       <!-- Error code -->
-      <p class="text-7xl font-bold font-display text-pizza-red mb-2">
+      <p class="text-7xl font-bold font-display text-[var(--color-pizza-primary)] mb-2">
         {{ error?.statusCode || 500 }}
       </p>
 
       <!-- Title -->
-      <h1 class="text-2xl font-semibold text-pizza-text mb-3">
+      <h1 class="text-2xl font-semibold text-[var(--color-pizza-text)] mb-3">
         {{ title }}
       </h1>
 
       <!-- Description -->
-      <p class="warm-muted mb-8">
+      <p class="text-[var(--color-pizza-muted)] mb-8">
         {{ description }}
       </p>
 

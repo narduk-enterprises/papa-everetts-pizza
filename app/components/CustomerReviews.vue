@@ -8,7 +8,7 @@ const { items, status } = useReviews()
 <template>
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="text-center mb-10">
-      <p class="uppercase text-xs tracking-[0.2em] text-pizza-red font-semibold mb-3">Community Love</p>
+      <p class="uppercase text-xs tracking-[0.2em] text-pizza-accent font-semibold mb-3">Community Love</p>
       <h2 class="font-display text-4xl text-pizza-text">What Our Guests Say</h2>
       <p class="warm-muted mt-4 max-w-2xl mx-auto text-lg hover:text-pizza-text transition-colors">
         Don't just take our word for it—see what Clear Lake is saying about our handcrafted pizza.
@@ -19,7 +19,7 @@ const { items, status } = useReviews()
       <UIcon name="i-lucide-loader-2" class="size-8 animate-spin text-pizza-gold" />
     </div>
 
-    <div v-if="status === 'error'" class="text-center text-pizza-red py-8">
+    <div v-if="status === 'error'" class="text-center text-pizza-accent py-8">
       Failed to load reviews. Please try again later.
     </div>
 

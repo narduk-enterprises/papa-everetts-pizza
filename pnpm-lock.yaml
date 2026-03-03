@@ -22,6 +22,12 @@ importers:
 
   apps/web:
     dependencies:
+      '@fontsource/karla':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/playfair-display-sc':
+        specifier: ^5.2.8
+        version: 5.2.8
       '@loganrenz/narduk-nuxt-template-layer':
         specifier: workspace:*
         version: link:../../layers/narduk-nuxt-layer
@@ -675,6 +681,12 @@ packages:
 
   '@floating-ui/vue@1.1.10':
     resolution: {integrity: sha512-vdf8f6rHnFPPLRsmL4p12wYl+Ux4mOJOkjzKEMYVnwdf7UFdvBtHlLvQyx8iKG5vhPRbDRgZxdtpmyigDPjzYg==}
+
+  '@fontsource/karla@5.2.8':
+    resolution: {integrity: sha512-uZMA4ugNcHFYMpjr/9FIHQC3ldtILlqPdK3f4P9XInDgRL0NxdIyRwH9MuGZUT7sdup0kshk9zsGXitq1xpFAw==}
+
+  '@fontsource/playfair-display-sc@5.2.8':
+    resolution: {integrity: sha512-7POWNoGYhmq2524jc9HjBRl12DCb6C3fSKT/ZKIo++QWU8yMBrN/PUsQ/RDrVIdcybYkD3wnyXGKQJreH2hjdA==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -6640,6 +6652,10 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+
+  '@fontsource/karla@5.2.8': {}
+
+  '@fontsource/playfair-display-sc@5.2.8': {}
 
   '@humanfs/core@0.19.1': {}
 

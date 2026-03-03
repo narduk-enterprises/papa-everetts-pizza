@@ -53,7 +53,7 @@ onMounted(() => {
         <div>
           <component :is="inline ? 'h3' : 'h2'" :class="inline ? 'font-semibold text-lg mb-3' : 'font-display text-2xl'">
             <span class="inline-flex items-center gap-2">
-              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-red)/10 text-(--color-pizza-red) text-xs font-bold shrink-0">1</span>
+              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-accent)/10 text-(--color-pizza-accent) text-xs font-bold shrink-0">1</span>
               Choose Size
             </span>
           </component>
@@ -65,7 +65,7 @@ onMounted(() => {
               size="lg"
               :color="selectedSize === size.key ? 'primary' : 'neutral'"
               class="justify-center font-medium transition-all"
-              :class="{ 'ring-2 ring-pizza-red/30': selectedSize === size.key }"
+              :class="{ 'ring-2 ring-pizza-accent/30': selectedSize === size.key }"
               @click="selectedSize = size.key"
             >
               {{ size.label }}
@@ -78,7 +78,7 @@ onMounted(() => {
         <div>
           <component :is="inline ? 'h3' : 'h2'" :class="inline ? 'font-semibold text-lg mb-3' : 'font-display text-2xl'">
             <span class="inline-flex items-center gap-2">
-              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-red)/10 text-(--color-pizza-red) text-xs font-bold shrink-0">2</span>
+              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-accent)/10 text-(--color-pizza-accent) text-xs font-bold shrink-0">2</span>
               Crust Option
             </span>
           </component>
@@ -86,7 +86,7 @@ onMounted(() => {
             class="flex items-center gap-3 p-4 rounded-xl border transition-all"
             :class="[
               isDeepDish
-                ? 'border-pizza-red bg-pizza-red/5 text-pizza-red'
+                ? 'border-pizza-accent bg-pizza-accent/5 text-pizza-accent'
                 : 'border-pizza-border bg-pizza-surface warm-muted hover:bg-elevated',
               inline ? '' : 'mt-4',
             ]"
@@ -100,9 +100,9 @@ onMounted(() => {
         <div>
           <component :is="inline ? 'h3' : 'h2'" :class="inline ? 'font-semibold text-lg mb-2' : 'font-display text-2xl'">
             <span class="inline-flex items-center gap-2">
-              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-red)/10 text-(--color-pizza-red) text-xs font-bold shrink-0">3</span>
+              <span class="inline-flex items-center justify-center size-7 rounded-full bg-(--color-pizza-accent)/10 text-(--color-pizza-accent) text-xs font-bold shrink-0">3</span>
               Add Toppings
-              <span v-if="selectedToppings.length" class="ml-1 inline-flex items-center justify-center size-6 rounded-full bg-(--color-pizza-red) text-white text-xs font-bold">
+              <span v-if="selectedToppings.length" class="ml-1 inline-flex items-center justify-center size-6 rounded-full bg-(--color-pizza-accent) text-white text-xs font-bold">
                 {{ selectedToppings.length }}
               </span>
             </span>
@@ -118,7 +118,7 @@ onMounted(() => {
               size="md"
               :color="selectedToppings.includes(topping) ? 'primary' : 'neutral'"
               class="justify-start transition-all"
-              :class="{ 'ring-2 ring-pizza-red/30 bg-pizza-red/5': selectedToppings.includes(topping) }"
+              :class="{ 'ring-2 ring-pizza-accent/30 bg-pizza-accent/5': selectedToppings.includes(topping) }"
               :icon="selectedToppings.includes(topping) ? 'i-lucide-check-circle' : 'i-lucide-circle'"
               @click="toggleTopping(topping)"
             >
@@ -155,9 +155,9 @@ onMounted(() => {
             <span>{{ formatPrice(tax) }}</span>
           </div>
         </div>
-        <div class="pt-4 mt-4 border-t-2 border-(--color-pizza-red)/20 flex items-center justify-between">
+        <div class="pt-4 mt-4 border-t-2 border-(--color-pizza-accent)/20 flex items-center justify-between">
           <span class="font-bold text-lg">Estimated Total</span>
-          <span class="text-2xl font-display text-(--color-pizza-red)">{{ formatPrice(total) }}</span>
+          <span class="text-2xl font-display text-(--color-pizza-accent)">{{ formatPrice(total) }}</span>
         </div>
         <div class="flex gap-2 mt-4">
           <UButton color="neutral" variant="soft" @click="reset">Reset</UButton>

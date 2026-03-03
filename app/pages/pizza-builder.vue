@@ -38,17 +38,17 @@ useWebPageSchema({
       >
 
       <div class="warm-card p-5 sm:p-6 space-y-3">
-        <p class="uppercase text-xs tracking-[0.2em] text-pizza-red font-semibold">Pricing Basis</p>
+        <p class="uppercase text-xs tracking-[0.2em] text-pizza-accent font-semibold">Pricing Basis</p>
         <p class="text-lg font-semibold">Build Your Own Masterpiece</p>
         <p class="warm-muted text-sm">
           Start with cheese included on our exclusive French bread dough pizza. Add your choice of toppings — each topping is an additional charge.
         </p>
-        <p class="warm-muted text-sm">For exact order totals <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red hover:text-pizza-red/80 transition-colors underline decoration-pizza-red/40 underline-offset-4 font-medium">call (641) 357-4040</ULink>.</p>
+        <p class="warm-muted text-sm">For exact order totals <ULink :to="restaurantInfo.phoneHref" class="text-pizza-accent hover:text-pizza-accent/80 transition-colors underline decoration-pizza-accent/40 underline-offset-4 font-medium">call (641) 357-4040</ULink>.</p>
       </div>
     </div>
 
     <div v-if="pending" class="warm-muted">Loading builder pricing...</div>
-    <div v-else-if="error" class="text-pizza-red">Unable to load current pricing right now.</div>
+    <div v-else-if="error" class="text-pizza-accent">Unable to load current pricing right now.</div>
 
     <PizzaBuilderWidget v-else :items="items" />
   </section>

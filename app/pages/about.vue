@@ -80,19 +80,19 @@ useBreadcrumbSchema([
             <h2 class="font-display text-2xl mb-3">Community First</h2>
             <ul class="space-y-2 warm-muted">
               <li class="flex items-start gap-2">
-                <UIcon name="i-lucide-heart" class="size-5 text-[var(--color-pizza-red)] shrink-0 mt-0.5" />
+                <UIcon name="i-lucide-heart" class="size-5 text-pizza-accent shrink-0 mt-0.5" />
                 <span>Supporting local schools through lunch programs and event partnerships</span>
               </li>
               <li class="flex items-start gap-2">
-                <UIcon name="i-lucide-users" class="size-5 text-[var(--color-pizza-red)] shrink-0 mt-0.5" />
+                <UIcon name="i-lucide-users" class="size-5 text-pizza-accent shrink-0 mt-0.5" />
                 <span>Hosting fundraiser nights for schools, teams, and nonprofits</span>
               </li>
               <li class="flex items-start gap-2">
-                <UIcon name="i-lucide-utensils" class="size-5 text-[var(--color-pizza-red)] shrink-0 mt-0.5" />
+                <UIcon name="i-lucide-utensils" class="size-5 text-pizza-accent shrink-0 mt-0.5" />
                 <span>Catering for events, parties, and group gatherings across Clear Lake</span>
               </li>
               <li class="flex items-start gap-2">
-                <UIcon name="i-lucide-trophy" class="size-5 text-[var(--color-pizza-red)] shrink-0 mt-0.5" />
+                <UIcon name="i-lucide-trophy" class="size-5 text-pizza-accent shrink-0 mt-0.5" />
                 <span>Proudly supporting Clear Lake Lions athletics</span>
               </li>
             </ul>

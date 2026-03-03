@@ -52,22 +52,23 @@ function startingPrice(prices: Record<string, number | null>) {
 <template>
   <div>
     <!-- Hero section -->
-    <section class="relative min-h-[74vh]">
+    <section class="relative min-h-[74vh] bg-[var(--color-pizza-bg)]">
       <img :src="siteImages.heroMain" alt="Papa Everett's featured pizza" class="absolute inset-0 h-full w-full object-cover">
-      <div class="absolute inset-0 bg-linear-to-r from-pizza-blue/85 via-pizza-blue/65 to-pizza-blue/40" />
+      <!-- Darkened overlay — clean dark gradient for text legibility -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#0f172a]/90 via-[#0f172a]/70 to-[#0f172a]/50" />
 
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-        <p class="uppercase tracking-[0.2em] text-pizza-gold text-sm mb-4 font-semibold">Clear Lake, Iowa</p>
-        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl max-w-3xl leading-tight text-white">
+        <p class="uppercase tracking-[0.2em] text-[var(--color-pizza-gold)] text-sm mb-4 font-semibold">Clear Lake, Iowa</p>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-7xl max-w-4xl leading-tight text-white drop-shadow-md">
           Handcrafted Pizza. Proudly Serving Clear Lake Since 1988.
         </h1>
-        <p class="mt-6 max-w-2xl text-white/80 text-lg">
+        <p class="mt-6 max-w-2xl text-white/90 text-xl font-medium">
           Your go-to spot for delicious, handcrafted pizzas, wings, pasta, and more. Freshly made and served with love.
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <UButton to="/menu" size="lg">View Full Menu</UButton>
-          <ULink :to="info.phoneHref" class="cta-phone text-base px-6 py-3">
-            <UIcon name="i-lucide-phone" class="size-5" />
+        <div class="mt-10 flex flex-wrap gap-4">
+          <ULink to="/menu" class="btn-primary">View Full Menu</ULink>
+          <ULink :to="info.phoneHref" class="btn-secondary !text-white !border-white hover:!bg-white/10 text-base">
+            <UIcon name="i-lucide-phone" class="size-5 mr-2" />
             Order Now - (641) 357-4040
           </ULink>
         </div>
@@ -75,56 +76,68 @@ function startingPrice(prices: Record<string, number | null>) {
     </section>
 
     <!-- Hours & Call card -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid lg:grid-cols-3 gap-6">
-      <div class="warm-card p-6 lg:col-span-2">
-        <h2 class="font-display text-3xl">Today's Hours</h2>
-        <ul class="mt-4 space-y-2 warm-muted">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid lg:grid-cols-3 gap-8">
+      <div class="card p-8 lg:col-span-2">
+        <h2 class="font-display text-3xl text-[var(--color-pizza-text)]">Today's Hours</h2>
+        <ul class="mt-4 space-y-3 text-[var(--color-pizza-muted)] text-lg">
           <li v-for="line in info.hours" :key="line">{{ line }}</li>
         </ul>
       </div>
-      <div class="warm-card p-6">
-        <ULink :to="restaurantInfo.phoneHref" class="block uppercase text-xs tracking-[0.2em] text-pizza-red hover:text-pizza-red/80 transition-colors font-semibold">Call Us</ULink>
-        <ULink :to="info.phoneHref" class="block text-3xl font-display mt-2 text-pizza-text">{{ info.phone }}</ULink>
-        <p class="warm-muted mt-3">Dine-in, carryout, delivery, and catering.</p>
+      <div class="card p-8 bg-[var(--color-pizza-primary)] text-white border-none shadow-[var(--shadow-lg)] justify-center flex flex-col">
+        <span class="block uppercase text-xs tracking-[0.2em] text-white/80 font-bold mb-2">Call Us</span>
+        <ULink :to="info.phoneHref" class="block text-4xl font-display text-white hover:text-[var(--color-pizza-gold)] transition-colors">{{ info.phone }}</ULink>
+        <p class="text-white/80 mt-4 text-base font-medium">Dine-in, carryout, delivery, and catering.</p>
       </div>
     </section>
 
     <!-- Featured Favorites -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <h2 class="font-display text-3xl mb-6">Featured Favorites</h2>
-      <div v-if="pending" class="warm-muted">Loading menu highlights...</div>
-      <div v-else class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <article v-for="item in featuredItems" :key="item.id" class="warm-card p-5 hover:shadow-md transition-shadow">
-          <p class="text-xs uppercase tracking-[0.2em] text-pizza-red font-semibold">{{ item.category }}</p>
-          <h3 class="font-semibold text-lg mt-2">{{ item.name }}</h3>
-          <p v-show="item.description" class="warm-muted text-sm mt-1 line-clamp-2">{{ item.description || '' }}</p>
-          <p class="warm-muted text-sm mt-2">Starting at {{ formatPrice(startingPrice(item.prices)) }}</p>
-        </article>
+    <section class="bg-[var(--color-pizza-bg-soft)] py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-display text-4xl mb-10 text-center text-[var(--color-pizza-text)]">Featured Favorites</h2>
+        <div v-if="pending" class="text-center text-[var(--color-pizza-muted)]">Loading menu highlights...</div>
+        <div v-else class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <NuxtLink v-for="item in featuredItems" :key="item.id" to="/menu" class="card p-6 flex flex-col bg-white">
+            <p class="text-xs uppercase tracking-[0.2em] text-[var(--color-pizza-primary)] font-bold">{{ item.category }}</p>
+            <h3 class="font-semibold text-xl mt-3 text-[var(--color-pizza-text)]">{{ item.name }}</h3>
+            <p v-show="item.description" class="text-[var(--color-pizza-muted)] text-sm mx-auto mt-2 mb-4 line-clamp-3 flex-grow">{{ item.description || '' }}</p>
+            <p class="text-[var(--color-pizza-text)] font-semibold text-base mt-auto">Starting at {{ formatPrice(startingPrice(item.prices)) }}</p>
+          </NuxtLink>
+        </div>
       </div>
     </section>
 
     <!-- From Our Kitchen photo strip -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="font-display text-3xl">Straight from Our Kitchen</h2>
-        <ULink to="/gallery" class="text-sm text-pizza-red hover:text-pizza-red font-medium transition-colors">
-          View All Photos →
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <p class="uppercase text-xs tracking-[0.2em] text-[var(--color-pizza-secondary)] font-bold mb-2">Gallery</p>
+          <h2 class="font-display text-4xl text-[var(--color-pizza-text)]">Straight from Our Kitchen</h2>
+        </div>
+        <ULink to="/gallery" class="text-sm font-semibold text-[var(--color-pizza-primary)] hover:text-[var(--color-pizza-primary-dark)] transition-colors flex items-center gap-1">
+          View All Photos <UIcon name="i-lucide-arrow-right" class="size-4" />
         </ULink>
       </div>
-      <PhotoStrip :photos="homepagePhotos" />
+      <PhotoStrip :photos="homepagePhotos" class="rounded-xl overflow-hidden shadow-md" />
     </section>
 
     <!-- Build Your Own highlight -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="grid lg:grid-cols-2 gap-8 items-center">
-        <img :src="siteImages.buildYourOwnHero" alt="Build Your Own Masterpiece pizza" class="rounded-2xl border border-pizza-border shadow-sm">
-        <div>
-          <p class="uppercase text-xs tracking-[0.2em] text-pizza-red font-semibold mb-3">Build Your Own</p>
-          <h2 class="font-display text-3xl">Build Your Own Masterpiece</h2>
-          <p class="warm-muted mt-4 leading-relaxed">
-            Start with cheese included on our exclusive French bread dough pizza. Add your choice of toppings — each topping is an additional charge. Choose from five sizes: Le Petit, Small, Medium, Large, or XL.
-          </p>
-          <UButton to="/menu#pizza-builder" class="mt-6" size="lg">Start Building</UButton>
+    <section class="bg-[var(--color-pizza-surface)] py-20 border-y border-[var(--color-pizza-border)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="relative">
+            <div class="absolute inset-0 bg-[var(--color-pizza-primary)]/10 translate-x-4 translate-y-4 rounded-2xl"></div>
+            <img :src="siteImages.buildYourOwnHero" alt="Build Your Own Masterpiece pizza" class="relative rounded-2xl border border-[var(--color-pizza-border)] shadow-lg hover:shadow-xl transition-shadow duration-300 w-full object-cover aspect-4/3">
+          </div>
+          <div>
+            <p class="uppercase text-sm tracking-[0.2em] text-[var(--color-pizza-primary)] font-bold mb-3">Custom Creation</p>
+            <h2 class="font-display text-4xl lg:text-5xl text-[var(--color-pizza-text)]">Build Your Own Masterpiece</h2>
+            <p class="text-[var(--color-pizza-muted)] mt-6 text-lg leading-relaxed">
+              Start with cheese included on our exclusive French bread dough pizza. Add your choice of toppings — each topping is an additional charge. Choose from five sizes: Le Petit, Small, Medium, Large, or XL.
+            </p>
+            <div class="mt-8">
+              <ULink to="/menu#pizza-builder" class="btn-primary">Start Building</ULink>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -133,15 +146,22 @@ function startingPrice(prices: Record<string, number | null>) {
     <CustomerReviews />
 
     <!-- Our Story teaser -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid lg:grid-cols-2 gap-8 items-center">
-      <img :src="siteImages.heroDining" alt="Papa Everett family photo" class="rounded-2xl border border-pizza-border shadow-sm">
-      <div>
-        <h2 class="font-display text-3xl">Our Story</h2>
-        <p class="warm-muted mt-4 leading-relaxed">
-          Papa Everett's Pizza has been part of the Clear Lake community since 1988. Family-owned, community-focused,
-          and proud supporters of local schools, sports teams, and fundraiser events year-round.
-        </p>
-        <UButton to="/about" class="mt-6" color="neutral" variant="soft">Learn More About Us</UButton>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1">
+          <h2 class="font-display text-4xl lg:text-5xl text-[var(--color-pizza-text)]">Our Story</h2>
+          <p class="text-[var(--color-pizza-muted)] mt-6 text-lg leading-relaxed">
+            Papa Everett's Pizza has been part of the Clear Lake community since 1988. Family-owned, community-focused,
+            and proud supporters of local schools, sports teams, and fundraiser events year-round.
+          </p>
+          <div class="mt-8">
+            <ULink to="/about" class="btn-secondary">Learn More About Us</ULink>
+          </div>
+        </div>
+        <div class="relative order-1 lg:order-2">
+            <div class="absolute inset-0 bg-[var(--color-pizza-cta)]/10 -translate-x-4 -translate-y-4 rounded-2xl"></div>
+            <img :src="siteImages.heroDining" alt="Papa Everett family photo" class="relative rounded-2xl border border-[var(--color-pizza-border)] shadow-lg hover:shadow-xl transition-shadow duration-300 w-full object-cover aspect-4/3">
+        </div>
       </div>
     </section>
   </div>

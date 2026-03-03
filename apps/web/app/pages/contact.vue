@@ -57,21 +57,21 @@ const form = useFormHandler({
 <template>
   <div>
     <!-- Page header -->
-      <section class="bg-white border-b border-pizza-border">
+      <section class="bg-[var(--color-pizza-surface)] border-b border-[var(--color-pizza-border)]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
         <h1 class="font-display text-5xl">Contact Papa Everett's Pizza</h1>
-        <p class="warm-muted mt-3">We'd love to hear from you — <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red hover:text-pizza-red/80 transition-colors underline decoration-pizza-red/40 underline-offset-4">call</ULink>, visit, or send us a message.</p>
+        <p class="text-[var(--color-pizza-muted)] mt-3">We'd love to hear from you — <ULink :to="restaurantInfo.phoneHref" class="text-[var(--color-pizza-primary)] hover:text-[var(--color-pizza-primary-dark)] transition-colors underline decoration-[var(--color-pizza-primary)]/40 underline-offset-4">call</ULink>, visit, or send us a message.</p>
       </div>
     </section>
 
     <!-- Split layout: info + map on left, form on right -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid lg:grid-cols-2 gap-8 items-start">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid lg:grid-cols-2 gap-8 items-start">
       <div class="space-y-6">
         <!-- Visit Us card -->
         <div class="warm-card p-6">
           <div class="flex items-start gap-3 mb-4">
-            <div class="w-10 h-10 rounded-full bg-pizza-blue/10 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-map-pin" class="size-5 text-pizza-blue" />
+            <div class="w-10 h-10 rounded-full bg-[var(--color-pizza-primary)]/10 flex items-center justify-center shrink-0">
+              <UIcon name="i-lucide-map-pin" class="size-5 text-[var(--color-pizza-primary)]" />
             </div>
             <div>
               <h2 class="font-semibold text-lg">Visit Us</h2>
@@ -81,7 +81,7 @@ const form = useFormHandler({
           </div>
  
           <!-- Map -->
-          <div class="rounded-xl overflow-hidden border border-pizza-border h-[280px]">
+          <div class="rounded-xl overflow-hidden border border-[var(--color-pizza-border)] h-[280px]">
             <iframe
               title="Papa Everett's Pizza Co. Map"
               src="https://www.google.com/maps?q=910+US-18+E,+Clear+Lake,+IA+50428&output=embed"
@@ -90,6 +90,7 @@ const form = useFormHandler({
               style="border:0"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
             />
           </div>
         </div>
@@ -97,13 +98,13 @@ const form = useFormHandler({
         <!-- Call Us card -->
         <div class="warm-card p-6">
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-pizza-blue/10 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-phone" class="size-5 text-pizza-blue" />
+            <div class="w-10 h-10 rounded-full bg-[var(--color-pizza-primary)]/10 flex items-center justify-center shrink-0">
+              <UIcon name="i-lucide-phone" class="size-5 text-[var(--color-pizza-primary)]" />
             </div>
             <div>
               <h2 class="font-semibold text-lg">Call Us</h2>
               <p class="warm-muted">For delivery or pickup orders:</p>
-              <ULink :to="restaurantInfo.phoneHref" class="text-pizza-red text-xl font-semibold">(641) 357-4040</ULink>
+              <ULink :to="restaurantInfo.phoneHref" class="text-[var(--color-pizza-primary)] text-xl font-semibold">(641) 357-4040</ULink>
             </div>
           </div>
         </div>
@@ -111,8 +112,8 @@ const form = useFormHandler({
         <!-- Hours card -->
         <div class="warm-card p-6">
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-pizza-blue/10 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-clock" class="size-5 text-pizza-blue" />
+            <div class="w-10 h-10 rounded-full bg-[var(--color-pizza-primary)]/10 flex items-center justify-center shrink-0">
+              <UIcon name="i-lucide-clock" class="size-5 text-[var(--color-pizza-primary)]" />
             </div>
             <div>
               <h2 class="font-semibold text-lg">Hours</h2>

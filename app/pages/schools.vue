@@ -56,7 +56,7 @@ useBreadcrumbSchema([
         <h2 class="font-display text-2xl mb-4">Perfect For</h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <div v-for="item in ['Game nights', 'Team meals', 'School fundraisers', 'Banquets & award nights', 'Club meetings', 'Post-game celebrations']" :key="item" class="flex items-center gap-2 warm-muted">
-            <UIcon name="i-lucide-check-circle" class="size-5 text-pizza-red shrink-0" />
+            <UIcon name="i-lucide-check-circle" class="size-5 text-pizza-accent shrink-0" />
             <span>{{ item }}</span>
           </div>
         </div>
@@ -66,21 +66,21 @@ useBreadcrumbSchema([
         <h2 class="font-display text-2xl mb-4">Why Choose Us</h2>
         <div class="space-y-4">
           <div class="flex items-start gap-3">
-            <UIcon name="i-lucide-calendar-check" class="size-5 text-pizza-red shrink-0 mt-0.5" />
+            <UIcon name="i-lucide-calendar-check" class="size-5 text-pizza-accent shrink-0 mt-0.5" />
             <div>
               <p class="font-semibold">Experience with Large Orders</p>
               <p class="warm-muted text-sm">From dozens to hundreds of pizzas — we've done it all</p>
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <UIcon name="i-lucide-truck" class="size-5 text-pizza-red shrink-0 mt-0.5" />
+            <UIcon name="i-lucide-truck" class="size-5 text-pizza-accent shrink-0 mt-0.5" />
             <div>
               <p class="font-semibold">Reliable Delivery</p>
               <p class="warm-muted text-sm">Hot and on time — always</p>
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <UIcon name="i-lucide-list-checks" class="size-5 text-pizza-red shrink-0 mt-0.5" />
+            <UIcon name="i-lucide-list-checks" class="size-5 text-pizza-accent shrink-0 mt-0.5" />
             <div>
               <p class="font-semibold">Flexible Menu Options</p>
               <p class="warm-muted text-sm">Custom menu packages for any size group</p>
@@ -92,7 +92,7 @@ useBreadcrumbSchema([
       <div class="warm-card p-6 text-center bg-linear-to-br from-pizza-blue/5 to-transparent">
         <p class="font-display text-2xl text-pizza-blue">Go Lions! 🦁</p>
         <p class="warm-muted mt-2">Thank you for supporting a local business that proudly supports Clear Lake schools and teams.</p>
-        <p class="mt-4"><ULink :to="restaurantInfo.phoneHref" class="text-pizza-red hover:text-pizza-red/80 transition-colors underline decoration-pizza-red/40 underline-offset-4 font-semibold text-lg">Call (641) 357-4040</ULink> for school and team orders.</p>
+        <p class="mt-4"><ULink :to="restaurantInfo.phoneHref" class="text-pizza-accent hover:text-pizza-accent/80 transition-colors underline decoration-pizza-accent/40 underline-offset-4 font-semibold text-lg">Call (641) 357-4040</ULink> for school and team orders.</p>
       </div>
     </section>
   </div>

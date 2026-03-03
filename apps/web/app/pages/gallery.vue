@@ -60,7 +60,7 @@ const filteredPhotos = computed(() => {
     </section>
 
     <!-- Filters + Gallery -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <!-- Filter buttons -->
       <div class="flex flex-wrap gap-2 mb-8">
         <UButton
