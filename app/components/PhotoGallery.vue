@@ -34,7 +34,7 @@ function openLightbox(photo: SitePhoto) {
         :key="i"
         variant="ghost"
         color="neutral"
-        class="group relative flex flex-col p-0 rounded-xl overflow-hidden aspect-4/3 border border-pizza-border shadow-sm transition-all duration-300 hover:scale-102 hover:shadow-lg bg-none"
+        class="group relative flex flex-col p-0 rounded-xl overflow-hidden aspect-4/3 border border-pizza-border shadow-sm transition-all duration-300 hover:shadow-lg active:scale-95 bg-none"
         @click="openLightbox(photo)"
       >
         <img

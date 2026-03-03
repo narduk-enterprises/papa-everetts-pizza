@@ -108,7 +108,7 @@ useSchemaOrg([
           </div>
 
           <!-- Mobile menu toggle -->
-          <UButton variant="ghost" color="neutral" class="lg:hidden p-2 rounded-lg border border-pizza-border" aria-label="Toggle menu" @click="mobileMenuOpen = !mobileMenuOpen">
+          <UButton variant="ghost" color="neutral" class="lg:hidden p-2 min-w-[44px] min-h-[44px] rounded-lg border border-pizza-border" aria-label="Toggle menu" @click="mobileMenuOpen = !mobileMenuOpen">
             <UIcon :name="mobileMenuOpen ? 'i-lucide-x' : 'i-lucide-menu'" class="size-5" />
           </UButton>
         </div>

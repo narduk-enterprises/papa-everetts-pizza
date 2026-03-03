@@ -16,7 +16,7 @@ defineProps<{
       <div
         v-for="(photo, i) in photos"
         :key="i"
-        class="flex-none snap-start w-[220px] h-[165px] sm:w-[280px] sm:h-[210px] rounded-xl overflow-hidden border border-pizza-border shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
+        class="flex-none snap-start w-[220px] h-[165px] sm:w-[280px] sm:h-[210px] rounded-xl overflow-hidden border border-pizza-border shadow-sm transition-all duration-300 hover:shadow-lg active:scale-95"
       >
         <img
           :src="photo.src"

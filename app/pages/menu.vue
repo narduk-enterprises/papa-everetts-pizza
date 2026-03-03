@@ -123,7 +123,7 @@ if (import.meta.client) {
 <template>
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-8">
-      <h1 class="font-display text-5xl">Menu</h1>
+      <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl">Menu</h1>
       <p class="warm-muted mt-3 max-w-3xl">All prices reflect our current menu data. Tap any menu scan image to view full-size.</p>
     </div>
 
