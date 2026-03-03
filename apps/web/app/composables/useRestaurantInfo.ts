@@ -42,6 +42,8 @@ export const siteImages = {
   clearLakeLions: '/images/authentic/clear-lake-lions.png',
   logoMain: '/images/authentic/logo-main.jpg',
   logoIcon: '/images/authentic/logo-icon.png',
+  /** Circular seal for homepage hero only. Do not use heroMain here — it is a composite and clashes. */
+  logoCircle: '/images/authentic/logo-circle.png',
 }
 
 export const menuSizeOrder = ['le_petit', 'small', 'medium', 'large', 'xl', 'single'] as const

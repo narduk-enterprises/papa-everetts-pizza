@@ -23,7 +23,11 @@ export interface ReviewsResponse {
 }
 
 export function useReviews() {
-  const { data, status, refresh } = useAsyncData<ReviewsResponse>('customer-reviews', () => $fetch('/api/reviews'))
+  const { data, status, refresh } = useAsyncData<ReviewsResponse>(
+    'customer-reviews',
+    () => $fetch('/api/reviews'),
+    { lazy: true, dedupe: 'defer' },
+  )
   
   const reviews = computed(() => data.value?.data || [])
   

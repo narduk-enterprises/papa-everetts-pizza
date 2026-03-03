@@ -9,6 +9,8 @@ export default defineNuxtConfig({
 
   modules: ['nitro-cloudflare-dev'],
 
+  css: ['~/assets/css/main.css'],
+
   nitro: {
     cloudflareDev: {
       configPath: resolve(__dirname, 'wrangler.json'),
@@ -88,6 +90,18 @@ export default defineNuxtConfig({
         disallow: ['/admin', '/admin/'],
       },
     ],
+  },
+
+  routeRules: {
+    '/': { swr: 60 },
+    '/menu': { swr: 60 },
+    '/about': { swr: 300 },
+    '/contact': { swr: 300 },
+    '/catering': { swr: 300 },
+    '/gallery': { swr: 300 },
+    '/fundraisers': { swr: 300 },
+    '/schools': { swr: 300 },
+    '/paper-menu': { swr: 300 },
   },
 
   app: {
