@@ -4,7 +4,25 @@ import { siteImages } from '~/composables/useRestaurantInfo'
 useSeo({
   title: "Paper Menu | Papa Everett's Pizza Co.",
   description: "View the classic back-and-front physical paper menu for Papa Everett's Pizza in Clear Lake, Iowa.",
+  ogImage: {
+    title: "Papa Everett's Paper Menu",
+    description: 'Classic restaurant menu — front and back.',
+    icon: 'i-lucide-file-text',
+  },
 })
+
+useWebPageSchema({
+  name: "Paper Menu | Papa Everett's Pizza Co.",
+  description: "High-resolution scans of the physical menu at Papa Everett's Pizza.",
+})
+
+const { appUrl } = useRuntimeConfig().public
+
+useBreadcrumbSchema([
+  { name: 'Home', url: `${appUrl}/` },
+  { name: 'Menu', url: `${appUrl}/menu` },
+  { name: 'Paper Menu', url: `${appUrl}/paper-menu` },
+])
 
 // Menu scan lightbox
 const lightboxOpen = ref(false)

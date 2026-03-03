@@ -6,7 +6,7 @@ const { categories, pending } = useMenu()
 const info = restaurantInfo
 
 useSeo({
-  title: "Papa Everett's Pizza Co. | Clear Lake Pizza Since 1988",
+  title: 'Handcrafted Pizza in Clear Lake, Iowa Since 1988',
   description: 'Handcrafted Pizza. Proudly Serving Clear Lake Since 1988. Dine-in, carryout, delivery, and catering in Clear Lake, Iowa.',
   image: 'https://papaeverettspizza.com/images/og-logo.jpg',
 })

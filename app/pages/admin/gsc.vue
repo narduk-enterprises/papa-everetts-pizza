@@ -101,6 +101,76 @@ const formatDate = (d: string) =>
         year: 'numeric',
       })
     : '—'
+
+// --- URL Inspection & IndexNow ---
+const inspectUrl = ref('https://papaeverettspizza.com/')
+const inspecting = ref(false)
+const pingingIndexNow = ref(false)
+
+interface InspectionRichResults {
+  verdict: string
+  detectedItems: unknown[]
+}
+
+interface InspectionResult {
+  url: string
+  verdict: string
+  coverageState: string
+  lastCrawlTime: string | null
+  pageFetchState: string
+  robotsTxtState: string
+  indexingState: string
+  crawledAs: string
+  referringUrls: string[]
+  richResults?: InspectionRichResults
+}
+
+const inspectionResult = ref<InspectionResult | null>(null)
+
+async function inspectPage() {
+  if (!inspectUrl.value) return
+  inspecting.value = true
+  inspectionResult.value = null
+  try {
+    const data = await $fetch<InspectionResult>('/api/admin/gsc/inspect-url', {
+      method: 'POST',
+      body: { url: inspectUrl.value },
+    })
+    inspectionResult.value = data
+  } catch (e: unknown) {
+    const err = e as { data?: { statusMessage?: string }; message?: string }
+    toast.add({
+      title: 'Inspection failed',
+      description: err.data?.statusMessage || err.message || 'Unknown error',
+      color: 'error',
+      icon: 'i-lucide-alert-circle',
+    })
+  } finally {
+    inspecting.value = false
+  }
+}
+
+async function pingIndexNow() {
+  if (!inspectUrl.value) return
+  pingingIndexNow.value = true
+  try {
+    await $fetch('/api/admin/gsc/indexnow', {
+      method: 'POST',
+      body: { url: inspectUrl.value },
+    })
+    toast.add({ title: 'IndexNow pinged', description: inspectUrl.value, color: 'success', icon: 'i-lucide-zap' })
+  } catch (e: unknown) {
+    const err = e as { data?: { statusMessage?: string }; message?: string }
+    toast.add({
+      title: 'IndexNow failed',
+      description: err.data?.statusMessage || err.message || 'Unknown error',
+      color: 'error',
+      icon: 'i-lucide-alert-circle',
+    })
+  } finally {
+    pingingIndexNow.value = false
+  }
+}
 </script>
 
 <template>
@@ -217,6 +287,90 @@ const formatDate = (d: string) =>
           </div>
         </div>
       </template>
+    </UCard>
+
+    <!-- URL Inspection & IndexNow -->
+    <UCard>
+      <template #header>
+        <div class="flex items-center gap-2">
+          <UIcon name="i-lucide-search" class="size-5 text-primary" />
+          <span class="font-semibold">URL Inspection & IndexNow</span>
+        </div>
+      </template>
+
+      <div class="space-y-4">
+        <div class="flex gap-2">
+          <UInput
+            v-model="inspectUrl"
+            placeholder="https://papaeverettspizza.com/menu"
+            class="flex-1"
+            icon="i-lucide-link"
+          />
+          <UButton
+            label="Inspect"
+            icon="i-lucide-search"
+            :loading="inspecting"
+            @click="inspectPage"
+          />
+          <UButton
+            label="Ping IndexNow"
+            icon="i-lucide-zap"
+            color="neutral"
+            variant="outline"
+            :loading="pingingIndexNow"
+            @click="pingIndexNow"
+          />
+        </div>
+
+        <div v-if="inspectionResult" class="space-y-3">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="p-3 rounded-xl bg-default border border-default">
+              <p class="text-xs text-dimmed uppercase tracking-wider font-medium">Verdict</p>
+              <p class="text-sm font-bold" :class="inspectionResult.verdict === 'PASS' ? 'text-success' : 'text-warning'">
+                {{ inspectionResult.verdict }}
+              </p>
+            </div>
+            <div class="p-3 rounded-xl bg-default border border-default">
+              <p class="text-xs text-dimmed uppercase tracking-wider font-medium">Coverage</p>
+              <p class="text-sm font-medium">{{ inspectionResult.coverageState }}</p>
+            </div>
+            <div class="p-3 rounded-xl bg-default border border-default">
+              <p class="text-xs text-dimmed uppercase tracking-wider font-medium">Crawled As</p>
+              <p class="text-sm font-medium">{{ inspectionResult.crawledAs }}</p>
+            </div>
+            <div class="p-3 rounded-xl bg-default border border-default">
+              <p class="text-xs text-dimmed uppercase tracking-wider font-medium">Last Crawl</p>
+              <p class="text-sm font-medium">{{ inspectionResult.lastCrawlTime ? formatDate(inspectionResult.lastCrawlTime) : '—' }}</p>
+            </div>
+          </div>
+
+          <!-- Rich Results -->
+          <div v-if="inspectionResult.richResults" class="p-3 rounded-xl bg-default border border-default">
+            <p class="text-xs text-dimmed uppercase tracking-wider font-medium mb-2">Rich Results</p>
+            <div class="flex items-center gap-2 mb-2">
+              <UBadge
+                :color="inspectionResult.richResults.verdict === 'PASS' ? 'success' : 'warning'"
+                variant="subtle"
+                size="xs"
+              >
+                {{ inspectionResult.richResults.verdict }}
+              </UBadge>
+            </div>
+            <div v-if="inspectionResult.richResults.detectedItems?.length" class="flex flex-wrap gap-1">
+              <UBadge
+                v-for="(item, i) in inspectionResult.richResults.detectedItems"
+                :key="i"
+                color="primary"
+                variant="subtle"
+                size="xs"
+              >
+                {{ (item as Record<string, unknown>).richResultType || 'Unknown' }}
+              </UBadge>
+            </div>
+            <p v-else class="text-xs text-dimmed italic">No rich results detected</p>
+          </div>
+        </div>
+      </div>
     </UCard>
 
     <!-- Performance Table -->

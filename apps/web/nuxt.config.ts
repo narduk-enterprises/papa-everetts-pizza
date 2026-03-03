@@ -69,7 +69,7 @@ export default defineNuxtConfig({
       type: 'Organization',
       name: "Papa Everett's Pizza Co.",
       url: 'https://papaeverettspizza.com',
-      logo: '/favicon.png',
+      logo: '/favicon.svg',
     },
   },
 
@@ -118,7 +118,7 @@ export default defineNuxtConfig({
       titleTemplate: '%s | Papa Everett\'s Pizza',
       htmlAttrs: { lang: 'en' },
       meta: [
-        { name: 'theme-color', content: '#ffffff' },
+        { name: 'theme-color', content: '#3d4c2f' },
         { property: 'og:image', content: 'https://papaeverettspizza.com/images/og-logo.jpg' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
@@ -126,8 +126,11 @@ export default defineNuxtConfig({
         { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
-        { rel: 'icon', type: 'image/png', href: '/favicon.png' },
-        { rel: 'apple-touch-icon', href: '/favicon.png' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' },
       ],
     },
     pageTransition: { name: 'page', mode: 'out-in' },

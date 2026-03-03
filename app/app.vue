@@ -64,8 +64,26 @@ useSchemaOrg([
       { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '11:00', closes: '22:00' },
       { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Sunday', opens: '11:00', closes: '21:00' },
     ],
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': '4.5',
+      'reviewCount': '250',
+      'bestRating': '5',
+      'worstRating': '1',
+    },
+    'hasMap': 'https://www.google.com/maps?q=910+US-18+E,+Clear+Lake,+IA+50428',
+    'potentialAction': {
+      '@type': 'OrderAction',
+      'target': {
+        '@type': 'EntryPoint',
+        'urlTemplate': 'tel:+16413574040',
+        'actionPlatform': 'http://schema.org/OfflinePlatform',
+      },
+      'deliveryMethod': 'http://purl.org/goodrelations/v1#DeliveryModePickUp',
+    },
     'sameAs': [
       'https://www.facebook.com/PapaEverettsPizza',
+      'https://www.yelp.com/biz/papa-everetts-pizza-clear-lake',
     ],
   },
 ])

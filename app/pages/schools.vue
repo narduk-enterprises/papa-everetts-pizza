@@ -16,6 +16,12 @@ useWebPageSchema({
   description: 'School and team partnership programs in Clear Lake, Iowa.',
 })
 
+useFAQSchema([
+  { question: 'Does Papa Everett\'s cater for school events?', answer: 'Yes! We regularly cater game nights, banquets, team meals, and school celebrations. Call (641) 357-4040 to coordinate.' },
+  { question: 'How do I order pizza for a team meal?', answer: 'Call us at (641) 357-4040 with the number of guests, preferred date, and any menu preferences. We handle orders from dozens to hundreds of pizzas.' },
+  { question: 'What menu options are available for schools?', answer: 'We offer custom packages including pizzas, breadsticks, wings, pasta, and desserts. Flexible options for any group size.' },
+])
+
 const { appUrl } = useRuntimeConfig().public
 
 useBreadcrumbSchema([

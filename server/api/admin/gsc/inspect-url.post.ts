@@ -36,6 +36,7 @@ export default defineEventHandler(async (event) => {
 
     const result = (data as Record<string, Record<string, unknown>>).inspectionResult || {}
     const indexStatus = (result.indexStatusResult || {}) as Record<string, unknown>
+    const richResults = (result.richResultsResult || {}) as Record<string, unknown>
 
     return {
       url: body.url,
@@ -47,6 +48,10 @@ export default defineEventHandler(async (event) => {
       indexingState: indexStatus.indexingState || 'N/A',
       crawledAs: indexStatus.crawledAs || 'N/A',
       referringUrls: indexStatus.referringUrls || [],
+      richResults: {
+        verdict: richResults.verdict || 'UNKNOWN',
+        detectedItems: richResults.detectedItems || [],
+      },
     }
   } catch (error: unknown) {
     const err = error as { statusCode?: number; statusMessage?: string; message?: string }

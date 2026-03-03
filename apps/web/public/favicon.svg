@@ -1,4 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#10b981"/>
-  <text x="5" y="24" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="white">N4</text>
+  <rect width="32" height="32" rx="6" fill="#3d4c2f"/>
+  <!-- Pizza slice -->
+  <g transform="translate(16,16) rotate(-15) translate(-16,-16)">
+    <!-- Crust arc -->
+    <path d="M16 6 L26 24 A14 14 0 0 1 6 24 Z" fill="#e8a838"/>
+    <!-- Sauce -->
+    <path d="M16 9 L24 23 A11 11 0 0 1 8 23 Z" fill="#c0392b"/>
+    <!-- Cheese spots -->
+    <circle cx="14" cy="18" r="2" fill="#ffeaa7" opacity="0.9"/>
+    <circle cx="19" cy="20" r="1.8" fill="#ffeaa7" opacity="0.9"/>
+    <circle cx="16" cy="14" r="1.5" fill="#ffeaa7" opacity="0.9"/>
+  </g>
 </svg>
