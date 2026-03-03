@@ -2,44 +2,35 @@
 
 > **🚨 CRITICAL: DO NOT PUSH TO `loganrenz/papa-everetts-pizza` 🚨**
 >
-> This is a **read-only template repository**. Before writing ANY code, you MUST create your own repo:
->
-> ```bash
-> gh repo create <project-name> --template loganrenz/papa-everetts-pizza --private --clone
-> cd <project-name>
-> pnpm install
-> ```
->
-> **Verify your remote** with `git remote -v` — it must NOT point to `loganrenz/papa-everetts-pizza`.
+> **Verify your remote** with `git remote -v` — it must NOT point to the template repo.
 
-This is a **minimal Nuxt 4 + Nuxt UI 4** boilerplate deployed to **Cloudflare Workers** with **D1 SQLite** (Drizzle ORM).
+This repo uses the **Narduk Nuxt template** (PNPM workspace monorepo). The app lives in **`apps/web/`** and extends the shared layer **`layers/narduk-nuxt-layer/`**.
 
-For full-featured example implementations (auth, analytics, blog, dashboard, forms, etc.), see the companion repo: **[`loganrenz/papa-everetts-pizza-examples`](https://github.com/loganrenz/papa-everetts-pizza-examples)**.
-
-## Project Structure
+## Project Structure (PNPM Workspace)
 
 ```
-app/                  # All frontend code (Nuxt 4 convention)
-  components/         # Vue components (thin — delegate logic to composables)
-    OgImage/          # Dynamic OG image templates (Satori)
-  composables/        # Business logic + SEO helpers (useSeo, useSchemaOrg)
-  pages/              # File-based routing
-  layouts/            # Page layouts (default: landing)
-  middleware/         # Route guards (empty — add as needed)
-  plugins/            # Client plugins (PostHog, GA4, CSRF fetch interceptor)
-  types/              # Shared TypeScript interfaces
-  assets/css/main.css # Tailwind CSS 4 @theme tokens
-  app.config.ts       # Nuxt UI color tokens (primary/neutral)
-server/
-  api/                # Nitro endpoints (health check, IndexNow)
-  database/           # Drizzle schema definitions
-  middleware/         # CSRF protection, D1 injection
-  routes/             # Dynamic routes (IndexNow key verification)
-  utils/              # Cloudflare bindings (database, KV, R2, rate limiting)
-drizzle/              # SQL migration files
-scripts/              # Utility scripts (favicon generation)
-.agents/workflows/    # Antigravity audit workflows (run via /slash-commands)
+pnpm-workspace.yaml        # apps/*, packages/*, layers/*
+package.json               # Root scripts (pnpm run dev, pnpm run update-layer)
+AGENTS.md                  # This file
+.agents/workflows/         # Audit workflows (slash-commands)
+apps/
+  web/                     # Papa Everett's Pizza — Nuxt 4 app
+    app/                   # Pages, components, layouts, composables
+    server/                # API routes, D1, auth, middleware
+    nuxt.config.ts         # Extends @loganrenz/narduk-nuxt-template-layer
+    wrangler.json          # Cloudflare Workers + D1 + R2
+layers/
+  narduk-nuxt-layer/       # Shared layer (SEO, OG, analytics, CSRF, health, etc.)
+packages/
+  eslint-config/           # ESLint plugins (pnpm run build:plugins)
+tools/                     # update-layer.ts, validate.ts, init.ts
 ```
+
+**Where to edit:** Only **`apps/web/`** for app code. Use the layer for shared behaviour; do not duplicate layer-provided files (useSeo, useSchemaOrg, health API, CSRF, etc.). See "What the Layer Provides" in the template AGENTS or layer README.
+
+**Layer customisation (this repo):** `layers/narduk-nuxt-layer` has had `server/utils/database.ts` and `server/database/schema.ts` removed so the app’s D1 schema and event-scoped `useDatabase(event)` in `apps/web` are the only ones. After running `pnpm run update-layer`, re-remove those two files from the layer if you need the app schema to take precedence.
+
+**Updating the layer:** Run `pnpm run update-layer` to pull the latest `layers/narduk-nuxt-layer` from the template. Review and re-apply the customisation above if needed.
 
 ## Hard Constraints (Cloudflare Workers)
 
