@@ -6,7 +6,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "db:migrate": "wrangler d1 execute papa-everetts-pizza-db --local --file=drizzle/0000_initial_schema.sql",
+    "db:migrate": "wrangler d1 migrations apply papa-everetts-pizza-db --local",
     "db:ready": "pnpm run db:migrate",
     "db:studio": "drizzle-kit studio",
     "generate": "nuxt generate",
