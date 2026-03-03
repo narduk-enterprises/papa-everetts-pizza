@@ -20,7 +20,10 @@
     "validate": "npx tsx tools/validate.ts",
     "generate:favicons": "npx tsx tools/generate-favicons.ts",
     "test:unit": "pnpm --filter web run test:unit",
-    "test:e2e": "pnpm --filter web run test:e2e"
+    "test:e2e": "pnpm --filter web run test:e2e",
+    "predev": "node tools/check-setup.js",
+    "prebuild": "node tools/check-setup.js",
+    "predeploy": "node tools/check-setup.js"
   },
   "pnpm": {
     "overrides": {

@@ -20,7 +20,7 @@
   "dependencies": {
     "@fontsource/karla": "^5.2.8",
     "@fontsource/playfair-display-sc": "^5.2.8",
-    "@loganrenz/narduk-nuxt-template-layer": "workspace:*",
+    "@narduk-enterprises/narduk-nuxt-template-layer": "workspace:*",
     "@narduk/eslint-config": "workspace:*",
     "@takumi-rs/core": "^0.70.3",
     "drizzle-orm": "^0.45.1",

@@ -28,7 +28,7 @@ importers:
       '@fontsource/playfair-display-sc':
         specifier: ^5.2.8
         version: 5.2.8
-      '@loganrenz/narduk-nuxt-template-layer':
+      '@narduk-enterprises/narduk-nuxt-template-layer':
         specifier: workspace:*
         version: link:../../layers/narduk-nuxt-layer
       '@narduk/eslint-config':

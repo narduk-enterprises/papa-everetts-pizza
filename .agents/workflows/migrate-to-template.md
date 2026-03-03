@@ -15,7 +15,7 @@ This workflow covers the full end-to-end process for migrating an existing Nuxt 
 1. **Clone the template into a new directory:**
 
    ```bash
-   gh repo create <new-app-name> --template loganrenz/nuxt-v4-template --private --clone
+   gh repo create <new-app-name> --template narduk-enterprises/nuxt-v4-template --private --clone
    cd ~/code/<new-app-name>
    ```
 
@@ -262,7 +262,7 @@ Add the new project to https://portfolio.nard.uk:
 2. **Archive the old GitHub repo** (if applicable):
 
    ```bash
-   gh repo archive loganrenz/<old-project-name> --yes
+   gh repo archive narduk-enterprises/<old-project-name> --yes
    ```
 
 3. **Remove old Cloudflare Workers** deployment if the old project had one with a different name.

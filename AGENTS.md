@@ -1,6 +1,6 @@
 # AGENTS.md — AI Agent Instructions
 
-> **🚨 CRITICAL: DO NOT PUSH TO `loganrenz/papa-everetts-pizza` 🚨**
+> **🚨 CRITICAL: DO NOT PUSH TO `narduk-enterprises/papa-everetts-pizza` 🚨**
 >
 > **Verify your remote** with `git remote -v` — it must NOT point to the template repo.
 
@@ -17,7 +17,7 @@ apps/
   web/                     # Papa Everett's Pizza — Nuxt 4 app
     app/                   # Pages, components, layouts, composables
     server/                # API routes, D1, auth, middleware
-    nuxt.config.ts         # Extends @loganrenz/narduk-nuxt-template-layer
+    nuxt.config.ts         # Extends @narduk-enterprises/narduk-nuxt-template-layer
     wrangler.json          # Cloudflare Workers + D1 + R2
 layers/
   narduk-nuxt-layer/       # Shared layer (SEO, OG, analytics, CSRF, health, etc.)
@@ -80,7 +80,7 @@ Sitemap and robots.txt are automatic. OG image templates live in `app/components
 
 ## 🚨 CRITICAL RULE: NEVER COMMIT TO THIS REPOSITORY 🚨
 
-If you are an agent building a new project inside a clone of this repository, **DO NOT COMMIT OR PUSH** directly back to `loganrenz/papa-everetts-pizza`. Verify the user has set up a new remote origin first.
+If you are an agent building a new project inside a clone of this repository, **DO NOT COMMIT OR PUSH** directly back to `narduk-enterprises/papa-everetts-pizza`. Verify the user has set up a new remote origin first.
 
 ## Quality Audit Workflows
 
@@ -116,7 +116,7 @@ These workspace-local ESLint plugins enforce patterns at lint time. Run `pnpm ru
 
 # 📖 Recipes
 
-These are opt-in feature recipes. Follow them when the project needs a specific capability. For working reference implementations of each, clone **[`loganrenz/papa-everetts-pizza-examples`](https://github.com/loganrenz/papa-everetts-pizza-examples)**.
+These are opt-in feature recipes. Follow them when the project needs a specific capability. For working reference implementations of each, clone **[`narduk-enterprises/papa-everetts-pizza-examples`](https://github.com/narduk-enterprises/papa-everetts-pizza-examples)**.
 
 ---
 

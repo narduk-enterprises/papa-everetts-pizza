@@ -5,7 +5,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  extends: ['@loganrenz/narduk-nuxt-template-layer'],
+  extends: ['@narduk-enterprises/narduk-nuxt-template-layer'],
 
   modules: ['nitro-cloudflare-dev'],
 
