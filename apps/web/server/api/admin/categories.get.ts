@@ -5,7 +5,7 @@ import { requireAdminUser } from '../../utils/auth-guards'
 export default defineEventHandler(async (event) => {
   await requireAdminUser(event)
 
-  const db = useDatabase(event)
+  const db = useAppDatabase(event)
   const rows = await db
     .select()
     .from(categories)

@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
   if (parsed.data.prices !== undefined) updates.prices = JSON.stringify(parsed.data.prices)
 
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     const result = await db
       .update(menuItems)
       .set(updates)

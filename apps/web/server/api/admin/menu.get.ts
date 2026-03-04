@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   await requireAdminUser(event)
 
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     const [items, categoryNames] = await Promise.all([
       db.select().from(menuItems).orderBy(asc(menuItems.category), asc(menuItems.sortOrder), asc(menuItems.name)),
       getCategoryNames(event),

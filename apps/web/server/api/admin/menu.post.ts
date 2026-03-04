@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     const now = new Date().toISOString()
 
     const result = await db

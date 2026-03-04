@@ -4,7 +4,7 @@ import { desc } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   await requireAdminUser(event)
-  const db = useDatabase(event)
+  const db = useAppDatabase(event)
   
   // Return all users, omitting password hashes
   const allUsers = await db.select({

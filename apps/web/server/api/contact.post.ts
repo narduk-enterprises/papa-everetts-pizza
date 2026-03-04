@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
   // Store in D1 database
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     await db.insert(contactSubmissions).values({
       name,
       email,

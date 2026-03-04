@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: parsed.error.issues[0]?.message || 'Invalid input' })
   }
 
-  const db = useDatabase(event)
+  const db = useAppDatabase(event)
   const now = new Date().toISOString()
 
   try {

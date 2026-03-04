@@ -80,7 +80,7 @@ export async function createUser(event: H3Event, email: string, password: string
   const now = new Date().toISOString()
 
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
 
     await db.insert(users).values({
       id,
@@ -114,7 +114,7 @@ export async function createUser(event: H3Event, email: string, password: string
 
 export async function getUserByEmail(event: H3Event, email: string): Promise<User | undefined> {
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     return db.select().from(users).where(eq(users.email, email.toLowerCase())).get()
   } catch (err) {
     console.error('[auth] getUserByEmail DB failed, using in-memory fallback:', err)
@@ -124,7 +124,7 @@ export async function getUserByEmail(event: H3Event, email: string): Promise<Use
 
 export async function getUserCount(event: H3Event): Promise<number> {
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     const row = await db.select({ totalUsers: count() }).from(users).get()
     return row?.totalUsers || 0
   } catch (err) {
@@ -146,7 +146,7 @@ export async function updateUserPassword(event: H3Event, userId: string, passwor
   const now = new Date().toISOString()
 
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
 
     await db.update(users)
       .set({ passwordHash, updatedAt: now })
@@ -175,7 +175,7 @@ export async function createSession(event: H3Event, userId: string): Promise<str
   const expiresAt = Date.now() + SESSION_DURATION_MS
 
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     await db.insert(sessions).values({
       id,
       userId,
@@ -197,7 +197,7 @@ export async function createSession(event: H3Event, userId: string): Promise<str
 
 export async function getAuthSession(event: H3Event, sessionId: string): Promise<{ session: typeof sessions.$inferSelect; user: User } | null> {
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     const session = await db.select().from(sessions).where(eq(sessions.id, sessionId)).get()
 
     if (!session) return null
@@ -228,7 +228,7 @@ export async function getAuthSession(event: H3Event, sessionId: string): Promise
 
 export async function deleteSession(event: H3Event, sessionId: string): Promise<void> {
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     await db.delete(sessions).where(eq(sessions.id, sessionId))
   } catch (err) {
     console.error('[auth] deleteSession DB failed, using in-memory fallback:', err)

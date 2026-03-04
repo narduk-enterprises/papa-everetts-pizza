@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     const result = await db
       .update(menuItems)
       .set({

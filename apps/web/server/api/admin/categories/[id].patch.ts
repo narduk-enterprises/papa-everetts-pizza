@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: parsed.error.issues[0]?.message || 'Invalid input' })
   }
 
-  const db = useDatabase(event)
+  const db = useAppDatabase(event)
 
   // Get current category to check old name for renaming
   const [existing] = await db.select().from(categories).where(eq(categories.id, id))

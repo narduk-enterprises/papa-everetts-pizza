@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Invalid category id' })
   }
 
-  const db = useDatabase(event)
+  const db = useAppDatabase(event)
 
   // Get the category
   const [existing] = await db.select().from(categories).where(eq(categories.id, id))

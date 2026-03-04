@@ -5,7 +5,7 @@ import { getFallbackMenu } from '../utils/menu-fallback'
 
 export default defineEventHandler(async (event) => {
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
 
     const [items, categoryNames] = await Promise.all([
       db.select().from(menuItems)

@@ -7,7 +7,7 @@ import { asc, eq } from 'drizzle-orm'
 /** Fetch ordered category names from the DB. */
 export async function getCategoryNames(event: H3Event): Promise<string[]> {
   try {
-    const db = useDatabase(event)
+    const db = useAppDatabase(event)
     const rows = await db
       .select({ name: categories.name })
       .from(categories)
