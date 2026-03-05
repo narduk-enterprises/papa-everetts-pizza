@@ -4,6 +4,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import { parseDraftPrices, parseSortOrder } from '~/composables/useAdminMenuEditor'
 
 useSeo({
+  robots: 'noindex',
   title: "Admin | Papa Everett's Pizza Co.",
   description: 'Admin dashboard.',
   robots: 'noindex, nofollow',

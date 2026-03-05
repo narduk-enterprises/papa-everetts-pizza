@@ -1,7 +1,8 @@
 <!-- eslint-disable atx/no-fetch-in-component -- SSR admin page data fetching -->
 <script setup lang="ts">
 definePageMeta({ title: 'Search Console', middleware: 'auth' })
-useSeo({ title: 'Search Console | Admin', description: 'Admin GSC.', robots: 'noindex, nofollow' })
+useSeo({
+  title: 'Search Console | Admin', description: 'Admin GSC.', robots: 'noindex, nofollow' })
 useWebPageSchema({ name: 'Search Console | Admin', description: 'Admin GSC.' })
 
 interface GSCSitemapContent {

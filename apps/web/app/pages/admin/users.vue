@@ -4,6 +4,7 @@ import type { FormSubmitEvent } from '@nuxt/ui';
 import { useAdminUsers, type AdminUser } from '~/composables/useAdminUsers';
 
 useSeo({
+  robots: 'noindex',
   title: 'User Management | Admin',
   description: 'Admin user management.',
   robots: 'noindex, nofollow',

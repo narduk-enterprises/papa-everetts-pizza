@@ -1,5 +1,6 @@
 <script setup lang="ts">
 useSeo({
+  robots: 'noindex',
   title: "Site Guide | Admin | Papa Everett's Pizza Co.",
   description: 'Admin guide for Papa Everett\'s Pizza.',
   robots: 'noindex, nofollow',

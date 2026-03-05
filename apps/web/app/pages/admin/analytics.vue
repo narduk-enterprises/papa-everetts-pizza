@@ -1,7 +1,11 @@
 <!-- eslint-disable atx/no-fetch-in-component -- SSR admin page data fetching -->
 <script setup lang="ts">
 definePageMeta({ title: 'Google Analytics', middleware: 'auth' })
-useSeo({ title: 'Google Analytics | Admin', description: 'Admin analytics.', robots: 'noindex, nofollow' })
+useSeo({
+  robots: 'noindex, nofollow',
+  title: 'Google Analytics | Admin',
+  description: 'Admin analytics.'
+})
 useWebPageSchema({ name: 'Google Analytics | Admin', description: 'Admin analytics.' })
 
 interface GAMetricValue {

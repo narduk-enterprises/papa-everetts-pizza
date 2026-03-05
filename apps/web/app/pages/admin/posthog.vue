@@ -1,7 +1,8 @@
 <!-- eslint-disable atx/no-fetch-in-component -- SSR admin page data fetching -->
 <script setup lang="ts">
 definePageMeta({ title: 'PostHog Analytics', middleware: 'auth' })
-useSeo({ title: 'PostHog Analytics | Admin', description: 'Admin PostHog.', robots: 'noindex, nofollow' })
+useSeo({
+  title: 'PostHog Analytics | Admin', description: 'Admin PostHog.', robots: 'noindex, nofollow' })
 useWebPageSchema({ name: 'PostHog Analytics | Admin', description: 'Admin PostHog.' })
 
 interface PHAction {
