@@ -1,15 +1,14 @@
 // @ts-check
+// ⚠️ SYNCED FILE — do not edit. App-specific rules go in eslint.overrides.mjs
 import withNuxt from './.nuxt/eslint.config.mjs'
 import { sharedConfigs } from '@narduk/eslint-config'
 
-export default withNuxt(
-  ...sharedConfigs,
-  // Relax rules that require large template/composable refactors
-  {
-    files: ['app/**/*.vue', 'app/**/*.ts'],
-    rules: {
-      'vue-official/no-template-complex-expressions': 'off',
-      'vue-official/require-use-prefix-for-composables': 'off',
-    },
-  },
-)
+let appOverrides = []
+try {
+  const mod = await import('./eslint.overrides.mjs')
+  appOverrides = mod.default || []
+} catch {
+  // No overrides file — using sharedConfigs only
+}
+
+export default withNuxt(...sharedConfigs, ...appOverrides)

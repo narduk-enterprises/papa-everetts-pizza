@@ -11,7 +11,7 @@
     "prelint": "pnpm run build:plugins",
     "lint": "pnpm run prelint && pnpm --filter web run lint",
     "typecheck": "pnpm --filter web run typecheck",
-    "quality": "pnpm run lint && pnpm run typecheck",
+    "quality": "turbo run quality --filter='./apps/*'",
     "db:migrate": "pnpm --filter web run db:migrate",
     "db:ready": "pnpm --filter web run db:ready",
     "db:studio": "pnpm --filter web run db:studio",
@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.19.13",
-    "tsx": "^4.0.0"
+    "tsx": "^4.0.0",
+    "turbo": "^2.8.12"
   }
 }
