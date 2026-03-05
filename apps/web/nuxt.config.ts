@@ -1,8 +1,8 @@
 // deploy-trigger: 2026-03-04T20:40:25Z
-import { fileURLToPath } from 'node:url'
-import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url';
+import { resolve, dirname } from 'node:path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -33,7 +33,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    googlePlacesApiKey: process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_PLATFORM_API_KEY || '',
+    googlePlacesApiKey:
+      process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_PLATFORM_API_KEY || '',
     gaPropertyId: process.env.GA_PROPERTY_ID || '526158939',
     yelpApiKey: process.env.YELP_API_KEY || '',
     googleServiceAccountKey: process.env.GSC_SERVICE_ACCOUNT_JSON || '',
@@ -62,7 +63,7 @@ export default defineNuxtConfig({
   ogImage: {
     defaults: {
       component: 'OgImageDefaultTakumi',
-    },
+    } as Record<string, unknown>,
   },
 
   schemaOrg: {
@@ -116,7 +117,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      titleTemplate: '%s | Papa Everett\'s Pizza',
+      titleTemplate: "%s | Papa Everett's Pizza",
       htmlAttrs: { lang: 'en' },
       meta: [
         { name: 'theme-color', content: '#3d4c2f' },
@@ -136,4 +137,4 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: 'page', mode: 'out-in' },
   },
-})
+});
