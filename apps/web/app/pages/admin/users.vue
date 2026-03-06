@@ -1,123 +1,136 @@
 <script setup lang="ts">
-import { z } from 'zod';
-import type { FormSubmitEvent } from '@nuxt/ui';
-import { useAdminUsers, type AdminUser } from '~/composables/useAdminUsers';
+import { z } from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
+import { useAdminUsers, type AdminUser } from '~/composables/useAdminUsers'
 
 useSeo({
   robots: 'noindex, nofollow',
   title: 'User Management | Admin',
   description: 'Admin user management.',
-});
-useWebPageSchema({ name: 'User Management | Admin', description: 'Admin user management.' });
+})
+useWebPageSchema({ name: 'User Management | Admin', description: 'Admin user management.' })
 
-const toast = useToast();
-const { users, pending, fetchUsers, addUser, resetUserPassword } = useAdminUsers();
-const { user, isAuthenticated: loggedIn, fetchUser: refresh } = useAuth();
+const toast = useToast()
+const { users, pending, fetchUsers, addUser, resetUserPassword } = useAdminUsers()
+const { user, isAuthenticated: loggedIn, fetchUser } = useAuth()
 
 // Fix hydration mismatch: wait for auth so Server matches Client conditional render
-await refresh();
+await fetchUser()
 
 onMounted(async () => {
   if (loggedIn.value && user.value?.isAdmin) {
-    await fetchUsers();
+    await fetchUsers()
   }
-});
+})
 
 // Add User Form State
-const isAddingUser = ref(false);
+const isAddingUser = ref(false)
 const nuState = reactive({
   email: '',
   password: '',
   name: '',
   isAdmin: false,
-});
+})
 
 const authSchema = computed(() =>
   z.object({
     email: z.string({ message: 'Email is required' }).email('Valid email required'),
-    password: z.string({ message: 'Password is required' }).min(6, 'Password must be at least 6 characters'),
+    password: z
+      .string({ message: 'Password is required' })
+      .min(6, 'Password must be at least 6 characters'),
     name: z.string().optional(),
     isAdmin: z.boolean(),
-  })
-);
+  }),
+)
 
-async function onSubmitUser(_event: FormSubmitEvent<{ email: string; password: string; name?: string; isAdmin: boolean }>) {
-  isAddingUser.value = true;
+async function onSubmitUser(
+  _event: FormSubmitEvent<{ email: string; password: string; name?: string; isAdmin: boolean }>,
+) {
+  isAddingUser.value = true
   try {
     await addUser({
       email: nuState.email,
       password: nuState.password,
       name: nuState.name ?? '',
       isAdmin: nuState.isAdmin,
-    });
+    })
 
-    toast.add({ title: 'User Created', color: 'success', icon: 'i-lucide-check' });
-    nuState.email = '';
-    nuState.password = '';
-    nuState.name = '';
-    nuState.isAdmin = false;
+    toast.add({ title: 'User Created', color: 'success', icon: 'i-lucide-check' })
+    nuState.email = ''
+    nuState.password = ''
+    nuState.name = ''
+    nuState.isAdmin = false
   } catch (error: unknown) {
-    const msg = (error as { data?: { message?: string } })?.data?.message ?? 'Could not create user.';
+    const msg =
+      (error as { data?: { message?: string } })?.data?.message ?? 'Could not create user.'
     toast.add({
       title: 'User Creation Failed',
       description: msg,
       color: 'error',
       icon: 'i-lucide-alert-circle',
-    });
+    })
   } finally {
-    isAddingUser.value = false;
+    isAddingUser.value = false
   }
 }
 
 // Password Reset Form State
-const isResetModalOpen = ref(false);
-const resetTargetUser = ref<AdminUser | null>(null);
-const isResettingPassword = ref(false);
+const isResetModalOpen = ref(false)
+const resetTargetUser = ref<AdminUser | null>(null)
+const isResettingPassword = ref(false)
 const resetState = reactive({
   password: '',
-});
+})
 
 const resetSchema = computed(() =>
   z.object({
-    password: z.string({ message: 'Password is required' }).min(6, 'Password must be at least 6 characters'),
-  })
-);
+    password: z
+      .string({ message: 'Password is required' })
+      .min(6, 'Password must be at least 6 characters'),
+  }),
+)
 
 const resetModalDescription = computed(() => {
-  if (!resetTargetUser.value) return '';
-  return `Resetting password for ${resetTargetUser.value.email}`;
-});
+  if (!resetTargetUser.value) return ''
+  return `Resetting password for ${resetTargetUser.value.email}`
+})
 
 function formatDate(dateStr: string) {
-  if (!dateStr) return '';
-  return new Date(dateStr).toISOString().split('T')[0];
+  if (!dateStr) return ''
+  return new Date(dateStr).toISOString().split('T')[0]
 }
 
 function openResetModal(u: AdminUser) {
-  resetTargetUser.value = u;
-  resetState.password = '';
-  isResetModalOpen.value = true;
+  resetTargetUser.value = u
+  resetState.password = ''
+  isResetModalOpen.value = true
 }
 
 async function onSubmitReset(_event: FormSubmitEvent<{ password: string }>) {
-  if (!resetTargetUser.value) return;
-  isResettingPassword.value = true;
+  if (!resetTargetUser.value) return
+  isResettingPassword.value = true
   try {
     await resetUserPassword(resetTargetUser.value.id, {
       password: resetState.password,
-    });
-    toast.add({ title: 'Password Reset', description: `Password for ${resetTargetUser.value.email} has been updated.`, color: 'success', icon: 'i-lucide-check' });
-    isResetModalOpen.value = false;
+    })
+    toast.add({
+      title: 'Password Reset',
+      description: `Password for ${resetTargetUser.value.email} has been updated.`,
+      color: 'success',
+      icon: 'i-lucide-check',
+    })
+    isResetModalOpen.value = false
   } catch (error: unknown) {
-    const msg = (error as { data?: { message?: string } })?.data?.message ?? 'Could not reset password.';
+    const msg =
+      (error as { data?: { message?: string } })?.data?.message ?? 'Could not reset password.'
     toast.add({
       title: 'Password Reset Failed',
       description: msg,
       color: 'error',
       icon: 'i-lucide-alert-circle',
-    });
+    })
   } finally {
-    isResettingPassword.value = false;
+    isResettingPassword.value = false
   }
 }
 </script>
@@ -187,7 +200,13 @@ async function onSubmitReset(_event: FormSubmitEvent<{ password: string }>) {
                 <span class="text-xs text-pizza-muted block"
                   >Since {{ formatDate(u.createdAt ?? '') }}</span
                 >
-                <UButton size="xs" color="neutral" variant="ghost" icon="i-lucide-key" @click="openResetModal(u)">
+                <UButton
+                  size="xs"
+                  color="neutral"
+                  variant="ghost"
+                  icon="i-lucide-key"
+                  @click="openResetModal(u)"
+                >
                   Reset Password
                 </UButton>
               </div>
@@ -246,9 +265,18 @@ async function onSubmitReset(_event: FormSubmitEvent<{ password: string }>) {
       </div>
 
       <!-- Password Reset Modal -->
-      <UModal v-model:open="isResetModalOpen" title="Reset Password" :description="resetModalDescription">
+      <UModal
+        v-model:open="isResetModalOpen"
+        title="Reset Password"
+        :description="resetModalDescription"
+      >
         <template #body>
-          <UForm :state="resetState" :schema="resetSchema" @submit="onSubmitReset" class="space-y-4">
+          <UForm
+            :state="resetState"
+            :schema="resetSchema"
+            @submit="onSubmitReset"
+            class="space-y-4"
+          >
             <UFormField label="New Password" name="password">
               <UInput
                 v-model="resetState.password"
@@ -259,12 +287,10 @@ async function onSubmitReset(_event: FormSubmitEvent<{ password: string }>) {
             </UFormField>
 
             <div class="pt-4 flex justify-end gap-3">
-              <UButton variant="ghost" color="neutral" @click="isResetModalOpen = false">Cancel</UButton>
-              <UButton
-                type="submit"
-                color="primary"
-                :loading="isResettingPassword"
+              <UButton variant="ghost" color="neutral" @click="isResetModalOpen = false"
+                >Cancel</UButton
               >
+              <UButton type="submit" color="primary" :loading="isResettingPassword">
                 Update Password
               </UButton>
             </div>

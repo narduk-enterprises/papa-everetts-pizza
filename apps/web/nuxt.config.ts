@@ -33,6 +33,11 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    session: {
+      password:
+        process.env.NUXT_SESSION_PASSWORD ||
+        (import.meta.dev ? 'papa-everetts-pizza-dev-session-secret-min-32-chars' : ''),
+    },
     googlePlacesApiKey:
       process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_PLATFORM_API_KEY || '',
     gaPropertyId: process.env.GA_PROPERTY_ID || '526158939',

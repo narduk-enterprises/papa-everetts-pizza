@@ -33,12 +33,14 @@ export default defineEventHandler(async (event) => {
     maxAge: 30 * 24 * 60 * 60,
   })
 
-  return {
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      isAdmin: user.isAdmin,
-    },
+  // Sync with nuxt-auth-utils so layer requireAuth / useUserSession see the same user
+  const sessionUser = {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    isAdmin: user.isAdmin,
   }
+  await setUserSession(event, { user: sessionUser })
+
+  return { user: sessionUser }
 })
