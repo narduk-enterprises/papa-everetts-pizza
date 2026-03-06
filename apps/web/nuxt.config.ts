@@ -65,12 +65,6 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
   },
 
-  ogImage: {
-    defaults: {
-      component: 'OgImageDefaultTakumi',
-    } as Record<string, unknown>,
-  },
-
   schemaOrg: {
     identity: {
       type: 'Organization',
