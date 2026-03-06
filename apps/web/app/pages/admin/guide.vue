@@ -6,7 +6,7 @@ useSeo({
 })
 useWebPageSchema({ name: "Site Guide | Admin | Papa Everett's Pizza Co.", description: 'Admin guide.' })
 
-const { loggedIn, user, refresh } = useAuth()
+const { isAuthenticated: loggedIn, user, fetchUser: refresh } = useAuth()
 
 // Fix hydration mismatch: wait for auth so Server matches Client conditional render
 await refresh()

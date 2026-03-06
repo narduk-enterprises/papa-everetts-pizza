@@ -29,7 +29,7 @@ interface GSCPerformance {
 }
 
 // Authentication is handled by the 'auth' middleware
-const { loggedIn } = useAuth()
+const { isAuthenticated: loggedIn } = useAuth()
 if (!loggedIn.value) {
   navigateTo('/admin')
 }

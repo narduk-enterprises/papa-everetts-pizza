@@ -12,7 +12,7 @@ useWebPageSchema({ name: 'User Management | Admin', description: 'Admin user man
 
 const toast = useToast();
 const { users, pending, fetchUsers, addUser, resetUserPassword } = useAdminUsers();
-const { user, loggedIn, refresh } = useAuth();
+const { user, isAuthenticated: loggedIn, fetchUser: refresh } = useAuth();
 
 // Fix hydration mismatch: wait for auth so Server matches Client conditional render
 await refresh();

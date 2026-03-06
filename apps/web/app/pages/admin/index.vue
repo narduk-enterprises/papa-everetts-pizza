@@ -11,7 +11,7 @@ useSeo({
 useWebPageSchema({ name: "Admin | Papa Everett's Pizza Co.", description: 'Admin dashboard.' })
 
 const toast = useToast()
-const { user, loggedIn, login, logout, refresh: refreshAuth } = useAuth()
+const { user, isAuthenticated: loggedIn, login, logout, refresh: refreshAuth } = useAuth()
 
 // Fix hydration mismatch: wait for auth state so Server and Client render the same conditional branch
 await refreshAuth()
