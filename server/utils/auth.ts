@@ -25,7 +25,13 @@ async function verifyPassword(password: string, stored: string): Promise<boolean
   const key = await deriveKey(password, salt)
   const hash = new Uint8Array(await crypto.subtle.exportKey('raw', key))
 
-  return toHex(hash) === hashHex
+  const computed = toHex(hash)
+  if (computed.length !== hashHex.length) return false
+  let diff = 0
+  for (let i = 0; i < computed.length; i++) {
+    diff |= computed.charCodeAt(i) ^ hashHex.charCodeAt(i)
+  }
+  return diff === 0
 }
 
 async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey> {
