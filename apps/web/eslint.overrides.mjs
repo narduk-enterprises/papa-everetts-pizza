@@ -5,8 +5,8 @@ export default [
   {
     files: ['app/**/*.vue', 'app/**/*.ts'],
     rules: {
-      'vue-official/no-template-complex-expressions': 'off',
-      'vue-official/require-use-prefix-for-composables': 'off',
+      'narduk/no-template-complex-expressions': 'off',
+      'narduk/require-use-prefix-for-composables': 'off',
     },
   },
 ]
