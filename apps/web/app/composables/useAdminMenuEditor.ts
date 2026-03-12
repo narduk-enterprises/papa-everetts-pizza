@@ -316,7 +316,7 @@ export function useAdminMenuEditor(items: Ref<MenuItem[]>, categories: Ref<strin
       return
     }
     draft.enabledPriceKeys = draft.enabledPriceKeys.filter(existing => existing !== key)
-    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- required to remove dynamic price keys from reactive object
     delete draft.priceInputs[key]
     setNextPresetKey(draft)
   }

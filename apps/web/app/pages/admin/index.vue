@@ -616,7 +616,7 @@ async function onDeleteCategory(catId: number) {
                       {{ entry.draft.imageUrl ? 'Change Image' : 'Upload Image' }}
                     </UButton>
                     <!-- Hidden file input for logic -->
-                    <!-- eslint-disable-next-line atx/no-native-input -->
+                    <!-- eslint-disable-next-line narduk/no-native-input -- hidden file input required for custom image upload button logic -->
                     <input
                       :ref="
                         (el) =>
@@ -740,7 +740,7 @@ async function onDeleteCategory(catId: number) {
                     {{ newItem.imageUrl ? 'Change Image' : 'Upload Image' }}
                   </UButton>
                   <!-- Hidden file input for logic -->
-                  <!-- eslint-disable-next-line atx/no-native-input -->
+                  <!-- eslint-disable-next-line narduk/no-native-input -- hidden file input required for custom image upload button logic -->
                   <input
                     ref="newFile"
                     type="file"
